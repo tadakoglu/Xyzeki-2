@@ -3,6 +3,10 @@
 
 ![alt text](https://github.com/tadakoglu/Xyzeki-latest/blob/master/Database%20Files%2C%20Docs%20and%20PWA%20Mobile%20Apps/Referans%20Proje/Angular%207%20Tasar%C4%B1m/2.png)
 
+![alt text](https://github.com/tadakoglu/Xyzeki-latest/blob/master/Database%20Files%2C%20Docs%20and%20PWA%20Mobile%20Apps/Referans%20Proje/Angular%207%20Tasar%C4%B1m/3.png)
+
+![alt text](https://github.com/tadakoglu/Xyzeki-latest/blob/master/Database%20Files%2C%20Docs%20and%20PWA%20Mobile%20Apps/Referans%20Proje/Angular%207%20Tasar%C4%B1m/4.png)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.7.
 
 **dotnet-cli, ef-core-cli, angular-cli and my dotnet-angular integration article**
