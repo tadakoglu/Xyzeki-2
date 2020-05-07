@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row justify-content-center">
+
+    <div class="card mt-3 mb-3" style="border-radius: 3px;">
+      <div class="card-header xyz-card-dark text-light" style="border-radius: 3px;">
+        <span class="font-weight-bolder">Oturum Açın</span>
+        <button class="close" [routerLink]="[ '/' ]"><span class="text-light">&times;</span></button>
+      </div>
+      <div *ngIf="modelSent" class="card-body">
+        <div class="card-text">
+          <p class="text-break">{{informUser}}</p>
+          <button (click)="failNav()" class="btn xyz-card-dark-btn mt-1 ">Geri Dön</button>
+        </div>
+      </div>
+      <div *ngIf="!modelSent" class="card-body">
+        <div class="card-title">
+          <a class="navbar-brand">
+            <img src="../../../assets/logo.svg" style="height: 25px; font-family: Arial, Helvetica, sans-serif ">
+            Xyzeki
+          </a>
+        </div>
+        <div class="card-text general">
+          <form #loginForm="ngForm" (ngSubmit)="authenticate(loginForm)" novalidate>
+            <div class="form-group">
+              <!-- <label for="username">Kullanıcı Adı</label> -->
+              <input id="textForFocus" required type="text" name="username" [(ngModel)]="loginModel.Username"
+                #username="ngModel" class="form-control form-control-lg rounded-0" placeholder="Kullanıcı adı" />
+              <span *ngIf="modelSubmitted && username?.errors?.required" class="text-danger">Lütfen kullanıcı adı
+                giriniz</span>
+            </div>
+            <div class="form-group">
+              <!-- <label for="password">Şifre</label> -->
+              <input required type="password" name="password" [(ngModel)]="loginModel.Password" #password="ngModel"
+                class="form-control form-control-lg rounded-0" placeholder="Şifre" />
+              <span *ngIf="modelSubmitted && password?.errors?.required" class="text-danger">Lütfen şifrenizi
+                giriniz</span>
+            </div>
+            <div class="form-group">
+              <a class="forgotPass text-center w-100" [routerLink]="['/sifremi-unuttum']"
+                style="cursor: pointer; font-size: 14px">Şifremi unuttum</a>
+            </div>
+            <div class="form-check">
+              <!-- <input  type="checkbox" id="rememberMe" class="form-check-input">
+                    <label for="rememberMe" >Beni hatırla</label> -->
+
+            </div>
+            <div class="form-group">
+              <small>
+                Xyzeki Google reCAPTCHA ile korunmaktadır ve Google<br>
+                <a href="https://policies.google.com/privacy">Gizlilik Politikası</a> ve
+                <a href="https://policies.google.com/terms">Kullanım Koşulları</a> geçerlidir.
+
+              </small>
+            </div>
+
+            <button [disabled]="isLoading" type="submit" class="btn xyz-card-dark-btn mt-4 "
+              style="border-radius: 2px;">Devam et <img src="../../../assets/arrow-2.png"
+                style="width: 16px;object-fit: cover; cursor: pointer; " />
+            </button>
+
+
+            <div [hidden]="!isLoading"
+              style=" position: absolute;  top: 25%; padding-left: 35%; padding-right:35%;  z-index: 10000;">
+              <img src="../assets/rolling.png" style="opacity: 0.9">
+              <img src="../assets/logo.svg" style="height: 3rem; width: auto">
+            </div>
+
+
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--Card end-->
+  </div>
+  <!--Col end-->
+
+
+</div>

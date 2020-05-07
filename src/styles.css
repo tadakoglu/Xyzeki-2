@@ -1,0 +1,629 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+/* this is for angular dialog style */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~@ctrl/ngx-emoji-mart/picker";
+
+@media (max-width: 600px) {
+ * {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+     user-select: none;
+  }
+
+  input {
+    -webkit-user-select: auto !important;
+    -khtml-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    user-select: auto !important;
+  } 
+}
+
+
+
+/* HIDE GOOGLE RECAPTHCA */
+/* You have to add This site is protected by reCAPTCHA somewhere in the app*/
+.grecaptcha-badge { 
+  visibility: hidden;
+}
+
+
+
+
+@media only screen and (min-width : 1500px) {
+  .container {
+      width: 1500px !important; 
+  } 
+}
+
+/* disable search in emoji mart*/
+.hide-emoji-mart-search .emoji-mart-search { display: none; }
+
+.specialUnderlined {
+  color: rgb(44, 44, 44)!important;
+  text-decoration: none;
+  position: relative;
+  /* font-weight: 300; */
+  /* transition: all 0.12s ease;  */
+  font-family: "Raleway", Arial, sans-serif;
+  /* font-size: 1.5em; */
+  padding-bottom: 5px;
+
+  
+}
+
+
+.specialUnderlined::after {
+  content: '';
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  bottom: 3px;
+  right: 0;
+
+  background: rgb(44, 44, 44);
+
+  opacity: 0;
+  /* transition: all 0.5s ease;  */
+}
+
+.specialUnderlined:hover::after {
+  opacity: 1;
+}
+
+ /* @keyframes slideDown{
+  0%{ }
+  100%{
+  transform: translateY(20%);
+  }
+  }
+  
+  .cdk-overlay-pane{
+  transform: translateY(-50%);
+  animation: slideDown 0.1s forwards 0s ease-in;
+  } 
+    .cdk-overlay-container > * {
+  transition: none;
+  }   */
+
+.time-pipe-design{
+  background-color: rgb(221, 219, 217);
+  color:black;
+  border-radius: 10px;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+
+  margin:1px;
+}
+.mat-icon {
+    vertical-align: middle;
+}
+/* temalar */
+.mat-autocomplete-panel mat-option {
+  line-height:60px;
+  height:   60px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.rec-mat-chip-height{
+  height: 35px!important;
+  line-height: 35px!important;
+} 
+.rec-remove-btn{
+  line-height: 35px!important;
+  height: 35px!important;
+}
+.tooltipSpecialX .tooltip-inner {
+  background-color: rgb(51, 50, 50);
+  color: rgb(228, 228, 228);
+  opacity: 1;
+  /* font-size: 125%; */
+}
+
+.tooltipSpecialX.show {
+  opacity: 1 !important;
+}
+
+/* .tooltipSpecialX .arrow::before {
+  
+} */
+
+
+
+
+
+.TropicalGunisigi{
+  background: url(../../XYZ-To-Do/src/assets/bg/tropical-sunlight.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.97;
+  z-index: initial;
+
+
+}
+.EmpireState{
+  background: url(../../XYZ-To-Do/src/assets/bg/empirestate.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.97;
+  z-index: initial;
+
+}
+
+.Bulutlar{
+  background: url(../../XYZ-To-Do/src/assets/bg/bulutlar.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.97;
+  z-index: initial;
+
+}
+.ArashiyamaBambulari{
+  background: url(../../XYZ-To-Do/src/assets/bg/arashiyama-bambusy.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.99;
+  z-index: initial;
+
+}
+.Venedik{
+  background: url(../../XYZ-To-Do/src/assets/bg/venedik.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.95;
+  z-index: initial;
+
+}
+.Peribacalari{
+  background: url(../../XYZ-To-Do/src/assets/bg/peribacalari.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.97;
+  z-index: initial;
+
+}
+.Orman{
+  background: url(../../XYZ-To-Do/src/assets/bg/orman.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 1;
+  z-index: initial;
+
+}
+.Yaprak{
+  background: url(../../XYZ-To-Do/src/assets/bg/yaprak.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 1;
+  z-index: initial;
+
+}
+.Kedi{
+  background: url(../../XYZ-To-Do/src/assets/bg/kedi.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.94;
+  z-index: initial;
+
+}
+.Deniz{
+  background: url(../../XYZ-To-Do/src/assets/bg/deniz.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.95;
+  z-index: initial;
+  
+}
+.Deve{
+  background: url(../../XYZ-To-Do/src/assets/bg/deve.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.97;
+  z-index: initial;
+
+}
+.Pamukkale{
+  background: url(../../XYZ-To-Do/src/assets/bg/pamukkale.jpeg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.97;
+  z-index: initial;
+
+}
+.Denizalti{
+  background: url(../../XYZ-To-Do/src/assets/bg/denizalti.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.96;
+  z-index: initial;
+
+}
+.Brienz{
+  background: url(../../XYZ-To-Do/src/assets/bg/brienz.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.97;
+  z-index: initial;
+  
+}
+
+.Aconcagua{
+  background: url(../../XYZ-To-Do/src/assets/bg/aconcagua.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.97;
+  z-index: initial;
+
+}
+.Tarla{
+  background: url(../../XYZ-To-Do/src/assets/bg/tarla.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.97;
+  z-index: initial;
+
+}
+.DenizAgac{
+  background: url(../../XYZ-To-Do/src/assets/bg/denizAgac.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.97;
+  z-index: initial;
+
+}
+
+
+
+.KlasikMavi{
+  background: #005AA7;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFFDE4, #005AA7);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFFDE4, #005AA7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  /* position: absolute;  */
+  width: 100%; 
+  
+}
+.KlasikKirmizi{
+  background: #e1eec3;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #f05053, #e1eec3);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #f05053, #e1eec3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+  width: 100%; 
+  }
+.KlasikSari{
+  background: #fffc00;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ffffff, #fffc00);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ffffff, #fffc00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
+  width: 100%; 
+  }
+.KlasikMetalik{
+  background: #abbaab;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ffffff, #abbaab);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ffffff, #abbaab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 100%; 
+ 
+}
+.KlasikGece{
+  background: #232526;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 100%; 
+ 
+}
+.KlasikRoyal{
+  background: #536976;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 100%; 
+
+}
+.KlasikLimeade{
+  background: #A1FFCE;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FAFFD1, #A1FFCE);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FAFFD1, #A1FFCE); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 100%; 
+  }
+/* .KlasikBeyaz{
+  background: #ECE9E6;
+  background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  
+  background: linear-gradient(to right, #FFFFFF, #ECE9E6); 
+
+} */
+.KlasikBeyaz{
+  background: #ECE9E6;
+  background: -webkit-linear-gradient(to right, #FFFFFF, rgb(255, 253, 253));  
+  background: linear-gradient(to right, #FFFFFF, rgb(255, 253, 253)); 
+  width: 100%; 
+
+
+}
+
+
+
+html,body {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+ 
+}
+body{
+  overflow-y: scroll;
+}
+
+@media (max-width: 786px) {
+  .bg-helper{
+    height: 100%;
+    background-attachment: fixed;  
+  }
+}
+
+@media (min-width: 787px) {
+  .bg-helper{
+    width: 100%;
+    background-attachment: fixed;  
+  }
+}
+
+
+
+@media (max-width: 600px) {
+  
+
+  .hizlandir{
+    -webkit-transform: translate3d(0,0,);
+    -moz-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0);
+    -o-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0); 
+    
+   -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    backface-visibility: hidden;
+    perspective: 1000;
+    
+  }
+}
+
+
+
+/* temalar sonu */
+
+.gizliHeader thead{
+  visibility: collapse;   
+  border: 0px #fff solid;
+  border:0px #fff solid !important
+}
+.gizliHeader thead th{
+  border:0px #fff solid !important
+}
+
+.gizliHeader2 thead{
+  border-top: 0px #fff solid;
+  border-bottom: 0px #fff solid;
+}
+.gizliHeader2 thead th{
+  border-top:0px #fff solid !important;
+  border-bottom: 0px #fff solid !important
+}
+.xyz-card-dark {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+  }
+ 
+
+  @media (min-width: 577px) {
+    body {
+      font-size:14.5px;
+    }
+  }
+  @media (max-width: 576px) {
+  body {
+    zoom: 0.92;
+    font-size:14.3px;
+  }
+  /* .tarihSecici{
+    display: none;
+  } */
+  /* .tarihSeciciBtn{
+   padding-left: 2px;
+   padding-right: 2px;
+  } */
+  
+  .degistirBtn{
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .kapatBtn{
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+  }
+    
+  }
+  @media (min-width:100PX) and (max-width: 577PX) {
+    .tarihSecici{
+      max-width: 85px;
+    } 
+   
+  }
+  
+  @media (min-width:577PX) and (max-width: 768PX) {
+    .tarihSecici{
+      max-width: 115px;
+    } 
+   
+  }
+  
+  @media (min-width: 769PX) and (max-width: 992PX) {
+    .tarihSecici{
+      max-width: 115px;
+    } 
+    
+  }
+  @media (min-width: 993PX) {
+    .tarihSecici{
+      max-width: 190px;
+      size: 16;
+      border-radius: 50%;
+    } 
+    
+  }
+
+
+
+  
+.shadowedTr tr:hover { 
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.247);
+  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.247);
+  -moz-box-shadow:1px 1px 3px rgba(0, 0, 0, 0.247);
+} 
+
+.datePickerXYZ{
+
+  size: 16px ;
+  width: auto;
+  background-color: white ;
+  border: 1px solid #fafafa ;
+
+  cursor: pointer;
+
+  -webkit-border-radius: 50%  !important; 
+  -moz-border-radius: 50%  !important; 
+  border-radius: 50px !important
+
+}
+
+
+
+
+.shineYapiliyor
+{
+  opacity: 1!important;
+  margin:0 auto;
+  width: 100%;
+  /* font-family:sans-serif; */
+
+}
+.shineYapiliyor
+{
+  background-color:#222 ;
+  background:-webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(1, #fff));
+  background-repeat:no-repeat;
+  -webkit-background-size: 100px;
+  color: rgba(0, 0, 0, 0.774);
+  background-repeat:no-repeat;
+  -webkit-background-size: 100px;
+  -webkit-background-clip: text;
+  -webkit-animation-name: animShiningYapiliyor;
+  -webkit-animation-duration: 7s;
+  -webkit-animation-iteration-count: infinite;
+
+  background-size: 100px;
+  background-clip: text;
+  animation-name: animShiningYapiliyor;
+  animation-duration: 7s;
+  animation-iteration-count: infinite;
+}
+
+
+@-webkit-keyframes animShiningYapiliyor
+{
+  0% { background-position: left top; }
+  100% { background: right bottom; }
+}
+@keyframes animShiningYapiliyor
+{
+  0% { background-position: left top; }
+  100% { background: right bottom; }
+}
+
+
+.shineBitmekuzere
+{
+  opacity: 1!important;
+  margin:0 auto;
+  width: 100%;
+  /* font-family:sans-serif; */
+
+}
+.shineBitmekuzere
+{
+  background-color:#222 ;
+  background:-webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(1, #fff));
+  background-repeat:no-repeat;
+  color: rgba(0, 0, 0, 0.774);
+  -webkit-background-size: 100px;
+  -webkit-background-clip: text;
+  -webkit-animation-name: animShiningBitmekuzere;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+
+  background-size: 100px;
+  background-clip: text;
+  animation-name: animShiningBitmekuzere;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes animShiningBitmekuzere
+{
+  0% { background-position: left top; }
+  100% { background: right bottom; }
+}
+@keyframes animShiningBitmekuzere
+{
+  0% { background-position: left top; }
+  100% { background: right bottom; }
+}
+
+.timePickerXyz{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.timePickerXyz input::-webkit-input-placeholder{
+  color: transparent
+}
+
+.timePickerXyz input::placeholder{
+  color: transparent
+}

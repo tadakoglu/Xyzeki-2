@@ -1,0 +1,102 @@
+<img [hidden]="!loading" src="../../../assets/loading.gif" style="height: 2rem; width: 2rem">
+<!-- <ul appLiAnimate class="outgoing" *ngIf="outgoing && !loading">
+  <li *ngFor="let pttr of privateTalkTeamReceivers; index as i">
+    <div style="display: inline-block">
+      <img src="../../../assets/logo.svg" style="background-color: white" class="avatarim">
+    </div>
+    <div style="display: inline-block">
+      <p *ngIf="!whiteColor" style="color: rgb(134, 134, 134)">&nbsp;
+        {{ getTeamPT(pttr?.TeamId)?.TeamName}}
+      </p>
+      <p *ngIf="whiteColor" style="color: rgb(255, 255, 255)">&nbsp;
+        {{ getTeamPT(pttr?.TeamId)?.TeamName}}
+      </p>
+    </div>
+  </li>
+
+  <li *ngFor="let ptr of privateTalkReceivers; index as i">
+    <div style="display: inline-block">
+      <img *ngIf="getMember(ptr?.Receiver)?.Avatar" [src]="getMember(ptr?.Receiver)?.Avatar" alt="Avatar"
+        class="avatarim">
+    </div>
+    <div style="display: inline-block">
+      <p *ngIf="!whiteColor" style="color: rgb(134, 134, 134)">&nbsp;
+        {{getMember(ptr?.Receiver)?.Name}}
+        {{getMember(ptr?.Receiver)?.Surname}}</p>
+
+      <p *ngIf="whiteColor" style="color: rgb(240, 240, 240)">&nbsp;
+        {{getMember(ptr?.Receiver)?.Name}}
+        {{getMember(ptr?.Receiver)?.Surname}}</p>
+    </div>
+  </li>
+
+
+</ul> -->
+<ul appLiAnimate class="incoming" *ngIf="!loading">
+  <!-- if incoming -->
+  <!-- TEAM RECEIVERS-->
+  <li *ngFor="let pttr of privateTalkTeamReceivers; index as i">
+    <div style="display: inline-block; text-align: left">
+      <img src="../../../assets/logo.svg" style="background-color: white" class="avatarim">
+    </div>
+    <div style="display: inline-block;  text-align: left">
+      <p *ngIf="!whiteColor" style="color: rgb(134, 134, 134)">&nbsp;
+        {{ getTeamPT(pttr?.TeamId)?.TeamName}}
+      </p>
+      <p *ngIf="whiteColor" style="color: rgb(255, 255, 255)">&nbsp;
+        {{ getTeamPT(pttr?.TeamId)?.TeamName}}
+      </p>
+    </div>
+    <div style="display: inline-block; text-align: left">
+      <span>&nbsp;&nbsp;&nbsp;</span>
+    </div>
+  </li>
+
+
+  <li *ngFor="let ptr of privateTalkReceivers; index as i">
+    <ng-container *ngIf="this.memberShared?.Username == ptr?.Receiver; else otherReceivers">
+
+    </ng-container>
+    <ng-template #otherReceivers>
+      <div style="display: inline-block;text-align: left ">
+        <img *ngIf="getMember(ptr?.Receiver)?.Avatar" [src]="getMember(ptr?.Receiver)?.Avatar" alt="Avatar"
+          class="avatarim">
+      </div>
+      <div style="display: inline-block;text-align: left">
+
+        <p *ngIf="!whiteColor" style="color: rgb(134, 134, 134)">&nbsp;
+          {{getMember(ptr?.Receiver)?.Name}}
+          {{getMember(ptr?.Receiver)?.Surname}}</p>
+
+        <p *ngIf="whiteColor" style="color: rgb(240, 240, 240)">&nbsp;
+          {{getMember(ptr?.Receiver)?.Name}}
+          {{getMember(ptr?.Receiver)?.Surname}}</p>
+      </div>
+      <div style="display: inline-block; text-align: left">
+        <span>&nbsp;&nbsp;&nbsp;</span>
+      </div>
+    </ng-template>
+
+
+  </li>
+  <!-- sender-->
+  <li>
+    <div style="display: inline-block;text-align: left">
+      <img *ngIf="getMember(sender)?.Avatar" [src]="getMember(sender)?.Avatar" alt="Avatar" class="avatarim">
+    </div>
+    <div style="display: inline-block;text-align: left">
+      <p *ngIf="!whiteColor" style="color: rgb(134, 134, 134)">&nbsp;
+        {{getMember(sender)?.Name}}
+        {{getMember(sender)?.Surname}}</p>
+
+      <p *ngIf="whiteColor" style="color: rgb(240, 240, 240)">&nbsp;
+        {{getMember(sender)?.Name}}
+        {{getMember(sender)?.Surname}}</p>
+    </div>
+    <div style="display: inline-block; text-align: left">
+      <span>&nbsp;&nbsp;&nbsp;</span>
+    </div>
+
+  </li>
+
+</ul>

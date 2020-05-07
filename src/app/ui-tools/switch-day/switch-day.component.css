@@ -1,0 +1,448 @@
+.disable-select {
+    user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+}
+@media (min-width:577px){
+    ul{
+        list-style-type: none;
+        width: 100%;
+        background-color: black;
+        opacity: 0.75;
+        filter: alpha(opacity=75); /* For IE8 and earlier */
+        font-size: 14.5px;
+        margin: 0px;
+        padding-top: 2px;
+        padding-bottom: 0px;
+        padding-left: 5px;
+        padding-right: 5px;
+       font-weight: 400;
+    }
+    ul li{
+        display: inline-block;
+        height: 100%;
+    }
+    .circleBtn{
+        transition: background-color 0.3s;
+        border-radius: 50%;
+        height: 60px;
+        width: 60px;
+        text-align: center;
+        display: table-cell;
+        vertical-align: middle;
+        padding:2px;
+        display: inline-block;
+        overflow: hidden;
+        margin-right: 2px;
+        margin-bottom: 2px;
+    }
+
+    .circleBtn:hover{
+        opacity: 0.95;
+        filter: alpha(opacity=95); /* For IE8 and earlier */
+        border-radius: 50%;
+        cursor: pointer;
+        background-color: rgb(161, 161, 161)
+    }
+    .circleBtnSelected{
+        
+        border-radius: 50%;
+        cursor: pointer;
+        background-color: rgb(161, 161, 161);
+        opacity: 1;
+        filter: alpha(opacity=100); /* For IE8 and earlier */
+    }
+    .circleBtnSquare{ 
+        transition: background-color 0.3s;
+        border-radius: 2px;
+        height: 60px;
+        width: 60px;
+        text-align: center;
+        /* display: table-cell; */
+        vertical-align: middle;
+        padding:2px;
+        display: inline-block;
+        line-height: 60px;
+        margin-right: 2px;
+        margin-bottom: 2px;
+    }
+    .circleBtnSquare:hover{
+        opacity: 0.95;
+        filter: alpha(opacity=95); /* For IE8 and earlier */
+        border-radius: 2px;
+        cursor: pointer;
+        background-color: rgb(48, 74, 131)
+    } 
+    .circleBtnSelectedSquare{
+        
+        border-radius: 2px;
+        cursor: pointer;
+        background-color: rgb(48, 74, 131);
+        opacity: 1;
+        filter: alpha(opacity=100); /* For IE8 and earlier */   
+    }    
+    .circleBtnSquareSearchBar{ 
+        transition: background-color 0.3s;
+        border-radius: 2px;
+        height: 60px;
+        text-align: center;
+        /* display: table-cell; */
+        vertical-align: middle;
+        padding:2px;
+        display: inline-block;
+        line-height: 60px;
+        margin-right: 2px;
+        margin-bottom: 2px;
+    }
+    .circleBtnSquarePast{
+        transition: background-color 0.3s;
+        border-radius: 2px;
+        height: 60px;
+        width: 65px;
+        text-align: center;
+         /* display: table-cell; */
+        vertical-align: middle;
+        padding:2px;
+        display: inline-block; 
+        line-height: 60px  ;
+        margin-right: 2px;
+        margin-bottom: 2px;
+    }
+    .circleBtnSquarePast:hover{
+        opacity: 0.95;
+        filter: alpha(opacity=95); /* For IE8 and earlier */
+        border-radius: 2px;
+        cursor: pointer;
+        /* //'#EA6E4F', '#80C76B' */
+        background-color: #EA6E4F;
+    }
+    .circleBtnSelectedSquarePast{     
+        opacity: 1;
+        filter: alpha(opacity=100); /* For IE8 and earlier */   
+        border-radius: 2px;
+        cursor: pointer;
+        background-color: #EA6E4F;
+        
+    }  
+}
+
+@media (max-width:576px){
+    ul{
+        list-style-type: none;
+        width: 100%;
+        background-color: black;
+        opacity: 0.75;
+        filter: alpha(opacity=75); /* For IE8 and earlier */
+        margin: 0px;
+        padding-top: 2px;
+        padding-bottom: 0px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    ul li{
+        display: inline-block;
+        margin-right: 2px;
+    }
+    .circleBtn{
+        transition: background-color 0.3s;
+        border-radius: 50%;
+        height: 60px;
+        width: 60px;
+        text-align: center;
+         /* display: table-cell; */
+        /* vertical-align: middle; */
+        padding:2px;
+        display: inline-block;
+        /* line-height: 60px; */
+        margin-right: 2px;
+        margin-bottom: 2px;
+        
+    }    
+    .circleBtn:hover{
+        opacity: 0.85;
+        filter: alpha(opacity=85); /* For IE8 and earlier */
+        border-radius: 50%;
+        cursor: pointer;
+        background-color: rgb(161, 161, 161)
+        /* background-color: #D9D9D9; */
+    }
+    .circleBtnSelected{
+        opacity: 1;
+        filter: alpha(opacity=100); /* For IE8 and earlier */
+        border-radius: 50%;
+        cursor: pointer;
+        background-color: rgb(161, 161, 161);
+        /* background-color: rgb(14, 59, 156) */
+    
+    }
+    .circleBtnSquare{
+        transition: background-color 0.3s;
+        border-radius: 2px;
+        height: 60px;
+        width: 60px;
+        text-align: center;
+            /* display: table-cell; */
+        vertical-align: middle;
+        padding:2px;
+        display: inline-block; 
+        line-height: 60px;
+        margin-right: 2px;
+        margin-bottom: 2px;
+    }
+    .circleBtnSquare:hover{
+        opacity: 0.95;
+        filter: alpha(opacity=95); /* For IE8 and earlier */
+        border-radius: 2px;
+        cursor: pointer;
+        background-color: rgb(48, 74, 131);
+    }
+    .circleBtnSelectedSquare{
+        
+        border-radius: 2px;
+        cursor: pointer;
+        background-color: rgb(48, 74, 131);
+        opacity: 1;
+        filter: alpha(opacity=100); /* For IE8 and earlier */   
+    }
+    .circleBtnSquarePast{
+        transition: background-color 0.3s;
+        border-radius: 2px;
+        height: 60px;
+        width: 65px;
+        text-align: center;
+           /* display: table-cell; */
+        vertical-align: middle;
+        padding:2px;
+        display: inline-block; 
+        line-height: 60px;
+        margin-right: 2px;
+        margin-bottom: 2px;
+       
+    }
+    .circleBtnSquarePast:hover{
+        opacity: 0.95;
+        filter: alpha(opacity=95); /* For IE8 and earlier */
+        border-radius: 2px;
+        cursor: pointer;
+        background-color: rgb(219, 88, 88);
+    }
+    .circleBtnSelectedSquarePast{        
+        border-radius: 2px;
+        cursor: pointer;
+        background-color: rgb(219, 88, 88);
+        opacity: 1;
+        filter: alpha(opacity=100); /* For IE8 and earlier */  
+        margin-bottom: 2px;
+    }   
+    
+}
+ul span{
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 1px rgb(0, 0, 0);
+    opacity: 1;
+    filter: alpha(opacity=100); /* For IE8 and earlier */   
+}
+
+ul img{
+    text-shadow: 1px 1px 1px rgb(0, 0, 0);
+    opacity: 1;
+    filter: alpha(opacity=100); /* For IE8 and earlier */   
+}
+
+.circleBtnSquareArc{
+    transition: background-color 0.3s;
+    border-radius: 2px;
+    height: 60px;
+    width: 77px;
+    text-align: center;
+    /* display: table-cell; */
+    vertical-align: middle;
+    padding-top:2px;
+    padding-bottom:2px;
+    display: inline-block;
+    
+    line-height: 60px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    word-wrap: none;
+}
+.circleBtnSquareArc:hover{
+    opacity: 0.95;
+    filter: alpha(opacity=95); /* For IE8 and earlier */
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: rgb(161, 161, 161)
+}
+.circleBtnSquareArcSelected{
+    opacity: 0.95;
+    filter: alpha(opacity=95); /* For IE8 and earlier */
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: rgb(161, 161, 161)
+}
+.filter-grey{
+ 
+    transition: filter 0.5s;
+  }
+  .filter-grey:hover{
+    filter: invert(36%) sepia(8%) saturate(221%) hue-rotate(315deg) brightness(93%) contrast(90%);
+  }
+
+
+
+
+.circleBtnSquareTransparent{
+        transition: background-color 0.3s;
+        border-radius: 2px;
+        height: 60px;
+        width: 60px;
+        text-align: center;
+            /* display: table-cell; */
+        vertical-align: middle;
+        padding:2px;
+        display: inline-block; 
+        line-height: 60px;
+        margin-right: 2px;
+        margin-bottom: 2px;
+    }
+
+
+
+
+  /* led light */
+
+
+.led-yellow {
+  margin: 0 auto;
+  width: 16px;
+  height: 16px;
+  background-color: rgb(255, 255, 58);
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 3px 1px,  #f5f538 0 -1px 5px, #FF0 0 2px 7px; 
+  -webkit-animation: blinkYellow 4s infinite;
+  -moz-animation: blinkYellow 4s infinite;
+  -ms-animation: blinkYellow 4s infinite;
+  -o-animation: blinkYellow 4s infinite;
+  animation: blinkYellow 4s infinite;
+}
+
+@-webkit-keyframes blinkYellow {
+    from { background-color: #FF0; }
+    50% { background-color: rgb(255, 255, 58);  }
+    to { background-color: #FF0; }
+}
+
+@keyframes blinkYellow {
+    from { background-color: #FF0; }
+    50% { background-color: rgb(255, 255, 58);  }
+    to { background-color: #FF0; }
+}
+
+.led-green {
+    margin: 0 auto;
+    width: 16px;
+    height: 16px;
+    background-color: rgb(45, 192, 0) ;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 3px 1px, #304701 0 -1px 5px, #89FF00 0 2px 7px;
+    -webkit-animation: blinkGreen 4s infinite;
+    -moz-animation: blinkGreen 4s infinite;
+    -ms-animation: blinkGreen 4s infinite;
+    -o-animation: blinkGreen 4s infinite;
+    animation: blinkGreen 4s infinite;
+  }
+  
+  @-webkit-keyframes blinkGreen {
+      from { background-color: rgb(130, 224, 102); }
+      50% { background-color: rgb(45, 192, 0)  }
+      to { background-color: rgb(130, 224, 102); }
+  }
+  
+  @keyframes blinkGreen {
+      from { background-color: rgb(130, 224, 102); }
+      50% { background-color: rgb(45, 192, 0)   }
+      to { background-color: rgb(130, 224, 102); }
+  }
+  .led-red {
+    margin: 0 auto;
+    width: 16px;
+    height: 16px;
+    background-color: rgb(212, 64, 64);
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 3px 1px,  #470101 0 -1px 5px, rgb(255, 0, 0) 0 2px 7px;
+    -webkit-animation: blinkRed 4s infinite;
+    -moz-animation: blinkRed 4s infinite;
+    -ms-animation: blinkRed 4s infinite;
+    -o-animation: blinkRed 4s infinite;
+    animation: blinkRed 4s infinite;
+  }
+  
+  @-webkit-keyframes blinkRed {
+      from { background-color: rgb(255, 155, 130) }
+      50% { background-color: rgb(212, 64, 64) }
+      to { background-color: rgb(255, 155, 130) }
+  }
+  
+  @keyframes blinkRed {
+      from { background-color: rgb(255, 155, 130) }
+      50% { background-color: rgb(212, 64, 64)  }
+      to { background-color: rgb(255, 155, 130) }
+  }
+
+.colors_project_unused_class{
+    color: #E9F6FE;
+    color:#E3E651;
+    color: #EA6E4F;
+    color:#80C76B;
+    color:#84D3E2;
+    color:#D0E185;
+    color:#292930
+}
+
+
+/* @import url(https://fonts.googleapis.com/css?family=Roboto:300,500); and use with font-family: 'Roboto', sans-serif; */
+/* * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
+
+
+
+.btnModeSwitcher{ 
+    transition: background-color 0.3s;
+    border-radius: 2px;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    /* display: table-cell; */
+    vertical-align: middle;
+    padding:2px;
+    display: inline-block;
+    line-height: 60px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+}
+.btnModeSwitcher:hover{
+    opacity: 0.95;
+    filter: alpha(opacity=95); /* For IE8 and earlier */
+    border-radius: 2px;
+    /* background-color: rgb(161, 161, 161) */
+} 
+.button{
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+.a{
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}

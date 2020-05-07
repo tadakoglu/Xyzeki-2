@@ -1,0 +1,92 @@
+.xyz-card-dark-btn {
+  background: rgb(51, 51, 51);
+  color: #fff;
+  -webkit-transition: box-shadow,background 0.2s; /* Safari prior 6.1 */
+  transition:  box-shadow,background 0.2s;
+} 
+.xyz-card-dark-btn:hover {
+  background: #222;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+} 
+.xyz-card-dark {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+  }
+  .avatarim{
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.116);
+    transition: box-shadow 0.3s;
+    cursor: pointer;
+    display: block;
+
+
+  }
+  .avatarim:hover{
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(51, 47, 58, 0.288)
+  }
+
+  .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }.xyz-card-dark {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+  }
+
+  .defaultAvatar{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.116);
+    transition: box-shadow 0.3s;
+    cursor: pointer;
+    display: block;
+
+
+  }
+  .defaultAvatar:hover{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(51, 47, 58, 0.288)
+  }
+  
+
+   input{
+    padding-left:1.5px !important;
+    padding-right:1.5px !important;
+    border-top: 0px;
+    border-left:0px !important;
+    border-right:0px!important;
+    border-bottom:#CED4DA 1px solid;      
+    border-radius: 0% !important;
+    transition: border-bottom 0.3s;
+
+}
+input:focus{
+    padding-left:1.5px !important;
+    padding-right:1.5px !important;
+    border-top: 0px;
+    border-left:0px !important;
+    border-bottom:2px solid rgb(87, 90, 238);
+    box-shadow:0 0px 0 0 rgb(87, 90, 238);
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+  -webkit-box-shadow: 0 0 0 30px rgb(255, 255, 255) inset !important;
+  box-shadow: 0 0 0 30px rgb(255, 255, 255) inset !important;
+}

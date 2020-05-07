@@ -1,0 +1,77 @@
+.example-chip-list {
+    width: 100%;
+  }
+
+
+.md-avatar.size-0 {
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+}
+.md-avatar {
+      vertical-align: middle;
+      width: 50px;
+      height: 50px;
+}
+.md-avatar.size-1 {
+      width: 55px;
+      height: 55px;
+}
+
+.receiverOption{
+  color:#000;
+  cursor:pointer;
+  line-height:1.3rem;
+  text-align:left;
+  text-transform:none;
+  transition: background-color 0.3s;
+  padding-left: 0.05rem;
+  padding-right: 0.05rem;
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
+  opacity: 0.99;
+}
+receiverOption-small{
+  color:#000;
+  cursor:pointer;
+  line-height:1rem;
+  text-align:left;
+  text-transform:none;
+  transition: background-color 0.3s;
+  padding-left: 0.01rem;
+  padding-right: 0.01rem;
+  padding-top: 0.10rem;
+  padding-bottom: 0.10rem;
+  opacity: 0.99;
+}
+
+
+
+input::-moz-placeholder {
+  opacity: 1;
+  font-size: 17 !important;
+  font-family: sans-serif;
+}
+input:-ms-input-placeholder {
+  color: rgb(133, 133, 133);
+  font-size: 17 !important;
+  font-family: sans-serif;
+}
+input::-moz-placeholder {
+  color: rgb(133, 133, 133);
+  font-size: 17 !important;
+  font-family: sans-serif;
+}
+input::-webkit-input-placeholder {
+  color: rgb(133, 133, 133);
+  font-size: 17 !important;
+  font-family: sans-serif;
+}
+input::-webkit-input-placeholder:focus {
+  color: rgb(0, 0, 0);
+  font-size: 17 !important;
+  font-family: sans-serif;
+}
+  /**  Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license */

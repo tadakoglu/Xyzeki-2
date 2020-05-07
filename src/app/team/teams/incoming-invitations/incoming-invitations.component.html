@@ -1,0 +1,103 @@
+<!-- <div [hidden]="!bothTeamOwnerAndTeamMemberCanceled"
+    style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243,
+  242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+    <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür
+        dileriz;
+        fakat bu ürünümüzde aynı hesapla aynı anda hem Ekipden kurucusu hem de başka birisine ait bir Ekipdenın üyesi olamazsınız.</span>
+</div> -->
+<div [hidden]="!getError()" style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243,
+  242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+    <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block"
+        style="font-size:15px">{{getError()}}, Xyzeki 403</span>
+</div>
+<nav class="container-fluid xyz-card-dark">
+    <a class="btn btn-dark text-white rounded-0" [routerLink]="[ '/takimlar' ]"> Geri</a>
+    <button class="btn btn-dark text-white rounded-0 float-right" disabled>Gelen Davetiyeler<img
+            style="height:18px; object-fit: cover" class="pl-1 pb-1"
+            src="../../../../assets/closed-envelope.svg"></button>
+</nav>
+<div class="container-fluid pt-4 pb-4  bg-white">
+    <div class="row">
+        <div class="col">
+            <div class="container-fluid mb-4">
+                <div class="row">
+                    <h5 class="lead">Gelen Kutusu</h5>
+                    <table [hidden]="teamMembersJoinedWR.length == 0" class="table table-hover table-sm table-striped">
+
+                        <tbody>
+                            <tr *ngFor="let teamMemberWR of teamMembersJoinedWR ; index as i">
+                                <td class="text-nowrap" *ngIf="teamMemberWR?.TeamId != undefined">
+                                    {{getTeam(teamMemberWR?.TeamId)?.TeamName}}
+                                </td>
+                                <td *ngIf="teamMemberWR?.TeamId != undefined">(@{{getTeam(teamMemberWR?.TeamId)?.Owner}})
+                                </td>
+
+                                <td>{{(teamMemberWR?.Status) == null ? 'Cevap bekliyor': 'Teklif reddedildi' }}
+                                </td>
+                                <td>
+                                    <div class="float-left" *ngIf="teamMemberWR?.Status == null">
+                                        <a *ngIf="teamMemberWR" (click)="updateTeamMember(teamMemberWR,true)"
+                                            class="btn btn-light" type="button">Kabul et</a>
+                                        <a *ngIf="teamMemberWR" (click)="updateTeamMember(teamMemberWR,false)"
+                                            class="btn btn-light" type="button">Reddet</a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <p [hidden]="teamMembersJoinedWR.length != 0">
+                        Şu an için gelen bir ekip davetiyeniz bulunmamaktadır.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="container-fluid pt-4 pb-4  bg-white">
+    <div class="row">
+        <div class="col-xs-5 col-lg-6 col-md-12 col-sm-12">
+            <div class="container-fluid mb-4">
+                <div class="row">
+                    <h5>Katıldığınız Ekipler</h5>
+                    <table [hidden]="teamMembersJoined.length == 0" class="table table-hover">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let teamMember of teamMembersJoined">
+                                <td class="w-100" >
+                                    <b>{{getTeam(teamMember?.TeamId)?.TeamName}}</b>
+                                </td>
+                                <td >{{getTeam(teamMember?.TeamId)?.Owner}}</td>
+                                <!-- <td>{{teamMember?.TeamId}} {{getTeam(teamMember?.TeamId)}}</td> -->
+                                <!-- <td>{{teamMember?.Owner}}{{memberShared.Username == teamMember?.Owner ? '(Siz)': ''}}</td> -->
+                                <td >
+                                    <div class="float-right">
+                                        <a class="btn btn-light rounded-0"
+                                            [routerLink]="[teamMember.TeamId, 'takim-uyeleri']">Ekip Arkadaşlarınız</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="row">
+                    <p [hidden]="teamMembersJoined.length != 0">
+                        Şu an katıldığınız bir ekip bulunmamaktadır.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

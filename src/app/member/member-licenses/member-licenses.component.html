@@ -1,0 +1,99 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-10 col-12 ">
+            <div class="card bg-white mt-3 mb-3 ">
+                <div class="card-header xyz-card-dark text-light rounded-0">
+                    <a class="btn btn-dark text-white rounded-0" [routerLink]="[ '/isler' ]">Geri</a>
+                    <a *ngIf="this?.memberShared?.Username == 'tadakoglu'" class="btn btn-dark text-white rounded-0"
+                        [routerLink]="[ '/admin/license-management' ]">Lisans Yönetimi</a>
+                    <a class="btn float-right">Lisanslar</a>
+                </div>
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="col">
+                            <div>
+                                <h5>Lisans Doğrulama</h5>
+                                <p>Ekibinizle iş paylaşımı yapabilmek için bir lisansınızın olması gerekir.
+                                </p>
+                            </div>
+                            <div>
+                                <!-- <form #licenseForm="ngForm" novalidate>
+                                    <div class="input-group ">
+                                        <div class="input-group-prepend">
+                                            <button disabled class="btn btn-dark rounded-0  " style="  padding-left:4px !important;
+                                            padding-right:4px !important;">&nbsp;</button>
+                                        </div>
+                                        <input type="text" name="license" #license="ngModel"
+                                            [(ngModel)]="memberLicenseModel.LicenseId" required class="form-control"
+                                            placeholder="813f966c-94c2-4589-x80a..." />
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-secondary rounded-0" style="  padding-left:4px !important;
+                                                padding-right:4px !important;">Onayla</button>
+                                        </div>
+                                    </div>
+                                </form> -->
+                            </div>
+
+                            <div class="mt-2">
+                                <table *ngIf="myLicense?.LicenseId" class="table table-responsive table-hover  pl-1 pr-1 ">
+                                    <tbody>
+                                        <tr>
+                                            <td>{{(myLicense?.LicenseId).substr(0,10)}}...</td>
+                                            <td>{{(myLicense?.LicenseType).substr(0,1)?.toUpperCase()}}{{(myLicense?.LicenseType)?.substr(1)}}</td>
+                                            <td>{{myLicense?.StartDate  | date : 'dd/MM/yyyy'}} -
+                                                {{myLicense?.EndDate  | date : 'dd/MM/yyyy'}}</td>
+                                            <td>{{myLicense?.Company}} </td>
+                                            <td nowrap>{{myLicense?.NumberOfEmployees}} Kişi</td>
+                                            <td nowrap *ngIf="myLicense?.LicenseId">
+                                                <app-azure-sa-occupancy [setLicenseId]="myLicense?.LicenseId">
+                                                </app-azure-sa-occupancy>/{{myLicense?.AzureSaSizeInGb}} GB
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div *ngIf="!myLicense?.LicenseId">
+                                    <p>Şu anda bir yazılım lisansınız bulunmamaktadır. </p>
+                                    <p>Harika iş paylaşımı özelliklerimizden faydalanmak için bir lisans satın almanızı
+                                        öneriririz.</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h5>Lisans Satın Al</h5>
+                                <p>KDV'siz lisans ücreti hesaplamak için aşağıdaki bilgileri doldurunuz. (19.90 TL/Kişi/Ay) </p>
+                                <div class="form-group calc">
+                                    <!-- <label for="employees">Sizinle birlikte toplam çalışan sayınız nedir?</label> -->
+                                    <input #employeeNumber [(ngModel)]="totalEmployee" required type="number"
+                                        class="form-control w-100" id="employees" max="50" min="3"
+                                        placeholder="Sizinle birlikte toplam çalışan sayınız nedir?">
+
+                                </div>
+                                <div class="form-group calc">
+                                    <!-- <label for="months">Kaç aylık lisans istiyorsunuz?</label> -->
+                                    <input #monthNumber [(ngModel)]="totalMonths" required type="number"
+                                        class="form-control w-100" id="months" min="12"
+                                        placeholder="Kaç aylık lisans istiyorsunuz? (En az 12)">
+
+
+                                </div>
+                                <p>Xyzeki Uygulaması Lisans Bedeli =
+                                    {{ (totalEmployee * totalMonths * 19.90) ?  (totalEmployee * totalMonths * 19.90) : '0' }}
+                                    TL </p>
+                                <p>KDV = {{(totalEmployee * totalMonths * 19.90 * 18 / 100) ?  (totalEmployee * totalMonths * 19.90  * 18 / 100) : '0'}}TL</p>
+                                <p>Toplam Ücret = {{((totalEmployee * totalMonths * 19.90) + (totalEmployee * totalMonths * 19.90 * 18 / 100)) ? ((totalEmployee * totalMonths * 19.90) + (totalEmployee * totalMonths * 19.90 * 18 / 100)) : '0'}}TL</p>
+                                <hr>
+                                <p>Lütfen kurumsal satın alım için irtibata geçiniz.</p>
+                                <!-- <p><b>bilgi@xyzeki.com</b></p> -->
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

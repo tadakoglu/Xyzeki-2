@@ -1,0 +1,99 @@
+CLI Comments
+npm install -g cordova
+
+cordova create XYZ-To-Do com.application.xyzeki "Xyzeki"
+cd XYZ-To-Do
+cordova platform add browser
+cordova platform add android
+cordova platform add ios
+cordova run browser
+cordova run android
+cordova run ios
+
+cordova emulate browser
+cordova emulate android
+cordova emulate ios
+
+cordova build browser
+cordova build android
+cordova build ios
+
+cordova build browser--release
+cordova build android--release
+cordova build ios--release
+
+cordova run android --release
+cordova run android --release -- --keystore=../my-release-key.keystore --storePassword=password --alias=alias_name --password=password.
+
+create build.json anywhere in project and release with followint to sign the app, '..' will find the located file automatically.
+you can use android studio to create cert. 
+
+cordova run android --release --buildConfig
+//build.json inside.
+{
+    "android": {
+        "debug": {
+            "keystore": "../android.keystore",
+            "storePassword": "android",
+            "alias": "mykey1",
+            "password" : "password",
+            "keystoreType": ""
+        },
+        "release": {
+            "keystore": "../android.keystore",
+            "storePassword": "",
+            "alias": "mykey2",
+            "password" : "password",
+            "keystoreType": ""
+        }
+    }
+}
+
+install ionic web view to get rid of file problems
+https://github.com/ionic-team/cordova-plugin-ionic-webview
+
+--WRAP ANGULAR 7 APP IN CORDOVA
+--Create production files
+ng build --prod --base-href . --output-path ../CordovaMobileApp/www/
+
+-- Or change existing base in index.html to   <base href="."> for direct linking
+
+--Only add this to index.html in body and below after others, this file is served by cordova also.
+<script type="text/javascript" src="cordova.js"></script>
+
+--Add also this to index.html in head
+<meta http-equiv="Content-Security-Policy" content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inline' 'self' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;img-src * data: 'unsafe-inline' 'self' content:;media-src *">
+
+  
+
+<meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+
+
+--Add this to bootstrapp the app when device is ready.
+let onDeviceReady = () => {
+  platformBrowserDynamic().bootstrapModule(AppModule);
+};
+document.addEventListener('deviceready', onDeviceReady, false);
+
+--Change routing strategy to avoid problems to this
+RouterModule.forRoot(appRoutes, { useHash: true})
+
+--Disable user select for native feel, add this to global.css
+* {
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+input {
+-webkit-user-select: auto !important;
+-khtml-user-select: auto !important;
+-moz-user-select: auto !important;
+-ms-user-select: auto !important;
+user-select: auto !important;
+}
+

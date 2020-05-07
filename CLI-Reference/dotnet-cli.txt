@@ -1,0 +1,47 @@
+dotnet new sln --name XYZToDoSolution
+dotnet new webapi --name XYZToDo
+dotnet new xunit --name XYZToDo.Tests
+dotnet new classlib --name Altyapi
+dotnet sln XYZToDoSolution.sln add XYZToDo\XYZToDo.csproj
+dotnet sln XYZToDoSolution.sln add XYZToDo.Tests\XYZToDo.Tests.csproj 
+dotnet sln XYZToDoSolution.sln add Altyapi\Altyapi.csproj
+
+
+//Tip: when adding project reference to solution, right click on Altyapi.csproj and copy relative URL and past it in terminal.
+dotnet sln XYZToDoSolution.sln add Altyapi\Altyapi.csproj
+
+//cd Project Folder
+//dotnet run
+
+//cd Project Folder
+//dotnet build 
+//dotnet clean
+
+//"cd ../"  goes the folder up to this location.
+
+//ASP.NET Core empty (It detects the project name automatically from the folder it is in)
+dotnet new web
+//OR
+dotnet new web --language C# --framework netcoreapp2.0
+//1)Add Models, Controllers and Views folder ( Views are not required for Web API)
+//2)In Startup.cs, "ConfigureServices" method, Add "services.AddMvc();"
+//3)In Startup.cs, "Configure" method, Add "app.UseDeveloperExceptionPage(); app.UseStatusCodePages(); app.UseStaticFiles(); (Optional for Web API) app.UseMvc();"
+//4)Go to Views(CD) on Terminal, Run "dotnet new viewimports" then "dotnet new viewstart" (Optional for Web API)
+//5)Go to Project Folder(CD) on Terminal, Run "dotnet run"
+//6)To Add EF Core Migration CLI Commands, open your .csproj file. To the just below Microsoft.AspNetCore.All package.
+//Add "<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />"
+//Run "dotnet restore" to install CliTool Nuget Package
+
+
+///cd Views
+dotnet new viewimport
+
+/*vs code extensions for dotnet*/
+//1)Npm
+//2)vscode-solution-explorer
+dotnet new viewstart
+
+this will create a new folder
+dotnet new webapi --name XYZToDo
+this will not create a folder and use its workspace name as the .csproj file
+dotnet new webapi

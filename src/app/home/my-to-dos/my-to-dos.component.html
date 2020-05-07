@@ -1,0 +1,129 @@
+<app-navbar></app-navbar>
+<app-quick-to-dos></app-quick-to-dos>
+
+
+<div [hidden]="!invalidLicensePanelOpen"
+  style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+  <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür dileriz;
+    fakat herhangi bir
+    kurumsal, bireysel
+    veya katıldığınız takımların sahiplerine ait geçerli bir lisans bulamadık.</span>
+</div>
+<div class="card bg-light rounded-0 mt-0" *ngIf="dayDateStr != 'ArsivKutusu' && (this.dataService?.switchMode != 1)">
+  <div class="card-header bg-secondary rounded-0 pt-2 pb-2 border-0 bg-white">
+    <span class="font-weight-bolder">Proje Görevleriniz
+      <button class="btn btn-light btn-sm rounded-circle" id="previous" (click)="previousPage()"
+        [hidden]="getNumberOfPages()==0" style="height: 40px!important; width:40px!important" [disabled]="pageNo == 1 ">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <span [hidden]="getNumberOfPages()==0" class="pr-1 pl-1">{{pageNo}}/{{getNumberOfPages()}}</span>
+      <button id="next" (click)="nextPage()" [disabled]="pageNo == getNumberOfPages()" [hidden]="getNumberOfPages()==0"
+        class="btn btn-light btn-sm  rounded-circle" style="height: 40px!important; width:40px!important">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+
+    </span>
+
+  </div>
+  <div class="card-body bg-white p-2" *ngIf="projectToDosAssignedToMe.length != 0">
+
+    <table *ngIf="memberShared.LoggedIn" class="pt-4 pb-4 table table-hover  table-sm  gizliHeader">
+      <thead>
+        <thead>
+        </thead>
+      </thead>
+      <tbody class="shadowedTr">
+        <tr class="trOptimization" style="margin-bottom: 6px"
+          *ngFor="let projectToDo  of projectToDosAssignedToMe; index as i">
+          <td style="float:left">
+            <a *ngIf="!projectToDo?.IsCompleted" (click)="completePT(projectToDo)"><img
+                src="../../../assets/squareUnCheck.png" style="width: 1.3rem; height: 1.3rem; cursor: pointer;" />
+            </a>
+          </td>
+          <td style=" float:left;  width: 100%; cursor: text;">
+            <!-- <span  ngbTooltip="Düşük öncelikli görev" tooltipClass="tooltipSpecial" placement="bottom" (click)="$event.stopPropagation();"
+               class="time-pipe-design p-1 bg-light ml-1 mr-1 text-nowrap" style="cursor: pointer; font-size: 13px; display: inline; ">
+                <img src="../../../assets/flagBlue.png"  style="height: 25px;">
+              </span> -->
+            <span [ngClass]="{'shineYapiliyor': projectToDo?.Status == 'Yapılıyor',
+              'shineBitmekuzere': projectToDo?.Status == 'Tamamlanmak Üzere' }" class="bg-light">
+              {{projectToDo?.TaskTitle}}{{ getProject(projectToDo?.ProjectId) ? ', ': '' }}
+              {{getProject(projectToDo?.ProjectId)?.ProjectName}}</span>
+
+            <a *ngIf="projectToDo" class="modernUnderlined ml-2 w-100 bg-light" (click)="setStatus(projectToDo?.TaskId)"
+              style="cursor: pointer; font-size: 13px">{{(projectToDo?.Status ? projectToDo?.Status  : 'Bekliyor')}}</a>
+            &nbsp;
+
+
+
+            <a *ngIf="this.getProject(projectToDo?.ProjectId)" ngbTooltip="Projeye git" tooltipClass="tooltipSpecial"
+              [routerLink]="['/projeler', projectToDo?.ProjectId, 'yapilacaklar']"
+              [fragment]="this.getProject(projectToDo?.ProjectId).Owner!=this.memberShared.Username ? 'shared': ''"
+              class="btn btn-light btn-sm rounded-1 border-0">
+              <img src="../../../assets/arrow-2.png" style="width: 16px;object-fit: cover; cursor: pointer; " /></a>
+
+
+          </td>
+          <td style="float:right">
+            <div class="mt-1 mobileDate  ">
+              <!-- {{projectToDo?.Deadline ? (projectToDo?.Deadline | humanizer) : 'Yok'}} -->
+
+              <ng-container
+                *ngIf="(projectToDo?.Start | humanizer) != (projectToDo?.Deadline | humanizer); else sameStartDate">
+                <span style="color: #00a028">{{projectToDo?.Start | humanizer}}
+                  <span *ngIf="projectToDo?.Start |  date:'shortTime' "
+                    class="time-pipe-design">{{projectToDo?.Start |  date:'shortTime' }}</span>
+                  <span *ngIf="projectToDo?.Start  && projectToDo?.Deadline"> - </span>
+                </span>
+                <div class="clearfix" *ngIf="this.innerWidth < 876"> </div>
+                <span style="color: #b80000">{{projectToDo?.Deadline | humanizer}}
+                  <span *ngIf="projectToDo?.Deadline |  date:'shortTime'"
+                    class="time-pipe-design">{{projectToDo?.Deadline |  date:'shortTime' }}</span></span>
+                <div class="clearfix" *ngIf="this.innerWidth < 500"> </div>
+              </ng-container>
+              <ng-template #sameStartDate>
+                <span style="color: rgb(196, 199, 23); ">{{projectToDo?.Start | humanizer}}
+                  <span *ngIf="projectToDo?.Start |  date:'shortTime' "
+                    class="time-pipe-design">{{projectToDo?.Start |  date:'shortTime' }}</span>
+                  <span *ngIf="projectToDo?.Start |  date:'shortTime'  && projectToDo?.Deadline |  date:'shortTime' "> -
+                  </span>
+                  <span class="time-pipe-design"
+                    *ngIf="projectToDo?.Deadline |  date:'shortTime' ">{{projectToDo?.Deadline |  date:'shortTime' }}</span>
+                </span>
+              </ng-template>
+
+              <div class="clearfix" *ngIf="this.innerWidth < 500">
+              </div>
+              <a *ngIf=(projectToDo?.TaskId) class="btn filter-cnote pl-0 pt-0 pb-0 ml-1 mr-1 text-nowrap"
+                style="cursor: pointer!important"
+                (click)="showCommentsDialog(projectToDo?.TaskId,projectToDo?.TaskTitle)">
+                <img src="../../../assets/comment-note.svg" style="height: 1.5rem; cursor: pointer;" />
+                <span>
+                  {{getPTAssignedCommentsForCount(projectToDo?.TaskId)?.CommentsCount}}
+                </span>
+              </a>
+
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+  <div class="card-body bg-white" *ngIf="projectToDosAssignedToMe?.length == 0">
+    <p *ngIf="dayDateStr == 'Gecikmiş'">
+      Şu an için henüz başlangıcı geçmiş ve hala başlamamış veya teslim tarihi geçmiş bir proje görevi bulamadık.
+    </p>
+    <p *ngIf="dayDateStr == 'Tümü'">
+      Şu an için bir proje göreviniz bulunmamaktadır.
+    </p>
+    <p *ngIf="dayDateStr == 'Gün'">
+      Şu an için bu gün yapılması gereken veya devam eden bir proje görevi bulamadık.
+    </p>
+  </div>
+</div>
+<div class="container-fluid" style="height: 50px">
+
+</div>

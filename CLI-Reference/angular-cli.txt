@@ -1,0 +1,72 @@
+﻿//install angular, angular cli, typescript etc. you must have node.js runtime, and git and vscode(or another) installed( treesome) to get up and running
+npm install -g @angular/cli 
+
+ng new yeni-uygulama
+cd yeni-uygulama
+
+ng build yeni-uygulama
+ng build --watch // any changes occuring in codes will invoke a build.
+
+ng build --prod  // that is for creating a dist folder.. when publishing.
+
+ng serve --port 3000 --open // That will not create build files in specified folder. It uses memory to store them!
+ng generate library my-lib
+daha sonra ilgili kütüphane sýnýflarýný my-lib/src/lib altýnda oluþtur
+ve mylib/src altýndaki public-api.ts dosyasýna dýþarýya açýklacak(public sýnýflarý ilan et ki diðer projeler referansla bu kütüphaneye ulaþabilsin)
+export * from './lib/yeniSinif'; þeklinde ekleme yapýldý
+
+cd yeni-uygulama
+ng build my-lib
+/*remove  build*/
+cd yeni-uygulama
+rm -r dist
+
+npm install bootstrap
+
+kütüphaneye içindeki bir sýnýfa referans vermek
+
+import * as hepsi from 'my-lib';
+degisken: any = new hepsi.tayfun();
+import {tayfun} from 'my-lib';
+degisken: any = new tayfun();
+
+angular.json after installing bootstrap via npm
+"styles": [
+"src/styles.css",
+"node_modules/bootstrap/dist/css/bootstrap.min.css"
+],
+
+uygulama içinde uygulama için (routing modulule dahil edilmiþ þekilde)
+cd uygulamam
+ng generate application altUygulama --routing    
+
+
+ng serve --port 3000 --open  
+
+TERMÝNALDE (NODE WEB SUNUCUSUNU DURDURMAK ÝÇÝN-stopping node.js web server)
+CTRL  + C ye bas. sonra Y(YES) onayla
+
+
+/*vs code eklentileri*/
+Angular Language Service by Angular (| uppercase pipe etc)
+Angular Files by Alexander Ivanichev (.ts creation)
+Angular 7 Snippets by Mikael Morlund ( tüm komutlarý adam kaydetmiþ) hatýrlamak için güzel bir yol.
+GitHub Pull Requests
+Debugger for Chrome
+Npm
+vscode-solution-explorer
+
+
+//or, with code, this codes will generate related "Folders" automatically.
+ng generate component Yeni-harika-komponentim
+ng g module harika-modulum
+
+ 
+//this will not generate folders
+ng g m harika-modulum --flat
+ng g class harika-sinifim
+ng g directive harika-directivem
+ng g guard harika-guard
+ng g interface harika-interface
+ng g pipe harika-pipe
+ng g service harika-servisim

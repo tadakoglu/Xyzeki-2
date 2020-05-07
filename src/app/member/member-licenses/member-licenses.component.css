@@ -1,0 +1,79 @@
+  .xyz-card-dark {
+      background: #222;
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+  }
+
+  input{
+      padding-left:4px !important;
+      padding-right:4px !important;
+      border-top: 0px;
+      border-left:0px !important;
+      border-right:0px!important;
+      border-top:#CED4DA 1px solid;  
+      border-bottom:#CED4DA 1px solid;      
+      border-radius: 0% !important;
+      transition: border-bottom 0.3s;  
+  }
+  input:focus{
+      padding-left:4px !important;
+      padding-right:4px !important;
+      border-top: 0px;
+      border-left:0px !important;
+      border-top:#CED4DA 1px solid;  
+      border-bottom:2px solid rgb(49, 49, 49);
+      box-shadow:0 0px 0 0 rgb(49, 49, 49);
+  }
+  
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px rgb(246, 246, 252) inset !important;
+    box-shadow: 0 0 0 30px rgb(246, 246, 252) inset !important;
+  }
+  
+  .xyz-card-dark {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+  }
+
+
+
+.xyz-card-dark-btn {
+    background: rgb(51, 51, 51);
+    color: #fff;
+    -webkit-transition: box-shadow,background 0.2s; /* Safari prior 6.1 */
+    transition:  box-shadow,background 0.2s;
+  } 
+.xyz-card-dark-btn:hover {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+}  
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+
+  }
+
+  .calc input{
+    padding-left:4px !important;
+    padding-right:4px !important;
+    border-top: 0px;
+    border-left:0px !important;
+    border-right:0px!important;
+    border-bottom:#CED4DA 1px solid;      
+    border-radius: 0% !important;
+    transition: border-bottom 0.3s;  
+}
+.calc input:focus{
+    padding-left:4px !important;
+    padding-right:4px !important;
+    border-top: 0px;
+    border-left:0px !important;
+    border-bottom:2px solid rgb(49, 49, 49);
+    box-shadow:0 0px 0 0 rgb(49, 49, 49);
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "xyz.appmaker.rubgtb",
+      "sha256_cert_fingerprints": ["4D:37:DE:38:32:38:D0:44:0D:40:14:E3:0A:66:39:30:54:7F:A5:9A:BC:CE:03:54:D2:17:54:53:E8:05:BD:D5"]
+    }
+  }
+]

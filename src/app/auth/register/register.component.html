@@ -1,0 +1,258 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-10 col ">
+
+      <div *ngIf="isUpdateMode && !access" class="card bg-white mt-3 mb-3">
+        <div class="card-header xyz-card-dark text-light rounded-0">
+          <a class="btn btn-dark text-white rounded-0" [routerLink]="[ '/isler' ]">Geri</a>
+          <a class="btn float-right">Erişim İzni</a>
+        </div>
+        <div class="card-body">
+          <div class="card-title">
+            <span class="text-muted">Hesabınızı doğrulamamız gerekmektedir.</span>
+          </div>
+          <div class="card-text">
+            <div class="form-inline mb-3">
+              <div class="form-group mr-2  mt-1">
+
+                <label for="grantAccessPass" class="mr-2">Şifre</label>
+                <input id="textForFocus" autofocus required minlength="5" type="password" name="grantAccessPass"
+                  #grantAccessPass="ngModel" [(ngModel)]="enteredPassword" class="form-control rounded-0 mr-2"
+                  style="max-width: 200px" placeholder="Şifrenizi giriniz" />
+
+              </div>
+              <div class="container-fluid">
+                <span *ngIf="accessInfo" class="text-danger row">{{accessInfo}}</span>
+              </div>
+            </div>
+
+          </div>
+
+          <button class="btn xyz-card-dark float-right rounded-0" (click)="grantAccess()">Devam Et</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-white mt-3 mb-3" style="border-radius: 3px;" *ngIf="!isUpdateMode || access"
+      style="max-width: 600px">
+      <div class="card-header xyz-card-dark text-light" style="border-radius: 3px;">
+
+        <div *ngIf="isUpdateMode; else registerTitle">
+          <a class="btn btn-dark text-white rounded-0" [routerLink]="[ '/isler' ]">Geri</a>
+          <a disabled class="btn float-right btn-light text-dark"><span
+              name="usernameUpdate">{{registerModel?.Username}}</span></a>
+          <a class="btn float-right">Hesabım</a>
+        </div>
+        <ng-template #registerTitle>
+          <span class="font-weight-bolder">Üye Olun</span>
+          <button class="close" [routerLink]="[ '/' ]"><span class="text-light">&times;</span></button>
+        </ng-template>
+      </div>
+
+      <div class="card-body">
+        <div *ngIf="!isUpdateMode" class="card-title">
+          <a class="navbar-brand">
+            <img src="../../../assets/logo.svg" style="height: 25px; font-family: Arial, Helvetica, sans-serif ">
+            Xyzeki
+          </a>
+        </div>
+        <div class="card-text">
+          <form #registerForm="ngForm" (ngSubmit)="register(registerForm)" novalidate>
+            <!-- I have disabled HTML5 auto-validation-->
+            <div class="form-inline mb-3">
+              <div class="form-group mr-2  mt-1">
+                <label for="name" class="mr-2">Ad</label>
+                <input id="textForFocusName" required type="text" name="name"
+                  pattern="^[a-zA-Z^&#351;&#350;&#305;&#304;çÇöÖüÜ&#286;&#287;\s]+(([',. -][a-zA-Z^&#351;&#350;&#305;&#304;çÇöÖüÜ&#286;&#287;\s ])?[a-zA-Z^&#351;&#350;&#305;&#304;çÇöÖüÜ&#286;&#287;\s]*)*$"
+                  #name="ngModel" [(ngModel)]="registerModel.Name" class="form-control rounded-0"
+                  placeholder="Adınızı giriniz" />
+              </div>
+
+              <div class="form-group  mt-1">
+                <label for="surname" class="mr-2">Soyad</label>
+                <input required type="text" name="surname"
+                  pattern="^[a-zA-Z^&#351;&#350;&#305;&#304;çÇöÖüÜ&#286;&#287;\s]+(([',. -][a-zA-Z^&#351;&#350;&#305;&#304;çÇöÖüÜ&#286;&#287;\s ])?[a-zA-Z^&#351;&#350;&#305;&#304;çÇöÖüÜ&#286;&#287;\s]*)*$"
+                  #surname="ngModel" [(ngModel)]="registerModel.Surname" class="form-control rounded-0"
+                  placeholder="Soyadınızı giriniz" />
+              </div>
+              <div class="container-fluid">
+                <span *ngIf="modelSubmitted && name?.errors?.required && surname?.errors?.required"
+                  class="text-danger row">Lütfen isminizi ve soyadınızı yazınız</span>
+                <span *ngIf="modelSubmitted && name?.errors?.required && !(surname?.errors?.required)"
+                  class="text-danger row">Lütfen isminizi yazınız</span>
+                <span *ngIf="modelSubmitted && !(name?.errors?.required) && surname?.errors?.required"
+                  class="text-danger row">Lütfen soyadınızı yazınız</span>
+                <span *ngIf="modelSubmitted && name?.errors?.pattern" class="text-danger row">İsminiz harflerden
+                  oluşmalıdır</span>
+                <span *ngIf="modelSubmitted && surname?.errors?.pattern" class="text-danger row">Soyadınız harflerden
+                  oluşmalıdır</span>
+
+              </div>
+
+
+            </div>
+            <div class="form-inline mb-3">
+              <div class="form-group  mr-2 mt-1">
+                <label for="email" class="mr-2">Email</label>
+                <input required minlength="2" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="email"
+                  name="email" #email="ngModel" [(ngModel)]="registerModel.Email" class="form-control rounded-0"
+                  placeholder="Email adresinizi giriniz" />
+                <div class="container-fluid">
+                  <span *ngIf="modelSubmitted && email?.errors?.required" class="text-danger row">Email adresiniz
+                    gereklidir</span>
+                  <span *ngIf="modelSubmitted && email?.errors?.pattern" class="text-danger row">Email adresi
+                    formatınız
+                    geçerli değildir.</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-inline mb-3">
+              <div class="form-group mr-2 mt-1">
+                <label for="mobilePhone" class="mr-2">Telefon No(Mobil)</label>
+                <button disabled class="btn btn-outline-secondary border-0 pl-0 pr-1">+90</button>
+                <input name="cellCountry" #cellCountry="ngModel" type="hidden"
+                  [(ngModel)]="registerModel.CellCountry" />
+                <input name="mobilePhone" #mobilePhone="ngModel" type="number" name="mobilePhone"
+                  pattern="^[0][1-9]\d{9}$|^[1-9]\d{9}$" [(ngModel)]="registerModel.Cell" class="form-control rounded-0"
+                  style="max-width: 200px" placeholder="XXXXXXXXX" />
+              </div>
+              <div class="container-fluid">
+                <span *ngIf="modelSubmitted && mobilePhone?.errors?.pattern" class="text-danger row">
+                  Telefon numaranızı 10 haneli olarak tuşlamalısınız.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-inline mb-3" *ngIf="!isUpdateMode">
+              <div class="form-group mr-2 mt-1 ">
+                <label for="username" class="mr-2">Kullanıcı Adı</label>
+                <input required type="text" name="username" #username="ngModel" [(ngModel)]="registerModel.Username"
+                  class="form-control rounded-0 mr-2" style="max-width: 200px"
+                  placeholder="Kullanıcı adınızı giriniz" />
+              </div>
+              <div class="container-fluid">
+                <span *ngIf="modelSubmitted && username?.errors?.required" class="text-danger row">Kullanıcı adınız
+                  gereklidir.</span>
+              </div>
+            </div>
+
+            <div *ngIf="isUpdateMode" class="form-inline mb-3">
+              <div class="form-group mr-2 mt-1">
+                <label for="passwordEntered" class="mr-2">Şifre</label>
+                <input required minlength="5" type="password" name="passwordEntered" #passwordEntered="ngModel"
+                  [(ngModel)]="registerModel.Password" class="form-control rounded-0 mr-2" style="max-width: 200px"
+                  placeholder="Şifrenizi giriniz" />
+
+              </div>
+              <div class="form-group mr-2 mt-1">
+                <label for="passwordEnteredValidator" class="mr-2">Şifre Tekrarı</label>
+                <input required minlength="5" type="password" name="passwordEnteredValidator"
+                  #passwordEnteredValidator="ngModel" [(ngModel)]="passwordRepeatUpdate"
+                  class="form-control rounded-0 mr-2" style="max-width: 200px" placeholder="Şifrenizi giriniz" />
+              </div>
+              <div class="container-fluid">
+                <span *ngIf="modelSubmitted && passwordEntered?.errors?.required " class="text-danger row">Lütfen
+                  geçerli
+                  bir
+                  şifre giriniz.</span>
+                <span *ngIf="modelSubmitted && passwordEntered?.errors?.minlength" class="text-danger row">Şifreniz en
+                  az 5
+                  karakter olmalıdır</span>
+                <span *ngIf="modelSubmitted && passwordEntered.value != passwordEnteredValidator.value"
+                  class="text-danger row">Şifreleriniz uyuşmuyor.</span>
+              </div>
+            </div>
+            <div *ngIf="!isUpdateMode" class="form-inline mb-3">
+              <div class="form-group mr-2 mt-1">
+                <label for="password" class="mr-2">Şifre</label>
+                <input required minlength="5" type="password" name="password" #password="ngModel"
+                  [(ngModel)]="registerModel.Password" class="form-control rounded-0 mr-2" style="max-width: 200px"
+                  placeholder="Şifrenizi giriniz" />
+
+
+              </div>
+              <div class="form-group mr-2 mt-1">
+                <label for="passwordValidator" class="mr-2">Şifre Tekrarı</label>
+                <input required minlength="5" type="password" name="passwordValidator" #passwordValidator="ngModel"
+                  [(ngModel)]="passwordRepeat" class="form-control rounded-0 mr-2" style="max-width: 200px"
+                  placeholder="Şifrenizi giriniz" />
+              </div>
+              <div class="container-fluid">
+                <span *ngIf="modelSubmitted && username?.errors?.minlength" class="text-danger row">Kullanıcı adınız
+                  minimum 3 karakter olmalıdır.</span>
+                <span *ngIf="modelSubmitted && password?.errors?.required " class="text-danger row">Lütfen geçerli
+                  bir
+                  şifre giriniz.</span>
+                <span *ngIf="modelSubmitted && password?.errors?.minlength" class="text-danger row">Şifreniz en az 5
+                  karakter olmalıdır</span>
+                <span *ngIf="modelSubmitted && password.value != passwordValidator.value"
+                  class="text-danger row">Şifreleriniz uyuşmuyor.</span>
+              </div>
+
+
+            </div>
+
+
+
+            <div class="form-group">
+              <label for="avatar">Avatarınızı seçiniz</label>
+
+              <img *ngIf="avatar" #imgEl [src]="avatar" class="avatarim" (click)="selectAvatar.click()">
+
+              <input (change)="onSelectAvatar($event)" #selectAvatar type="file" accept="image/*" name="avatar"
+                class="inputfile" id="custom-file">
+              <div *ngIf="!isUpdateMode; else updateAvatar">
+                <a role="button" *ngIf="showReset" (click)="loadDefaultAvatar()"
+                  class="btn btn-light defaultAvatar mt-3">X</a>
+              </div>
+              <ng-template #updateAvatar>
+
+
+                <a *ngIf="avatarStatus !== 'default'" role="button" (click)="loadDefaultAvatar()"
+                  class="btn btn-light defaultAvatar mt-3" style="display: inline-block">X</a>
+                <a *ngIf="avatarStatus !== 'back'" role="button" (click)="loadAvatarBack()"
+                  class="btn btn-light defaultAvatar mt-3" style="display: inline-block; width: 120px">İptal</a>
+                <!-- <a role="button" *ngIf="showReset" (click)="loadAvatarBack()" class="btn btn-light defaultAvatar mt-3"
+                    style="width:120px">İptal</a> -->
+
+
+
+
+              </ng-template>
+
+            </div>
+            <div *ngIf="!isUpdateMode" class="form-group pb-1 pt-1">
+              <small style="font-size: 10px">YAZILIM, HERHANGİ BİR TÜR, AÇIK VEYA ZIMNİ GARANTİ OLMADAN "OLDUĞU GİBİ", ÖZELLİKLİ BİR AMACA UYGUN
+                OLMAYAN GARANTİ İLE SINIRLI OLMAYAN, "OLDUĞU GİBİ" SAĞLANMAKTADIR. HİÇBİR DURUMDA YAZARLAR VEYA TELİF
+                HAKKI TUTUCULARININ YAZILIM VEYA KULLANIM VEYA DİĞER BAĞLANTILARLA İLİŞKİN, SÖZLEŞME VEYA KULLANIM VEYA
+                DİĞER BAĞLANTILARLA İLGİLİ OLARAK HERHANGİ BİR İDDİA, HASAR VEYA DİĞER SORUMLULUK İÇİN SORUMLU
+                OLMAYACAKTIR. KAYIT OLARAK ŞARTLARI KABUL EDERSİNİZ. </small>
+            </div>
+            <button *ngIf="isUpdateMode;else registerBtn" type="submit"
+              class="btn xyz-card-dark-btn mt-1 float-right ">Güncelle</button>
+            <ng-template #registerBtn>
+
+              <button [disabled]="isLoading" type="submit" class="btn xyz-card-dark-btn mt-1 float-right">Kayıt
+                ol</button>
+            </ng-template>
+
+            <div *ngIf="modelSent" class="card-text">
+              <p class="text-break">{{informUser}}</p>
+            </div>
+
+          </form>
+        </div> <!-- Card text end-->
+      </div> <!-- Card body end-->
+    </div>
+
+
+
+  </div>
+
+</div>
+
+<div [hidden]="!isLoading"
+  style=" position: absolute;  top: 25%; padding-left: 35%; padding-right:35%;  z-index: 10000;">
+  <img src="../assets/rolling.png" style="opacity: 0.9">
+  <img src="../assets/logo.svg" style="height: 3rem; width: auto">
+</div>

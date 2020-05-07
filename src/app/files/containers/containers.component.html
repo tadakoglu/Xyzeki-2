@@ -1,0 +1,143 @@
+<div [hidden]="!invalidLicensePanelOpen"
+  style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+  <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür
+    dileriz;
+    fakat herhangi bir
+    kurumsal, bireysel
+    veya katıldığınız takımların sahiplerine ait geçerli bir lisans bulamadık.</span>
+</div>
+
+
+<nav class="container-fluid navbar shadow-sm sticky-top navbar-light bg-light pb-0 pt-0 xyz-card-dark"
+  style="height:3rem">
+  <div>
+    <a class="btn btn-light rounded-0 border-0 xyz-nav-btn " [routerLink]="[ '/isler' ]">Geri</a>
+
+    <a *ngIf="this?.mLicenseRepository?.getPrimaryAccessGranted() && !newContainerPanelOpen"
+      ngbTooltip="Yeni dosya konteynırı oluşturun" tooltipClass="tooltipSpecial" placement="bottom"
+      (click)="toggleContainerPanel();" class="btn btn-dark border-0 text-white rounded-0 ml-1 "
+      style="cursor:pointer !important;">Yeni +</a>
+    <a *ngIf="this.innerWidth > 786" class="btn btn-light rounded-0 border-0 xyz-nav-btn ml-1" [routerLink]="[ '/dosyalar/istatistikler' ]">Bilgi</a>
+
+    <div class="circleBtnSquareSearchBar pl-1">
+      <span class="disable-select">
+        <mat-search-bar [isContainerSearch]="true" (onOpen)="this.searchBarOpen=true"
+          (onClose)="this.searchBarOpen=false" [searchText]="'Xyzeki Konteynır Arama'" [isDarkMode]="true">
+        </mat-search-bar>
+      </span>
+    </div>
+  </div>
+
+
+
+  <a class="navbar-brand" [routerLink]="[ '/isler' ]">
+    <img style="height: 25px; width:auto;padding-bottom: 3px;" src="../../../assets/logo.svg">
+    <ng-container *ngIf="this.innerWidth > 763">&nbsp;Dosyalar</ng-container>
+  </a>
+
+  <div class="float-right">
+
+    <app-nav-profile [hidden]="this.searchBarOpen && this.innerWidth <= 763"></app-nav-profile>
+
+  </div>
+</nav>
+
+
+
+<div class="container-fluid bg-white">
+  <div class="row pt-2 pb-2">
+    <div #containersPanel class="col-xs-4 col-lg-4">
+      <ul class="w-100" style="margin-bottom: 5px!important">
+        <a class="company lead text-center w-100">{{myLicense?.Company}}</a>&nbsp;
+        <!-- <span class="lead mt-1">Şirket İçi</span><br> -->
+
+        <div [hidden]="loaded">
+          Bulutunuzdan dosyalar getiriliyor...<br>
+          <img src="../../../assets/loading.gif" style="opacity: 0.9; height: 2rem; width: 2rem ">
+        </div>
+
+        <p [hidden]="!loaded" *ngIf="containers()?.length==0 && !searchBarOpen" class="mt-1">Henüz bir dosya konteynırınız bulunmuyor.
+          <p *ngIf="containers()?.length==0 && searchBarOpen" class="mt-1">
+            Üzgünüz, aradığınız kriterlerde bir dosya konteynırı bulamadık.
+          </p>
+
+          <li *ngIf="newContainerPanelOpen" class="container-fluid pt-2 pb-2 pl-2 pr-2"
+            style="background-color: rgb(250, 253, 255); width: 100% !important">
+
+            <form class="w-100" #containerForm="ngForm" (ngSubmit)="addContainer(containerForm)" novalidate>
+              <div class="input-group p-0 m-0 w-100">
+                <div class="input-group-prepend">
+                  <input pattern="^(?=.{3,63}$)[a-z0-9]+(-[a-z0-9]+)*$" id="inputToFocusCT" type="text"
+                    name="containerNameInput" [(ngModel)]="containerModel.ContainerName" #containerNameInput="ngModel"
+                    required class="form-control w-100" placeholder="Konteynır Adı" />
+                </div>
+                <div class="input-group-append linedButton">
+                  <button type="submit" class="btn rounded-0  btn-dark  text-uppercase text-white ">+</button>
+                  <a (click)="toggleContainerPanel()" class="btn rounded-0  btn-light  text-uppercase " style="cursor:pointer !important; 
+                            overflow: hidden;
+                            perspective: 1px; ">X</a>
+                </div>
+              </div>
+              <span *ngIf="modelSubmitted && containerNameInput?.errors?.pattern" class="text-danger row">
+                En az 3, en fazla 63 karakterli sadece alfabetik, sayısal ve - ile ayrılmış, TR karakter içermeyen küçük
+                harfli metinler geçerlidir. ornek-konteynir, xyzeki-projesi, genel, satis-ekibi gibi
+              </span>
+
+            </form>
+
+          </li>
+      </ul>
+      <div #scrollMe infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="1.5" [scrollWindow]="false"
+        [infiniteScrollThrottle]="100" (scrolled)="onScrollDown()" class="row xyz-card-big pl-2 pr-2 mb-1 "
+        [ngStyle]="{'height.px': (innerWidth>=577) ? this.innerHeight-105: this.innerHeight-65}">
+        <ul *ngIf="containers()?.length > 0">
+          <li *ngFor="let container of containers() | sortByDateTime: 'CreatedAt':'desc'" style=" 
+            overflow: hidden;
+            perspective: 1px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; float:left;  ">
+            <div [class.buton-secili]="this.containerName == container?.ContainerName"
+              (click)="onSelectContainer(container?.ContainerName)" class="btn btn-light rounded-0 border-0  w-100"
+              style="cursor:pointer !important; justify-content: left; justify-items: left">
+              <div class="clear-fix"></div>
+              <span *ngIf="container?.ContainerName" class="w-100 float-left text-left"
+                style="font-family: Arial, Helvetica, sans-serif; font-size: 14px"><b>{{container?.ContainerName}}</b>
+              </span>
+              <div class="w-100 float-left text-left">
+                <ng-template [ngIf]="this?.memberShared?.Username == container?.CreatedBy" [ngIfElse]="others">
+                  <div style="display: inline-block;  white-space: nowrap;">
+                    <img *ngIf="this?.memberShared?.account?.getValue()?.Avatar"
+                      [src]="this?.memberShared?.account?.getValue()?.Avatar" alt="Avatar" class="avatarim">
+                    <span>&nbsp;
+                      {{this?.memberShared?.account?.getValue()?.Name}}
+                      {{this?.memberShared?.account?.getValue()?.Surname}}</span>
+                  </div>
+                </ng-template>
+
+                <ng-template #others>
+                  <div style="display: inline-block;  white-space: nowrap;">
+                    <img *ngIf="getMember(container?.CreatedBy)?.Avatar" [src]="getMember(container?.CreatedBy)?.Avatar"
+                      alt="Avatar" class="avatarim">
+                    <span>&nbsp;
+                      {{getMember(container?.CreatedBy)?.Name}}
+                      {{getMember(container?.CreatedBy)?.Surname}}</span>
+                  </div>
+
+                </ng-template>
+              </div>
+            </div>
+          </li>
+
+
+
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="col-8 responsiveBT">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

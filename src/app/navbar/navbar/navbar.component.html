@@ -1,0 +1,106 @@
+<nav id="navbarPC" class="container-fluid navbar shadow-sm sticky-top navbar-light bg-light pb-0 pt-0"
+        style="height:3rem!important" *ngIf="memberShared.LoggedIn">
+        <a class="navbar-brand" [routerLink]="[ '/isler' ]">
+                <img src="../../../assets/logo.svg" style="height: 25px; font-family: Arial, Helvetica, sans-serif ">
+                Xyzeki
+        </a>
+
+        <a class="btn btn-light rounded-0 border-0 xyz-nav-btn " [routerLink]="[ '/is-konusmalari' ]">İş Konuşmaları <span
+                        ngbTooltip="{{getUnreadTotalPTCount}} okunmamış iş konuşması bulunmaktadır."
+                        tooltipClass="tooltipSpecial" class="unreadCountTitle">{{getUnreadTotalPTCount}}</span></a>
+        <a class="btn btn-light rounded-0 border-0 xyz-nav-btn" [routerLink]="[ '/projeler' ]">Projeler</a>
+        <a class="btn btn-light rounded-0 border-0 xyz-nav-btn " [routerLink]="[ '/takimlar' ]">Ekipler</a>
+        <button class="btn btn-light rounded-0 border-0 xyz-nav-btn " [routerLink]="[ '/dosyalar' ]">Dosyalar</button>
+        <div class="float-right">
+                <app-nav-profile></app-nav-profile>
+        </div>
+</nav>
+
+
+<nav id="navbarMobile" class="container-fluid navbar shadow-sm sticky-top navbar-light bg-light pb-0 pt-0 "
+        style="height:3rem!important" *ngIf="memberShared.LoggedIn">
+        <a class="navbar-brand" [routerLink]="[ '/isler' ]">
+                <img src="../../../assets/logo.svg" style="height: 25px; font-family: Arial, Helvetica, sans-serif ">
+                Xyzeki
+        </a>
+
+        <div class="toggleClose">
+                <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-light rounded-0 border-0 mr-1  xyz-nav-btn rounded-0 mb-0 mt-0  ml-0 mr-0 pb-1 pt-1 pl-1 pr-1  "
+                                id="dropdownMemberOptions" ngbDropdownToggle><svg width="24" height="24" class="mb-1"
+                                        xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+                                        <path d="M24 18v1h-24v-1h24zm0-6v1h-24v-1h24zm0-6v1h-24v-1h24z"
+                                                fill="#1040e2" />
+                                        <path d="M24 19h-24v-1h24v1zm0-6h-24v-1h24v1zm0-6h-24v-1h24v1z" /></svg><span
+                                        class="text-uppercase"> Menü</span></button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownMemberOptions" class="rounded-0">
+
+                                <button ngbDropdownItem class="btn btn-light rounded-0 border-0 xyz-nav-btn"
+                                        [routerLink]="[ '/is-konusmalari' ]">İş Konuşmaları <span
+                                                class="unreadCountTitleM">{{getUnreadTotalPTCount}}</span></button>
+                                <button ngbDropdownItem class="btn btn-light rounded-0 border-0 xyz-nav-btn"
+                                        [routerLink]="[ '/takimlar' ]">Ekipler</button>
+                                <button ngbDropdownItem class="btn btn-light rounded-0 border-0 xyz-nav-btn"
+                                        [routerLink]="[ '/projeler' ]">Projeler</button>
+                                <button ngbDropdownItem class="btn btn-light rounded-0 border-0 xyz-nav-btn"
+                                        [routerLink]="[ '/dosyalar' ]">Dosyalar</button>
+                        </div>
+                </div>
+
+        </div>
+
+
+
+
+        <div class="float-right">
+                <app-nav-profile></app-nav-profile>
+        </div>
+</nav>
+
+<nav id="navbarTablet" class="container-fluid navbar shadow-sm sticky-top navbar-light bg-light pb-0 pt-0"
+        style="height:3rem!important" *ngIf="memberShared.LoggedIn">
+        <a class="navbar-brand" [routerLink]="[ '/isler' ]">
+                <img src="../../../assets/logo.svg" style="height: 25px; font-family: Arial, Helvetica, sans-serif ">
+                Xyzeki
+        </a>
+        <button class="btn btn-light rounded-0 border-0 xyz-nav-btn" [routerLink]="[ '/is-konusmalari' ]">İş Konuşmaları
+                <span class="unreadCountTitle">{{getUnreadTotalPTCount}}</span></button>
+        <button class="btn btn-light rounded-0 border-0 xyz-nav-btn" [routerLink]="[ '/projeler']">Projeler</button>
+
+        <div>
+                <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-light rounded-0 border-0 mr-1  xyz-nav-btn rounded-0 mb-0 mt-0  ml-0 mr-0 pb-1 pt-1 pl-1 pr-1  "
+                                id="dropdownMemberOptions" ngbDropdownToggle>...</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownMemberOptions" class="rounded-0">
+
+                                <button ngbDropdownItem class="btn btn-light rounded-0 border-0 xyz-nav-btn"
+                                        [routerLink]="[ '/takimlar' ]">Ekipler</button>
+                                <button ngbDropdownItem class="btn btn-light rounded-0 border-0 xyz-nav-btn"
+                                        [routerLink]="[ '/dosyalar' ]">Dosyalar</button>
+
+
+                        </div>
+                </div>
+
+        </div>
+
+
+
+
+        <div class="float-right">
+                <app-nav-profile></app-nav-profile>
+        </div>
+</nav>
+
+<nav class="container-fluid bg-dark sticky-top" *ngIf="!memberShared.LoggedIn">
+
+        <div class="float-right rounded-0" style=" border-top-left-radius:0!important; border-top-right-radius:0!important;" role="group">              
+                <a [routerLink]="[ 'giris' ]" class="btn modernUnderlined" style="border-radius: 2px;">Oturum Aç <img
+                        src="../../../assets/arrow-2.png"
+                        style="width: 16px;object-fit: cover; cursor: pointer; " /></a>
+               
+                <a class="btn btn-dark  btn-sm border-0 rounded-0" style="border-top-left-radius:0!important; border-top-right-radius:0!important;" [routerLink]="[ 'kayit-ol' ]">Üye Olun</a>
+        </div>
+
+        
+</nav>

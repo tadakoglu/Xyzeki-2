@@ -1,0 +1,79 @@
+<div>
+  <ul>
+
+    <li (click)="selectDay(null,'Gecikmiş')">
+      <div cdkDropList id="Gecikmiş" (cdkDropListDropped)="drop($event)" class="circleBtnSquarePast"
+        [ngClass]="selectedDayName == 'Gecikmiş' ? 'circleBtnSelectedSquarePast' : ''">
+        <span>Gecikmiş</span>
+      </div>
+    </li>
+    <li *ngFor="let dateDayName of dateDayNames; let i=index" (click)="selectDay(dates[i],dateDayName)">
+      <div cdkDropList [id]="i+'gun'+'sonra'" (cdkDropListDropped)="drop($event)" class="circleBtn  pt-2"
+        ngbTooltip="{{getDateWithoutTime(dates[i]) | date : 'fullDate' }}" placement="bottom"
+        tooltipClass="tooltipSpecialX" [ngClass]="selectedDayName == dateDayName ? 'circleBtnSelected' : ''">
+
+        <span>{{dateDayName}}</span><br>
+        <small>{{getDateWithoutTime(dates[i]) | date : 'd MMM ' }}</small>
+
+
+
+      </div>
+
+    </li>
+    <li (click)="selectDay(null,'Tümü')">
+      <div cdkDropList id="Tümü" (cdkDropListDropped)="drop($event)" class="circleBtnSquare"
+        [ngClass]="selectedDayName == 'Tümü' ? 'circleBtnSelectedSquare' : ''">
+        <span>Tümü</span>
+      </div>
+    </li>
+    <li>
+      <div class="circleBtnSquareSearchBar pl-1 pb-2">
+        <span class="disable-select">
+          <mat-search-bar></mat-search-bar>
+        </span>
+      </div>
+    </li>
+
+    <li>
+      <div class="circleBtnSquareTransparent text-center p-4 ">
+        <div ngbTooltip="{{this?.dataService?.ledToolTipMessage}}" placement="right" tooltipClass="tooltipSpecialX"
+          (click)="toggleLedType()" class="{{this?.dataService?.ledTypeClassShared}}" style="cursor:pointer"></div>
+      </div>
+    </li>
+    <li *ngIf="!isProjectMode" >
+      <div  class="btnModeSwitcher">
+        <span style=" cursor: pointer; " (click)="switchMode()" ngbTooltip="Hem size ait hem de atandığınız görevler gösteriliyor." placement="right"  tooltipClass="tooltipSpecialX"[hidden]="this.dataService?.switchMode != 0"><mat-icon>compare_arrows</mat-icon></span>
+        <span style=" cursor: pointer;" (click)="switchMode()" ngbTooltip="Size ait görevler gösteriliyor."   tooltipClass="tooltipSpecialX" placement="right"   [hidden]="this.dataService?.switchMode != 1"><mat-icon>arrow_forward</mat-icon></span>
+        <span style=" cursor: pointer;" (click)="switchMode()" ngbTooltip="Atandığınız görevler gösteriliyor."   tooltipClass="tooltipSpecialX" placement="right"   [hidden]="this.dataService?.switchMode != 2"><mat-icon>arrow_back</mat-icon></span>
+      </div>
+    
+    </li>
+
+
+    <li (click)="selectDay(null,'ArsivKutusu')" style="float:right">
+      <div cdkDropList id="ArsivKutusu" (cdkDropListDropped)="drop($event)" class="circleBtnSquareArc"
+        [ngClass]="selectedDayName == 'ArsivKutusu' ? 'circleBtnSquareArcSelected ' : ''">
+        <span><img style="height:28px; " class="pl-0 mr-1 " src="../../../assets/arc.svg">Arşiv</span>
+      </div>
+    </li>
+    <div style='clear:both'></div>
+    <!-- <li (click)="selectDay(null,'ArsivKutusu')" class=" float-right">
+      <div cdkDropList id="ArsivKutusu" (cdkDropListDropped)="drop($event)" class="circleBtnSquare"
+        [ngClass]="selectedDayName == 'ArsivKutusu' ? 'circleBtnSelectedSquare' : ''">
+        <span><img style="height:28px; " class="pl-0 mr-1 " src="../../../assets/arc.svg">Arşiv</span>
+      </div>
+    </li> -->
+    <!-- <br> -->
+
+
+
+  </ul>
+</div>
+<div [hidden]="!invalidLicensePanelOpen"
+  style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+  <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür dileriz;
+    fakat herhangi bir
+    kurumsal, bireysel
+    veya katıldığınız takımların sahiplerine ait geçerli bir lisans bulamadık.</span>
+</div>

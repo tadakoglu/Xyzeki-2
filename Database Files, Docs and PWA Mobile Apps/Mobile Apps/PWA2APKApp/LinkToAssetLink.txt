@@ -1,0 +1,2 @@
+place assetlink to
+https://www.xyzeki.com/.well-known/assetlinks.json

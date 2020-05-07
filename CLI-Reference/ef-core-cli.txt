@@ -1,0 +1,30 @@
+﻿To Add EF Core Migration CLI Commands, open your .csproj file. To the just below Microsoft.AspNetCore.All package.
+//Add "<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />"
+//Run "dotnet restore" to install CliTool Nuget Package
+
+dotnet ef dbcontext scaffold "Server=TADAKOGLU\MSSQLSERVERTA;Database=XYZToDo;Trusted_Connection=True;MultipleActiveResultSets=true" Microsoft.EntityFrameworkCore.SqlServer --context XYZToDoSQLDbContext --output-dir Models
+
+dotnet ef dbcontext scaffold "Server=TADAKOGLU\MSSQLSERVERTA;Database=XYZToDo;Trusted_Connection=True;MultipleActiveResultSets=true" Microsoft.EntityFrameworkCore.SqlServer --context XYZToDoSQLDbContext --output-dir Models --force
+
+dotnet ef dbcontext scaffold "Server=(localdb)\mssqllocaldb;Database=Blogging;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -t Blog -t Post -c BlogContext
+//POWERSHELL �ZER�NDE OR ON TERMINAL
+//dotnet ef migrations add ilkGoc
+//dotnet ef migrations add ikinciGoc
+//dotnet ef database update : To create the database and apply the migrations
+//dotnet ef database drop --force : To delete the database
+
+//Projede birden fazla context var ise context belirtilmeli.(if exists many contexts)
+//dotnet ef migrations add ilkGoc --context XYZToDoSiparisDbContext
+//dotnet ef migrations add ikinciGoc --context XYZToDoSiparisDbContext
+//dotnet ef migrations add ilkGoc --context VarsaBaskaBirContext
+//dotnet ef migrations add ikinciGoc --context VarsaBaskaBirContext
+//dotnet ef database update --context XYZToDoSiparisDbContext : To create the database and apply the migration
+//dotnet ef database update --context VarsaBaskaBirContext : To create the database and apply the migration
+//dotnet ef database drop --context XYZToDoSiparisDbContext --force  : To delete the database
+//dotnet ef database drop --context VarsaBaskaBirContext --force  : To delete the database
+
+//http://www.entityframeworktutorial.net/efcore/cli-commands-for-ef-core-migration.aspx#migrations-list
+//not add, update, drop �o�una --context eklenebiliyor. ��nk� birden fazla context(veritaban�) varsa context belirtimi migration/database komutlar�nda zorunlu.
+
+//clean code first reference.
+https://www.entityframeworktutorial.net/code-first/configure-many-to-many-relationship-in-code-first.aspx

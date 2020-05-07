@@ -1,0 +1,152 @@
+.circleBtnSquareSearchBar{ 
+  transition: background-color 0.3s;
+  border-radius: 2px;
+  height:3rem;
+  text-align: center;
+  /* display: table-cell; */
+  vertical-align: middle;
+  padding:0px;
+  display: inline-block;
+  line-height: 3rem;
+  margin-right: 2px;
+  margin-bottom: 5px;
+}
+.disable-select {
+  user-select: none; /* supported by Chrome and Opera */
+ -webkit-user-select: none; /* Safari */
+ -khtml-user-select: none; /* Konqueror HTML */
+ -moz-user-select: none; /* Firefox */
+ -ms-user-select: none; /* Internet Explorer/Edge */
+}
+.xyz-card-dark {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+  }
+  
+  .draggable {
+    cursor: pointer;
+    /* cursor: move; 
+    cursor: -webkit-grab; 
+    cursor:    -moz-grab; 
+    cursor:         grab;  */
+}
+.router-link-active {
+  outline: 0;
+}
+.tooltipSpecial .tooltip-inner {
+  background-color: rgb(224, 224, 224);
+  color: rgb(59, 59, 59);
+  /* font-size: 125%; */
+}
+.tooltipSpecial .arrow::before {
+  border-top-color: rgb(160, 164, 187);
+}
+@media (min-width:300px)
+    {
+        
+      .wrapOrNot{
+        white-space: nowrap;
+      }
+    }
+.draggable:active {
+
+    cursor: -webkit-grabbing;
+    cursor:    -moz-grabbing;
+    cursor:         grabbing;
+}
+
+.tooltipSpecial .tooltip-inner {
+  background-color: rgb(245, 245, 245);
+  color: rgb(59, 59, 59);
+}
+.tooltipSpecial .arrow::before {
+  border-top-color: rgb(219, 221, 233);
+}
+  .dropdown-toggle::after {
+    display:none;
+  }
+  .xyz-nav-btn{
+    border: 1px rgb(252, 182, 177) solid;  
+    transition: background-color 0.2s;
+  }
+  .xyz-nav-btn:hover{
+    box-shadow: 0 5px 15px rgba(255, 251, 0, 0.08);
+    border: 1px rgb(255, 255, 255) solid;  
+    background-color: rgb(226, 226, 226)
+  }
+  
+  .xyz-nav-btn2{
+    border: 1px rgb(252, 182, 177) solid;  
+    transition: background-color 0.2s;
+  }
+  .xyz-nav-btn2:hover{
+    box-shadow: 0 5px 15px rgba(255, 251, 0, 0.08);
+    border: 1px rgb(255, 255, 255) solid;  
+    background-color: rgb(207, 174, 174)
+  }
+  .filter-grey{
+    filter: invert(97%) sepia(0%) saturate(0%) hue-rotate(239deg) brightness(88%) contrast(89%);
+    transition: filter 0.5s;
+  }
+  .filter-grey:hover{
+    filter: invert(36%) sepia(8%) saturate(221%) hue-rotate(315deg) brightness(93%) contrast(90%);
+  }
+
+  .buton-secili{
+    background-color: rgb(209, 214, 241)
+  }
+  input{
+  
+    border-top: 0px;
+    border-left:0px !important;
+    border-right:0px!important;
+    border-bottom:#CED4DA 1px solid;      
+    border-radius: 0% !important;
+    transition: border-bottom 0.3s;
+  
+  }
+  input:focus{
+    border-top: 0px;
+    border-left:0px !important;
+    border-bottom:2px solid rgb(87, 90, 238);
+    box-shadow:0 0px 0 0 rgb(87, 90, 238);
+  }
+
+
+  .xyz-textarea {
+    resize: none;
+    box-sizing: border-box;
+    border-radius: 0;
+    font-size: 17 !important;
+    font-family: sans-serif;
+    width: 100%;
+    height: auto;
+    color: rgb(43, 43, 43);
+    border: 1px solid #e5e5e5;
+    -webkit-transition: .2s ease-in-out;
+    transition: .2s ease-in-out;
+    -webkit-transition-property: color, background-color, border;
+    transition-property: color, background-color, border;
+    padding-left: 1px;
+    background-color: #ffffef;
+    
+   
+  } .trOptimization {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: rgb(255, 255, 255);
+    border: 0px #fff solid;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;      
+  }
+  
+/* 
+.tooltipSpecial .tooltip-inner {
+  background-color: rgb(224, 224, 224);
+  color: rgb(59, 59, 59);
+ 
+}
+.tooltipSpecial .arrow::before {
+  border-top-color: rgb(160, 164, 187);
+} */

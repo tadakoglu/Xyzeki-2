@@ -1,0 +1,214 @@
+<div [hidden]="!invalidLicensePanelOpen"
+        style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+        <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür
+                dileriz;
+                fakat herhangi bir
+                kurumsal veya bireysel geçerli bir lisans bulamadık.</span>
+</div>
+
+<div [hidden]="!getError()" style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243,
+  242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+    <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block"
+        style="font-size:15px">{{getError()}}, Xyzeki 403</span>
+</div>
+
+<div *ngIf="loaded" class="container-fluid">
+        <div class="row">
+                <div class="col ml-0 pl-0">
+                        <h5>Ekip Üyeleri</h5>                       
+                </div>
+                <div class="col-3 float-right">
+                        <div ngbDropdown class="d-inline-block" placement="left"
+                                *ngIf="!isLimited">
+                                <button class="btn filter-grey" id="dropdownMemberOptions" ngbDropdownToggle>
+                                        <img src="../../../assets/more2.svg"
+                                                style="height: 6px;object-fit: cover; cursor: pointer;" />
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownMemberOptions"
+                                        class="rounded-4 bg-white ml-0 mr-0">
+                                        <button (click)="deleteTeam(teamId)" ngbDropdownItem
+                                                class="btn btn-light rounded-0 border-0 xyz-nav-btn2"><img
+                                                        src="../../../assets/cancel.svg"
+                                                        style="width: 18px;object-fit: cover; cursor: pointer; "
+                                                        class="mr-2" />Ekibi Sonlandır</button>
+
+                                </div>
+                        </div>
+                </div>
+
+        </div>
+        <div name="forTM-part1" class="row">
+
+                <table [hidden]="teamMembers()?.length == 0" class="table table-hover">
+                        <thead>
+                                <tr>
+
+                                </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let teamMember of teamMembers() ; index as i">
+                                        <td *ngIf="!isLimited">
+                                                <div
+                                                        *ngIf="memberShared.Username == teamMember?.Username;else tmAvatar">
+                                                        <img *ngIf="memberShared?.account?.getValue()" alt="Avatar"
+                                                                [src]="memberShared?.account?.getValue()?.Avatar"
+                                                                class="md-avatar size-2 rounded-circle">
+                                                </div>
+                                                <ng-template #tmAvatar>
+                                                        <img *ngIf="getMember(teamMember?.Username)"
+                                                                [src]="getMember(teamMember?.Username)?.Avatar"
+                                                                alt="Avatar" class="md-avatar size-2 rounded-circle">
+                                                </ng-template>
+                                        </td>
+                                        <td *ngIf="isLimited">
+                                                <div
+                                                        *ngIf="memberShared.Username == teamMember?.Username;else tmAvatar2">
+                                                        <img *ngIf="memberShared?.account?.getValue()" alt="Avatar"
+                                                                [src]="memberShared?.account?.getValue()?.Avatar"
+                                                                class="md-avatar size-2 rounded-circle">
+                                                </div>
+                                                <ng-template #tmAvatar2>
+                                                        <img *ngIf="getMemberJoined(teamMember?.Username)"
+                                                                [src]="getMemberJoined(teamMember?.Username)?.Avatar"
+                                                                alt="Avatar" class="md-avatar size-2 rounded-circle">
+                                                </ng-template>
+                                        </td>
+                                        <td>
+                                                <div
+                                                        *ngIf="memberShared.Username == teamMember?.Username; else tmDetail">
+                                                        <b>{{ memberShared?.account?.getValue()?.Name + ' ' + memberShared?.account?.getValue()?.Surname}}</b><br>
+                                                        @{{teamMember?.Username}}(Siz)
+                                                </div>
+                                                <ng-template #tmDetail>
+                                                        <b>{{getMember(teamMember?.Username)?.Name + ' ' + getMember(teamMember?.Username)?.Surname}}</b><br>
+                                                        @{{teamMember?.Username}}
+                                                </ng-template>
+
+
+
+
+                                        </td>
+                                        <td>
+
+                                                <div *ngIf="!isLimited && teamMember?.TeamMemberId != undefined"
+                                                        class="float-left">
+                                                        <button *ngIf="teamMember?.TeamMemberId != undefined"
+                                                                (click)="deleteTeamMember(teamMember?.TeamMemberId)"
+                                                                class="btn btn-light" type="button">Ekipdendan
+                                                                çıkar</button>
+                                                </div>
+                                                <div *ngIf="isLimited && teamMember?.Username == memberShared.Username && teamMember?.TeamMemberId"
+                                                        class="float-left">
+                                                        <button (click)="deleteTeamMember(teamMember?.TeamMemberId,true)"
+                                                                class="btn btn-light" type="button">Ekipdendan
+                                                                ayrıl</button>
+                                                </div>
+
+                                        </td>
+                                </tr>
+                        </tbody>
+                </table>
+
+        </div>
+
+        <div name="forTM-part2" class="row pt-1">
+                <p [hidden]="teamMembers().length != 0">
+                        Şu an bu ekipte bir ekip üyeniz bulunmamaktadır.
+                </p>
+        </div>
+
+
+        <ng-container *ngIf="!isLimited" name="TMWR">
+                <div name="forTMWR-part1" class="row bg-light p-1">
+                        <span class="lead mb-1">Ekip Davetiyeleriniz</span>
+                        <table [hidden]="teamMembersWaitingOrRejected()?.length == 0" class="table table-hover table-striped">
+                                <thead>
+                                        <tr>
+
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                        <tr *ngFor="let teamMemberWR of teamMembersWaitingOrRejected() ; index as i">
+                                                <td>
+                                                        <img *ngIf="getMember(teamMemberWR?.Username)"
+                                                                [src]="getMember(teamMemberWR?.Username)?.Avatar"
+                                                                alt="Avatar" class="md-avatar size-2 rounded-circle">
+                                                </td>
+                                                <td>
+                                                        <div
+                                                                *ngIf="memberShared.Username == teamMemberWR?.Username; else tmDetailWR">
+                                                                <b>{{ memberShared?.account?.getValue()?.Name + ' ' + memberShared?.account?.getValue()?.Surname}}</b><br>
+                                                                @{{teamMemberWR?.Username}}(Siz)
+                                                        </div>
+                                                        <ng-template #tmDetailWR>
+                                                                <b>{{getMember(teamMemberWR?.Username)?.Name + ' ' + getMember(teamMemberWR?.Username)?.Surname}}</b><br>
+                                                                @{{teamMemberWR?.Username}}
+                                                        </ng-template>
+                                                </td>
+                                                <td>{{(teamMemberWR?.Status) == null ? 'Cevap bekleniyor': 'Teklif reddedildi' }}
+                                                </td>
+                                                <td>
+                                                        <div class="float-left">
+                                                                <a *ngIf="teamMemberWR?.TeamMemberId != undefined"
+                                                                        (click)="deleteTeamMember(teamMemberWR?.TeamMemberId)"
+                                                                        class="btn btn-light" type="button">Sil</a>
+                                                        </div>
+                                                        <div class="float-left" *ngIf="teamMemberWR?.Status == false">
+                                                                <a *ngIf="teamMemberWR"
+                                                                        (click)="updateTeamMember(teamMemberWR,null)"
+                                                                        class="btn btn-light " type="button">Davetiye'yi
+                                                                        yenile</a>
+                                                        </div>
+
+                                                </td>
+                                        </tr>
+                                </tbody>
+                        </table>
+
+                </div>
+                <div name="forTMWR-part2" class="row bg-light pl-1 pr-1">
+                        <p [hidden]="teamMembersWaitingOrRejected().length != 0">
+                                Şu an bir ekip davetiyeniz bulunmamaktadır. Hemen sizin için bir tane iletelim.
+                        </p>
+                </div>
+                <div name="forTMWR-part3" class="row bg-light pl-1 pr-1">
+                        <a *ngIf="!newTeamMemberPanelWROpen" (click)="toggleTeamMemberWRPanel()"
+                                class="btn btn-dark rounded-0 text-white" style="cursor:pointer">Yeni Davetiye</a>
+                </div>
+                <form name="forTMWR-part4" class="row bg-light pl-1 pr-1" *ngIf="newTeamMemberPanelWROpen"
+                        #teamMemberForm="ngForm" (ngSubmit)="addTeamMemberWR(teamMemberForm)" novalidate>
+                        <div class="input-group">
+                                <!-- 
+                                        submit: It is html default form submit event, it will call underlying method when form gets submitted.
+                                        ngSubmit: Is host binding situated on form element. Basically it prevent default submit event of browser(which can be form post) by returning false. Eventually you can prevent traditional PostBack calls or page reload due to form load. This way you can validate your form & submit it to server by manual ajax from Component code
+                                    -->
+
+                                <div class="input-group-prepend">
+                                        <a class="btn btn-info disabled text-white">Kullanıcı Adı</a>
+                                </div>
+                                <input id="textForFocusTM" autofocus type="text" name="username"
+                                        [(ngModel)]="teamMemberModel.Username" #username="ngModel" required
+                                        class="form-control" placeholder="Kullanıcı adı giriniz" />
+
+                                <div class="input-group-append">
+                                        <button type="submit" class="btn btn-dark text-white text-uppercase">İstek
+                                                Gönder</button>
+                                        <a (click)="toggleTeamMemberWRPanel()"
+                                                class="btn btn-danger rounded-5 text-white text-uppercase">X</a>
+                                </div>
+                        </div>
+                        <div class="container-fluid">
+                                <span class="text-danger row" *ngIf="modelSubmitted && username?.errors?.required">
+                                        Bir kullanıcı adı gerekmektedir.
+                                </span>
+                                <!-- <span class="text-danger row" *ngIf="modelSubmitted && username?.errors?.pattern">
+                                            İsimler için sadece harfler geçerlidir.
+                                        </span> -->
+                        </div>
+                </form>
+        </ng-container>
+
+
+</div>

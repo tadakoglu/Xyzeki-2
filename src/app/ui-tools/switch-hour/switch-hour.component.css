@@ -1,0 +1,56 @@
+
+ul{
+    list-style-type: none;
+    height:  100%;
+    width: 62px;
+    background-color: black;
+    opacity: 0.99;
+    filter: alpha(opacity=99);
+    font-size: 14.5px;
+    margin: 0px;
+    padding-left: 1px;
+    padding-right: 1px;
+  
+}
+ul li{
+    display: block;
+    width: 100%;
+    float:right;
+}
+ul span{
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 1px rgb(0, 0, 0);
+    opacity: 1;
+    filter: alpha(opacity=100);
+    
+}
+.circleBtn{
+    transition: background-color 0.3s;
+    border-radius: 50%;
+    height: 60px;
+    width:  60px;
+    text-align: center;
+    line-height: 60px;
+    display: block;
+    padding:2px;
+    overflow: hidden;
+    background-color: rgba(58, 58, 58, 0.959)
+}
+
+.circleBtn:hover{
+    opacity: 0.95;
+    filter: alpha(opacity=95); 
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: rgb(161, 161, 161)
+} 
+
+
+
+.disable-select {
+    user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+}

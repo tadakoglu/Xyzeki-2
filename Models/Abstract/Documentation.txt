@@ -1,0 +1,5 @@
+Note On Error Codes:
+1) Viewing methods such as MyTeams(), FindTeam(), GetProjects() etc. will RETURN NULL IF there is/are NO any, OTHERWISE the object/objects...
+
+2) Adding and deletion methods mostly will RETURN -1 IF error has occured
+2.1) Otherwise: 0, ID or some Object will be returned

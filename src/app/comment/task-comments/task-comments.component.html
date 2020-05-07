@@ -1,0 +1,126 @@
+<div class="h-100 w-100">
+  <div style="position: relative" [hidden]="!invalidLicensePanelOpen">
+    <div
+      style="border-bottom: 1px solid #CED4DA;  position: absolute; top: 0; left:0; right: 0; 
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+      <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür
+        dileriz;
+        fakat herhangi bir
+        kurumsal, bireysel
+        veya katıldığınız takımların sahiplerine ait geçerli bir lisans bulamadık.</span>
+    </div>
+  </div>
+  <div style="height: 50px">
+    <nav cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle
+      class="sticky-top container-fluid xyz-card-dark draggable">
+      <a mat-dialog-close (click)="closeComments()" class="btn btn-dark text-white rounded-0"
+        style="cursor: pointer">Kapat</a>
+      <button class="btn btn-dark text-white rounded-0 float-right" style="cursor: pointer"
+        disabled>Yorumlar/Notlar</button>
+    </nav>
+    <div class="bg-white h-100">
+      &nbsp;
+    </div>
+  </div>
+
+
+  <div [ngStyle]="{'height.px': innerHeight-250}" class="container-fluid xyz-card-big xyz-card-default bg-light">
+
+    <div *ngIf="taskId" class="sticky-top pl-4 d-flex pr-4 pl-3 pr-3 pb-2 pt-2"
+      style="opacity: 0.97; background-color: rgb(231, 231, 224); border-radius: 50px ; z-index: 100!important">
+      <span class="lead"
+        style="font-size: 16.6px; font-family: Arial, Helvetica, sans-serif; color: rgb(26, 26, 26)!important">{{title}}</span>
+    </div>
+    <div *ngFor=" let comment of comments">
+      <div *ngIf="comment?.Sender == memberShared.Username" class="ben text-right d-flex justify-content-end pr-3">
+        <div class="xyz-card xyz-card-primary" (click)="setColor(comment?.MessageId)"
+          [ngStyle]="{'background-color': (comment?.Color) ? comment?.Color : '#E9F6FE', 'border-radius':'2px'}">
+          <p [ngStyle]="{'color': (comment?.Color == '#E9F6FE' || comment?.Color == null) ? '#000000' : '#ffffff'}">
+            <!-- {{comment?.Message}} -->
+            <a [innerHTML]="comment?.Message | replaceEmojis"></a>
+            <small class="form-text text-muted  font-italic">Siz</small>
+            <small class="form-text text-muted">{{comment?.DateTimeSent | humanizer}},
+              {{comment?.DateTimeSent | date: 'hh:mm aa' }}
+
+            </small>
+            <a *ngIf=(comment?.MessageId) style="cursor: pointer!important;" class="mt-1"
+              (click)="deleteComment(comment?.MessageId); $event.stopPropagation()">
+              <img src="../../../assets/cancel.svg" style="height: 1rem; cursor: pointer;" />
+            </a>
+          </p>
+
+
+        </div>
+
+        <img *ngIf="memberShared?.account?.getValue()?.Avatar" class="avatarim"
+          [src]="memberShared?.account?.getValue()?.Avatar">
+      </div>
+
+      <div *ngIf="comment?.Sender != memberShared.Username"
+        class="karsiTaraf text-right d-flex justify-content-end pr-3">
+        <div class="xyz-card"
+          [ngStyle]="{'background-color': (comment?.Color) ? comment?.Color : '#E9F6FE', 'border-radius':'2px', 'box-shadow': '0 5px 15px rgba(0, 0, 0, .08)'}">
+          <p [ngStyle]="{'color': (comment?.Color == '#E9F6FE' || comment?.Color == null) ? '#000000' : '#ffffff'}">
+            <!-- {{comment?.Message}} -->
+            <a [innerHTML]="comment?.Message | replaceEmojis"></a>
+            
+            <small class="form-text text-muted font-italic text-white">{{getMember(comment?.Sender)?.Name}}
+              {{getMember(comment?.Sender)?.Surname}}</small>
+            <small class="form-text text-muted text-white">{{comment?.DateTimeSent | humanizer}},
+              {{comment?.DateTimeSent | date: 'hh:mm aa' }}
+            </small>
+
+          </p>
+        </div>
+        <img *ngIf="getMember(comment?.Sender)?.Avatar" class="avatarim" [src]="getMember(comment?.Sender)?.Avatar">
+      </div>
+
+    </div>
+    <div *ngIf="comments?.length == 0" class="p-4">
+      <br>
+      <span class="lead" style="font-size:16px"><b>Bu iş için henüz bir yorum veya not bulunmuyor.</b></span><br>
+      <span class="lead" style="font-size:16px"><b>İlk yorum yapan ya da not bırakan siz olun :)</b></span>
+    </div>
+  </div>
+
+  <div class="xyz-card-footer xyz-card-default" style="height: 100px;">
+
+    <form #messageForm="ngForm" (ngSubmit)="addComment(messageForm)" novalidate>
+
+      <textarea [(ngModel)]="this.qtCommentModel.Message" #message="ngModel" autocomplete="off" autocorrect="off"
+        autocapitalize="off" spellcheck="false" #textAreaX *ngIf="kind=='qtComments'" (keydown)="onKeydownEvent($event)"
+        name="message" required class="xyz-textarea border-0" rows="2" placeholder="Yorumunuz ya da notunuz"></textarea>
+
+      <textarea [(ngModel)]="this.ptCommentModel.Message"   #message="ngModel" autocomplete="off" autocorrect="off"
+        autocapitalize="off" spellcheck="false" #textAreaX *ngIf="kind=='ptComments'" (keydown)="onKeydownEvent($event)"
+        name="message" required class="xyz-textarea border-0" rows="2" placeholder="Yorumunuz ya da notunuz"></textarea>
+
+      <div #emojiDP="ngbDropdown" style="width:15%; float: right" class="d-inline-block" ngbDropdown
+        placement="left-bottom">
+        <a ngbTooltip="Bir emoji seçiniz." placement="top" tooltipClass="tooltipSpecial"
+          class="btn btn-light rounded-circle p-1 text-center"
+          style="border:0px solid !important; display: inline-block; ; cursor: pointer" id="emojiDP" ngbDropdownToggle>
+          <img src="../../../assets/emoji/dizzy.png" style="height: 32px; width: 32px;">
+        </a>
+
+        <div ngbDropdownMenu aria-labelledby="emojiDP" class="rounded-4 bg-white ml-0 mr-0 border-0 p-0">
+          <emoji-mart [perLine]="this.innerWidth < 786 ? 7 : 10" [showPreview]="true" [showSingleCategory]="true"
+            [ngClass]="{'hide-emoji-mart-search' : true}" [set]="sheet === '' ? null : sheet"
+            [emojiSize]="(this.innerWidth < 786) ? 24 : 32" [i18n]="{ search: 'Arama yapın', emojilist:'Emoji listesi', notfound: 'Emoji bulunamadı', clear:'Temizle',
+          
+         categories: { search: 'Arama sonuçları', recent: 'Son kullandıklarınız',people:'Gülücükler & İnsanlar',
+         nature:'Hayvanlar & Doğa', foods: 'Yiyecekler & İçecekler', activity:'Rutin', 
+        places:'Seyahat & Gezilecek Yerler',objects:'Nesneler', symbols:'Semboller', flags:'Bayraklar', custom:'Özel'
+},skintones: { '1': 'Varsayılan','2': 'Işık tonlu', '3': 'Orta-ışık tonlu','4': 'Orta tonlu',
+'5': 'Hafif koyu tonlu','6': 'Koyu tonlu'} }" [title]="'Duygu durumunuz ?'"
+            (emojiClick)="addEmoji($event); emojiDP.close();" [backgroundImageFn]="backgroundImageFn"
+            [isNative]="sheet === ''">
+          </emoji-mart>
+        </div>
+        <!-- https://www.npmjs.com/package/@ctrl/ngx-emoji-mart -->
+      </div>
+      <button type="submit" class="btn btn-light btn-send text-uppercase text-white">Gönder [+]</button>
+    </form>
+
+  </div>
+</div>

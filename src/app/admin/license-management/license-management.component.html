@@ -1,0 +1,200 @@
+<nav class="container-fluid xyz-card-dark">
+    <a class="btn btn-dark text-white rounded-0" [routerLink]="[ '/lisanslar' ]"> Geri</a>
+    <button class="btn btn-dark text-white rounded-0 float-right" disabled>Lisans Yönetimi</button>
+</nav>
+<div class="container pt-4 pb-4 bg-white pl-4 pr-4">
+
+    <div class="row">
+        <table *ngIf="allLicenses.length != 0" class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Kullanıcı</th>
+                    <th>Lisans Türü</th>
+
+                    <th>Azure SA Bağlantı Yazı Dizisi</th>
+                    <th>Azure SA Boyutu</th>
+
+                    <th>Başlangıç</th>
+                    <th>Bitiş</th>
+
+                    <th>Ücret</th>
+
+                    <th>Şirket/Şahıs</th>
+
+
+                    <th>Vergi No</th>
+                    <th>Fatura Adr.</th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let license of allLicenses" style="cursor: pointer! important">
+                    <td>
+                        <button (dblclick)="deleteLicense(license?.LicenseId)"
+                            class="btn btn-light rounded-0 border-0"><img src="../../../assets/cancel.svg"
+                                style="width: 10px;height: 10px; cursor: pointer; " /></button>
+
+                    </td>
+                    <td>{{license?.Username}}</td>
+                    <td>{{license?.LicenseType}}</td>
+
+                    <td>{{ (license?.AzureSaConnectionString).substr(0,6)}} ...</td>
+                    <td nowrap *ngIf="this?.license?.LicenseId"><app-azure-sa-occupancy [setLicenseId]="this?.license?.LicenseId">
+                        </app-azure-sa-occupancy>/{{license?.AzureSaSizeInGb}}GB
+                    </td>
+
+                    <td>{{license?.StartDate  | date : 'dd/MM/yyyy'}}</td>
+                    <td>{{license?.EndDate  | date : 'dd/MM/yyyy'}}</td>
+
+                    <td>{{license?.Fee}} {{license?.Currency}}</td>
+
+                    <td>{{license?.Company}} {{license?.NumberOfEmployees}}</td>
+                    <td>{{license?.TaxNumber}}</td>
+                    <td>{{license?.Address}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="row">
+        <p *ngIf="allLicenses.length == 0">
+            Şu an bir lisans bulunmamaktadır. Yeni lisans ekleyin.
+        </p>
+    </div>
+    <div class="row">
+        <a *ngIf="!newLicensePanelOpen" (click)="toggleNewLicensePanel()" class="btn btn-dark rounded-0 text-white"
+            style="cursor:pointer">Yeni Lisans</a>
+    </div>
+    <form class="row" *ngIf="newLicensePanelOpen" #licenseForm="ngForm" (ngSubmit)="addLicense(licenseForm)" novalidate>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Kullanıcı Adı*</a>
+            </div>
+            <input type="text" name="username" [(ngModel)]="licenseModel.Username" #username="ngModel" required
+                class="form-control" placeholder="kullanıcı adını yazınız" />
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Lisans Türü*</a>
+            </div>
+            <input type="text" name="licenseType" [(ngModel)]="licenseModel.LicenseType" #licenseType="ngModel" required
+                class="form-control" placeholder="bireysel ya da kurumsal yazınız" />
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Azure SA Connection String</a>
+            </div>
+            <input type="text" name="azureSaConnectionString" [(ngModel)]="licenseModel.AzureSaConnectionString"
+                #azureSaConnectionString="ngModel" required class="form-control"
+                placeholder="kullanıcın azure depolama hesabı bağlantı yazı dizisini(connection string) giriniz" />
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Azure SA Size(GB)*</a>
+            </div>
+            <input type="number" name="azureSaSizeInGb" [(ngModel)]="licenseModel.AzureSaSizeInGb"
+                #azureSaSizeInGb="ngModel" required class="form-control"
+                placeholder="azure depolama hesabı boyutunu sadece sayı olarak yazınız" />
+        </div>
+
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Lisans Başlangıç Tarihi*</a>
+            </div>
+            <a class="btn btn-light calendar rounded-0"
+                style="cursor: pointer!important;  border-bottom:#CED4DA 0.5px solid;   "
+                (click)="datePickerStart.toggle()">
+                <img src="../../../../assets/calender.png" style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+            </a>
+            <input ngbDatepicker required placeholder="lisans başlangıç tarihi, 2020-01-30 gibi, yıl, ay, gün"
+                autocomplete="off" [showWeekNumbers]="true" placement="bottom" class="form-control"
+                name="datePickerStart" [(ngModel)]="startDate" (ngModelChange)="onSelectStartDate($event)"
+                #datePickerStart="ngbDatepicker" />
+        </div>
+
+
+
+
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Lisans Bitiş Tarihi*</a>
+            </div>
+            <a class="btn btn-light calendar rounded-0"
+                style="cursor: pointer!important;  border-bottom:#CED4DA 0.5px solid;   "
+                (click)="datePickerEnd.toggle()">
+                <img src="../../../../assets/calender.png" style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+            </a>
+            <input ngbDatepicker required placeholder="lisans bitiş tarihi, 2020-01-30 gibi, yıl, ay, gün"
+                autocomplete="off" [showWeekNumbers]="true" placement="bottom" class="form-control" name="datePickerEnd"
+                [(ngModel)]="endDate" (ngModelChange)="onSelectEndDate($event)" #datePickerEnd="ngbDatepicker" />
+        </div>
+
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Toplam Ücret*</a>
+            </div>
+            <input type="number" name="fee" [(ngModel)]="licenseModel.Fee" #fee="ngModel" required class="form-control"
+                placeholder="lisans aralığı bazında kdv dahil toplam alınan hizmet ücreti" />
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Ücretin Birimi*</a>
+            </div>
+            <input type="text" name="currency" [(ngModel)]="licenseModel.Currency" #currency="ngModel" required
+                class="form-control" placeholder="hizmet ücretinin para birimi kısaltmasını yazınız (TL gibi)" />
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Şirket Adı(Veya Şahısın Kendisi)*</a>
+            </div>
+            <input type="text" name="company" [(ngModel)]="licenseModel.Company" #company="ngModel" required
+                class="form-control" placeholder="şirket ismini veya şahıs işletmesi(veya şahıs) adını yazınız" />
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Çalışan Sayısı*</a>
+            </div>
+            <input type="number" name="numberOfEmployees" [(ngModel)]="licenseModel.NumberOfEmployees"
+                #numberOfEmployees="ngModel" required class="form-control"
+                placeholder="toplam çalışan sayısınız yazınız, şahıslar için 1 yazılır." />
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Vergi Numarası</a>
+            </div>
+            <input type="number" name="taxNumber" [(ngModel)]="licenseModel.TaxNumber" #taxNumber="ngModel"
+                class="form-control" placeholder="var ise; vergi numarasını yazınız" />
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <a class="btn btn-dark disabled text-white">Fatura Adresi*</a>
+            </div>
+            <input type="text" name="address" [(ngModel)]="licenseModel.Address" #address="ngModel" class="form-control"
+                placeholder="fatura adresini adresini yazınız" />
+        </div>
+
+
+
+        <div class="input-group mb-1">
+            <button type="submit" class="btn btn-dark rounded-0 text-white text-uppercase">Oluştur</button>
+            <a (click)="toggleNewLicensePanel()" class="btn btn-danger rounded-0 text-white text-uppercase">Kapat</a>
+        </div>
+
+    </form>
+
+</div>

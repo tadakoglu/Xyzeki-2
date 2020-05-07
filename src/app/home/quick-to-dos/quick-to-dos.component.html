@@ -1,0 +1,554 @@
+<div [hidden]="!invalidLicensePanelOpen"
+  style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+  <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür dileriz;
+    fakat herhangi bir
+    kurumsal, bireysel
+    veya katıldığınız takımların sahiplerine ait geçerli bir lisans bulamadık.</span>
+</div>
+
+<div class="card bg-info  corners-new-quick" style="margin-bottom: 2px">
+  <div class="card-body xyz-card-dark pl-1 pt-0 pb-1 pr-1" style="z-index: 1.2; border-top-color: black; ">
+    <form #quickToDoForm="ngForm" (ngSubmit)="saveQuickToDo(quickToDoForm)" novalidate>
+      <div class="input-group w-100 general">
+        <div class="input-group-prepend">
+          <a ngbTooltip="Yenile" placement="bottom" tooltipClass="tooltipSpecial"
+            class="btn btn-outline-secondary text-white rounded-0 gorevYazisi " style="cursor: pointer"
+            (click)="resetModel()">Görev</a>
+          <a ngbTooltip="Yenile" placement="bottom" class="btn btn-outline-secondary text-white rounded-0 gYazisi"
+            style="cursor: pointer" tooltipClass="tooltipSpecial" (click)="resetModel()">G</a>
+        </div>
+
+        <div style="width: 0.01px; height: 0.01px;">
+          <input (dateSelect)="onDateSelection($event)" [startDate]="dateStart" [autoClose]="'outside'"
+            [dayTemplate]="customDay" [footerTemplate]="footer" [markDisabled]="isDisabled"
+            [style]="'background-color:#fefefe'" ngbDatepicker [showWeekNumbers]="true" navigation="arrows"
+            class="form-control" name="datePicker" #datePicker="ngbDatepicker" />
+        </div>
+
+        <div class="input-group-append">
+          <a ngbTooltip="Tarih seçiniz" placement="bottom" tooltipClass="tooltipSpecial" class="btn btn-light calendar"
+            style="cursor: pointer!important" (click)="datePicker.toggle(); ">
+            <img src="../../../../assets/calender.png" style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+          </a>
+          <ng-template #footer>
+            <div class="myCal"
+              style="padding-top:0.1px; padding-bottom:0.5px; padding-left:0.1px;  padding-right:2.1px">
+              <button disabled class="btn w-100 rounded-0 border-0" style="display: none">&nbsp;</button>
+              <input (keydown)=" $event?.keyCode === 13 ? datePicker.close() : ' ' " ngbDatepicker
+                placeholder="Başlangıç tarihi" autocomplete="off" [showWeekNumbers]="true" navigation="arrows"
+                class="form-control w-100" style="margin-left: 1px; margin-bottom: 1px; text-align:center"
+                name="datePickerXS" [(ngModel)]="dateStart" (ngModelChange)="onSelectDateStart($event)"
+                #datePickerXS="ngbDatepicker" />
+
+
+              <div class="timePickerXyz" *ngIf="dateStart">
+                <ngb-timepicker #timePickerStart name="timePickerStart" [(ngModel)]="timeStart"
+                  (ngModelChange)="onSelectTimeStart($event)" [spinners]="false">
+                </ngb-timepicker>
+              </div>
+
+              <button  type="button" [hidden]="!dateStart" (click)="calendarButtonSelect('noDate',true,false); "
+                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px; margin-bottom: 4px;">
+                <mat-icon class="mat-search_icon-close" matRipple>close</mat-icon>
+              </button>
+              <input (keydown)=" $event?.keyCode === 13 ? datePicker.close() : ' ' " ngbDatepicker
+                placeholder="Teslim tarihi" autocomplete="off" [showWeekNumbers]="true" navigation="arrows"
+                class="form-control w-100" style="margin-left: 1px; margin-bottom: 1px; text-align:center"
+                name="datePickerX" [(ngModel)]="date" (ngModelChange)="onSelectDate($event)"
+                #datePickerX="ngbDatepicker" />
+
+              <div class="timePickerXyz" *ngIf="date">
+                <ngb-timepicker #timePickerDeadline name="timePickerDeadline" [(ngModel)]="timeDeadline"
+                  (ngModelChange)="onSelectTimeDeadline($event)" [spinners]="false"></ngb-timepicker>
+
+              </div>
+
+              <button type="button" (click)="calendarButtonSelect('today'); "
+                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Bugün</button>
+              <button type="button" (click)="calendarButtonSelect('tomorrow'); "
+                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Yarın</button>
+              <button type="button" [hidden]="!date" (click)="calendarButtonSelect('noDate'); "
+                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px; margin-bottom: 4px;">
+                <mat-icon class="mat-search_icon-close" matRipple>close</mat-icon>
+              </button>
+
+
+              <!-- time select-->
+
+            </div>
+          </ng-template>
+
+          <ng-template #customDay let-date let-currentMonth="currentMonth" let-focused="focused"
+            let-disabled="disabled">
+            <span [class.focused]="focused" [class.range]="isRange(date)"
+              [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+              (mouseleave)="hoveredDate = null" [ngbTooltip]="isToday(date) ? 'Bugün' : ''"
+              tooltipClass="tooltipSpecial" placement="top" class="custom-day" [class.weekend]="isWeekend(date)"
+              [class.today]="isToday(date)" [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
+              {{ date.day }}
+            </span>
+          </ng-template>
+
+
+        </div>
+
+
+
+        <div class="input-group-append btn-group btn-group-toggle" style="z-index:0.9">
+          <app-assign-autocomplete [normalMode]="true" (assignedToEvent)="onAssignedToEvent($event)">
+          </app-assign-autocomplete>
+        </div>
+
+
+        <input   (keydown)=" $event?.keyCode === 13 ? btnSubmit.click() : ' ' " id="textForFocus" type="text" autocomplete="off" name="quickTask" [(ngModel)]="quickToDoModel.TaskTitle"
+          #quickTask="ngModel" required class="form-control" placeholder="Görev ya da yapılacak iş" />
+
+
+        <!-- <input type="text" name="assignedTo" [(ngModel)]="quickToDoModel.AssignedTo" #assignedTo="ngModel" class="form-control" style="max-width:80px!important"
+          placeholder="Kime?" /> -->
+
+
+
+        <div class="input-group-append">
+          <button #btnSubmit type="submit" class="btn btn-primary text-uppercase rounded-0">Gönder</button>
+        </div>
+
+
+      </div>
+      <!-- <div class="input-group w-100">
+        <span *ngIf="modelSubmitted && quickTask?.errors?.required" class="text-white">
+          Üzgünüz, bir görev tanımı belirtmeniz gerekiyor.
+        </span>
+      </div> -->
+    </form>
+  </div>
+  <div #switchDayArea style="z-index: 999">
+
+    <app-switch-day [quickTodoRepository]="quickTodoRepository"></app-switch-day>
+
+  </div>
+  <div *ngIf="myQuickToDos.length != 0 && (this.dataService?.switchMode == 0 || this.dataService?.switchMode == 1 || dayDateStr == 'ArsivKutusu')" class="card-footer bg-white p-2"
+    style="background-color:rgb(255, 255, 255) !important; ">
+
+    <table *ngIf="memberShared.LoggedIn" class="table table-hover table-sm ">
+      <thead>
+      </thead>
+      <tbody style=" height: 100%; 
+      overflow: scroll;" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollUpDistance]="1.5"
+        [scrollWindow]="true" [infiniteScrollThrottle]="100" (scrolled)="onScrollDown()" cdkDropList
+        id="QuickToDosContainer" (cdkDropListDropped)="drop($event)" class="shadowedTr">
+
+        <tr style="margin-bottom: 4px" (mousedown)="onMouseDown($event)" (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)" cdkDrag
+          [cdkDragData]="quickToDo" *ngFor="let quickToDo  of myQuickToDos" class="draggable trOptimization">
+
+          <td style="float:left" cdkDragHandle class="pr-2 "
+            [ngStyle]="{'background-color': editQuickToDoPanelOpen && quickToDoModelEdit?.TaskId == quickToDo?.TaskId ? 'rgb(230, 231, 231)' : ''}">
+            <a class="p-0 m-0" *ngIf="quickToDo?.Completedby == null && quickToDo?.TaskId != undefined" placement="top"
+              (click)="completeQT(quickToDo)"><img src="../../../assets/squareUnCheck.png"
+                style="width: 1.3rem; height: 1.3rem; cursor: pointer; " />
+            </a>
+            <a class="p-0 m-0" *ngIf="quickToDo?.Completedby != null && quickToDo?.TaskId != undefined" placement="top"
+              (click)="deCompleteQT(quickToDo)"><img src="../../../assets/squareCheck.png"
+                style="width: 1.3rem; height: 1.3rem; cursor: pointer; " />
+            </a><br>
+
+            <div class="mt-1 mobileDate  ">
+              <small ngbTooltip="{{quickToDo?.Finish  |  date:'shortTime' }} saatinde" placement="bottom" tooltipClass="tooltipSpecial">
+                <span>
+                  {{quickToDo?.Completedby && quickToDo?.Finish ? (quickToDo?.Finish | humanizer) : ''}}
+                </span>
+              </small>
+            </div>
+
+            <!-- <img class="moveHead" src="../../../assets/moveHeadX.svg"> -->
+          </td>
+          <td style=" float:left;  width: 100%; cursor: text;         " cdkDragHandle class="pr-2"
+            (click)="toggleEditQuickToDoPanel(quickToDo?.TaskId); "
+            *ngIf="quickToDoModelEdit?.TaskId != quickToDo?.TaskId">
+            
+            <div *ngIf="quickToDo?.Completedby != null && quickToDo?.TaskId != undefined; else taskToDo">
+              <!-- <span ngbTooltip="Yüksek öncelikli görev" tooltipClass="tooltipSpecial" placement="bottom" (click)="$event.stopPropagation();" 
+              class="time-pipe-design p-1 bg-light ml-1 mr-1 text-nowrap" style="cursor: pointer; font-size: 13px; display: inline; ">
+                <img src="../../../assets/flagRed.png"  style="height: 25px;">
+              </span> -->
+              <span style="text-decoration: line-through">{{quickToDo?.TaskTitle}} 
+                <!-- <img src="../../../assets/flagRed.png"  style="height: 25px; margin-right: 5px;"> -->
+              </span>
+             
+              <a *ngIf="quickToDo?.TaskId" class="modernUnderlined ml-2 w-100"
+                (click)="setStatus(quickToDo?.TaskId);$event.stopPropagation();"
+                style="cursor: pointer; font-size: 13px">{{(quickToDo?.Status ? quickToDo?.Status  : 'Bekliyor')}}</a>
+            </div>
+            <ng-template #taskToDo>
+              <!-- <span  ngbTooltip="Yüksek öncelikli görev" tooltipClass="tooltipSpecial" placement="bottom" (click)="$event.stopPropagation();"
+               class="time-pipe-design p-1 bg-light ml-1 mr-1 text-nowrap" style="cursor: pointer; font-size: 13px; display: inline; ">
+                <img src="../../../assets/flagRed.png"  style="height: 25px;">
+              </span> -->
+              <span [ngClass]="{'shineYapiliyor': quickToDo?.Status == 'Yapılıyor',
+                 'shineBitmekuzere': quickToDo?.Status == 'Tamamlanmak Üzere' }">
+                {{quickToDo?.TaskTitle}}  
+              </span> 
+             
+              <a *ngIf="quickToDo?.TaskId" class="modernUnderlined ml-2 w-100"
+                (click)="setStatus(quickToDo?.TaskId);$event.stopPropagation();"
+                style="cursor: pointer; font-size: 13px">{{(quickToDo?.Status ? quickToDo?.Status  : 'Bekliyor')}}</a>
+            </ng-template>
+
+           
+            <!-- <span (click)="$event.stopPropagation();" class="time-pipe-design p-1 bg-light ml-2 mr-2 text-nowrap" style="cursor: pointer; font-size: 13px; ">
+              <img src="../../../assets/flagRed.png"  style="height: 25px;">
+            </span> -->
+           
+          </td>
+
+
+
+          <td style=" float: right;" cdkDragHandle class="pr-2 mobileDate "
+            *ngIf="quickToDoModelEdit?.TaskId != quickToDo?.TaskId">
+
+            <div class="mt-1 mobileDate  ">
+
+
+              <ng-container *ngIf="(quickToDo?.Start | humanizer) != (quickToDo?.Date | humanizer); else sameStartDate">
+                <span style="color: #00a028">{{quickToDo?.Start | humanizer}}
+                  <span *ngIf="quickToDo?.Start |  date:'shortTime' "
+                    class="time-pipe-design">{{quickToDo?.Start |  date:'shortTime' }}</span>
+                  <span *ngIf="quickToDo?.Start  && quickToDo?.Date"> - </span>
+                </span>
+                <div class="clearfix" *ngIf="this.innerWidth < 876"> </div>
+                <span  style="color: #b80000">{{quickToDo?.Date | humanizer}}
+                  <span *ngIf="quickToDo?.Date |  date:'shortTime'"
+                    class="time-pipe-design">{{quickToDo?.Date |  date:'shortTime' }}</span></span>
+                <div class="clearfix" *ngIf="this.innerWidth < 500"> </div>
+              </ng-container>
+              <ng-template #sameStartDate>
+                <span  style="color: rgb(196, 199, 23); ">{{quickToDo?.Start | humanizer}}
+                  <span *ngIf="quickToDo?.Start |  date:'shortTime' "
+                    class="time-pipe-design">{{quickToDo?.Start |  date:'shortTime' }}</span>
+                  <span *ngIf="quickToDo?.Start |  date:'shortTime'  && quickToDo?.Date |  date:'shortTime' "> - </span>
+                  <span class="time-pipe-design"
+                    *ngIf="quickToDo?.Date |  date:'shortTime' ">{{quickToDo?.Date |  date:'shortTime' }}</span>
+                </span>
+              </ng-template>
+
+              <a *ngIf=(quickToDo?.TaskId) class="btn filter-cnote pl-0 pt-0 pb-0 ml-1 mr-1 text-nowrap"
+                style="cursor: pointer!important" (click)="showCommentsDialog(quickToDo?.TaskId,quickToDo?.TaskTitle)">
+                <img src="../../../assets/comment-note.svg" style="height: 1.5rem; cursor: pointer;" />
+                <span>
+                  {{getQTCommentsForCount(quickToDo?.TaskId)?.CommentsCount}}
+                </span>
+              </a>
+              
+
+            </div>
+
+          </td>
+          <td style=" float: right;" cdkDragHandle class="pr-2" *ngIf="quickToDoModelEdit?.TaskId != quickToDo?.TaskId">
+            <div class="wrapOrNot" style="color: rgb(90, 90, 90); text-align: center; "
+              *ngIf="quickToDo?.AssignedTo && memberShared.Username == quickToDo?.AssignedTo">
+              <img *ngIf="memberShared?.account?.getValue()?.Avatar" alt="Avatar"
+                [src]="memberShared?.account?.getValue()?.Avatar" class="md-avatar size-1 rounded-circle ">
+              <span> Ben</span>
+              <!-- <span style="white-space: nowrap;"> Ben, @{{quickToDo?.AssignedTo}}</span> -->
+            </div>
+
+
+            <div class="wrapOrNot" style="color: rgb(94, 94, 94); text-align: center;"
+              *ngIf="quickToDo?.AssignedTo &&  memberShared.Username != quickToDo?.AssignedTo">
+              <img *ngIf="getMember(quickToDo?.AssignedTo)?.Avatar" [src]="getMember(quickToDo?.AssignedTo)?.Avatar"
+                alt="Avatar" class="md-avatar size-1 rounded-circle ">
+              <span> {{getMember(quickToDo?.AssignedTo)?.Name}}</span></div>
+            <!-- <span style="white-space: nowrap;"> {{getMember(quickToDo?.AssignedTo)?.Name}},
+                  @{{quickToDo?.AssignedTo}}</span></span> -->
+            <!-- <p style="color: rgb(165, 165, 165)" *ngIf="memberShared.Username != quickToDo?.AssignedTo">{{getMember(uye?.Username)?.Name}}
+                {{getMember(uye?.Username)?.Surname}}</p> -->
+
+            <!-- {{quickToDo?.AssignedTo}}{{ quickToDo?.AssignedTo!=undefined ? '\'a atandı': ''}} -->
+
+          </td>
+          <td cdkDragHandleDisabled  style=" float: right;"  *ngIf="quickToDoModelEdit?.TaskId != quickToDo?.TaskId"
+            class="toggleClose">
+
+
+            <div ngbDropdown class="d-inline-block" placement="left">
+              <a class="btn filter-grey pl-0 pt-0 pb-0 " style="border:0px solid !important" id="dropdownMemberOptions"
+                ngbDropdownToggle>
+                <img class="moreHead" src="../../../assets/more2.svg" style="height: 7px;object-fit: cover;" />
+              </a>
+              <div ngbDropdownMenu aria-labelledby="dropdownMemberOptions" class="rounded-4 bg-white ml-0 mr-0">
+                <button *ngIf="quickToDo?.TaskId && quickToDoModel?.Archived" (click)="archieve(quickToDo, false)"
+                  ngbDropdownItem class="btn btn-light rounded-0 border-0 xyz-nav-btn">
+                  <img src="../../../assets/arrow-3.png" style="width: 20px;object-fit: cover; cursor: pointer; "
+                    class="mr-2" />Arşivden Çıkart</button>
+
+                <button *ngIf="quickToDo?.TaskId && !quickToDoModel?.Archived" (click)="archieve(quickToDo, true)"
+                  ngbDropdownItem class="btn btn-light rounded-0 border-0 xyz-nav-btn">
+                  <img src="../../../assets/arrow-2.png" style="width: 20px;object-fit: cover; cursor: pointer; "
+                    class="mr-2" />Arşivle </button>
+                <button (click)="toggleEditQuickToDoPanel(quickToDo?.TaskId);" ngbDropdownItem
+                  class="btn btn-light rounded-0 border-0 xyz-nav-btn">
+                  <img src="../../../assets/pencil.png" style="width: 20px;object-fit: cover; cursor: pointer; "
+                    class="mr-2" />Düzenle</button>
+                <hr>
+                <button *ngIf="quickToDo?.TaskId" (click)="delete(quickToDo?.TaskId)" ngbDropdownItem
+                  class="btn btn-light rounded-0 border-0 xyz-nav-btn2"><img src="../../../assets/cancel.svg"
+                    style="width: 18px;object-fit: cover; cursor: pointer; " class="mr-2" />Görevi Sil</button>
+
+              </div>
+            </div>
+          </td>
+
+          <td cdkDragHandleDisabled style="background-color: rgb(230, 231, 231); width: 100%" colspan="4"
+            *ngIf="editQuickToDoPanelOpen && quickToDoModelEdit?.TaskId == quickToDo?.TaskId">
+            <form #quickToDoEditForm="ngForm" (ngSubmit)="editQuickToDo(quickToDoEditForm)" novalidate>
+              <div class="input-group w-100 others">
+                <textarea (keydown)="onKeydownEvent($event)" id="textForFocusEdit" autofocus name="quickTaskEdit"
+                  #quickTaskEdit="ngModel" [(ngModel)]="quickToDoModelEdit.TaskTitle" required
+                  class="xyz-textarea border-0" placeholder="Görevi tanımlar mısınız?" rows="2"> </textarea>
+
+                <!-- Start of Start Date-->
+                <ng-template #footerEditStart>
+                  <div class="myCal"
+                    style="padding-top:0.1px; padding-bottom:0.5px; padding-left:0.1px;  padding-right:2.1px">
+                    <button disabled class="btn w-100 rounded-0 border-0" style="display: none">&nbsp;</button>
+                    <input (keydown)=" $event?.keyCode === 13 ? datePickerEditStart.close() : ' ' " ngbDatepicker
+                      placeholder="Başlangıç tarihi" autocomplete="off" [showWeekNumbers]="true" navigation="arrows"
+                      class="form-control w-100" style="margin-left: 1px; margin-bottom: 1px; text-align:center"
+                      name="datePickerEditStartX" [(ngModel)]="dateEditStart"
+                      (ngModelChange)="onSelectDateEditStart($event)" #datePickerEditStartX="ngbDatepicker" />
+
+                    <div class="timePickerXyz" *ngIf="dateEditStart">
+                      <ngb-timepicker #timePickerEditStart name="timePickerEditStart" [(ngModel)]="timeEditStart"
+                        (ngModelChange)="onSelectTimeEditStart($event)" [spinners]="false"></ngb-timepicker>
+                    </div>
+
+
+                    <button type="button" (click)="calendarButtonSelect('today',false,false); "
+                      class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Bugün</button>
+                    <button type="button" (click)="calendarButtonSelect('tomorrow',false,false); "
+                      class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Yarın</button>
+
+                    <button type="button" [hidden]="!dateEditStart"
+                      (click)="calendarButtonSelect('noDate',false,false); "
+                      class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px; margin-bottom: 4px;">
+                      <mat-icon class="mat-search_icon-close" matRipple>close</mat-icon>
+                    </button>
+                    <!-- time select-->
+
+                  </div>
+                </ng-template>
+                <ng-template #customDayEditStart let-date let-currentMonth="currentMonth" let-selected="selected"
+                  let-disabled="disabled">
+                  <span [ngbTooltip]="isToday(date) ? 'Bugün' : ''" tooltipClass="tooltipSpecial" placement="top"
+                    class="custom-day" [class.weekend]="isWeekend(date)" [class.today]="isToday(date)"
+                    [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
+                    [class.text-muted]="disabled">
+                    {{ date.day }}
+                  </span>
+                </ng-template>
+
+                <a class="btn calendar rounded-0 tarihSeciciBtn"
+                  style="cursor: pointer;  border-bottom:#CED4DA 0.5px solid; background-color: white  "
+                  (click)="datePickerEditStart.toggle()">
+                  <img src="../../../../assets/calender.png" style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+                </a>
+
+                <input style="cursor: pointer" (click)="datePickerEditStart.toggle()" ngbDatepicker
+                  [dayTemplate]="customDayEditStart" [autoClose]="'outside'" [footerTemplate]="footerEditStart"
+                  [markDisabled]="isDisabled" placeholder="Başlangıç tarihi" autocomplete="off" [showWeekNumbers]="true"
+                  placement="bottom" navigation="arrows" class="form-control tarihSecici" name="datePickerEditStart"
+                  [(ngModel)]="dateEditStart" (ngModelChange)="onSelectDateEditStart($event)"
+                  #datePickerEditStart="ngbDatepicker" />
+                <!-- END OF START DATE-->
+
+
+
+
+                <ng-template #footerEdit>
+                  <div class="myCal"
+                    style="padding-top:0.1px; padding-bottom:0.5px; padding-left:0.1px;  padding-right:2.1px">
+                    <button disabled class="btn w-100 rounded-0 border-0" style="display: none">&nbsp;</button>
+                    <input (keydown)=" $event?.keyCode === 13 ? datePickerEdit.close() : ' ' " ngbDatepicker
+                      placeholder="Teslim tarihi" autocomplete="off" [showWeekNumbers]="true" navigation="arrows"
+                      class="form-control w-100" style="margin-left: 1px; margin-bottom: 1px; text-align:center"
+                      name="datePickerEditX" [(ngModel)]="dateEdit" (ngModelChange)="onSelectDateEdit($event)"
+                      #datePickerEditX="ngbDatepicker" />
+
+                    <div class="timePickerXyz" *ngIf="dateEdit">
+                      <ngb-timepicker #timePickerEdit name="timePickerEdit" [(ngModel)]="timeEdit"
+                        (ngModelChange)="onSelectTimeEdit($event)" [spinners]="false"></ngb-timepicker>
+                    </div>
+
+
+
+                    <button type="button" (click)="calendarButtonSelect('today',false);"
+                      class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Bugün</button>
+                    <button type="button" (click)="calendarButtonSelect('tomorrow',false); "
+                      class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Yarın</button>
+                    <button type="button" [hidden]="!dateEdit" (click)="calendarButtonSelect('noDate',false);"
+                      class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px; margin-bottom: 4px;">
+                      <mat-icon class="mat-search_icon-close" matRipple>close</mat-icon>
+                    </button>
+                    <!-- time select-->
+
+                  </div>
+                </ng-template>
+
+                <ng-template #customDayEdit let-date let-currentMonth="currentMonth" let-selected="selected"
+                  let-disabled="disabled">
+                  <span [ngbTooltip]="isToday(date) ? 'Bugün' : ''" tooltipClass="tooltipSpecial" placement="top"
+                    class="custom-day" [class.weekend]="isWeekend(date)" [class.today]="isToday(date)"
+                    [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
+                    [class.text-muted]="disabled">
+                    {{ date.day }}
+                  </span>
+                </ng-template>
+
+                <a class="btn calendar rounded-0 tarihSeciciBtn"
+                  style="cursor: pointer;  border-bottom:#CED4DA 0.5px solid; background-color: white  "
+                  (click)="datePickerEdit.toggle()">
+                  <img src="../../../../assets/calender.png" style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+                </a>
+                <input style="cursor: pointer" [dayTemplate]="customDayEdit" (click)="datePickerEdit.toggle()"
+                  [footerTemplate]="footerEdit" [autoClose]="'outside'" [markDisabled]="isDisabled" ngbDatepicker
+                  placeholder="Teslim tarihi" autocomplete="off" [showWeekNumbers]="true" navigation="arrows"
+                  class="form-control tarihSecici" size="16" name="datePickerEdit" [(ngModel)]="dateEdit"
+                  (ngModelChange)="onSelectDateEdit($event)" #datePickerEdit="ngbDatepicker" />
+
+
+                <div class="input-group-append btn-group btn-group-toggle" style="z-index: inherit 0.1;">
+                  <app-assign-autocomplete #editChild [selectedItemOver]="this.quickToDoModelEdit?.AssignedTo"
+                    [normalMode]='true' (assignedToEventEdit)="onAssignedToEventEdit($event)">
+                  </app-assign-autocomplete>
+                </div>
+                <div class="input-group-append" style="z-index: 0">
+                  <button type="submit" class="btn btn-secondary text-white rounded-0 degistirBtn">Değiştir</button>
+                  <a (click)="toggleEditQuickToDoPanel(quickToDo?.TaskId)"
+                    class="btn btn-danger rounded-0 text-white text-uppercase kapatBtn" style="cursor: pointer">X</a>
+                </div>
+              </div>
+
+            </form>
+
+
+          </td>
+          <!-- <td>
+              <img  class="moveHead" width="15px" src="../../../assets/moveHead1.svg" />
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <div cdkDropList id="ArsivKutusu" (cdkDropListDropped)="dropArc($event)" #arsivSurukleAlani
+        class="arsivSurukleAlani grabbingArea">
+        <span> <img style="height:32px; " class="pl-0 mr-1 " src="../../../assets/arc.svg">Arşivlemek için buraya
+          bırakabilirsiniz</span>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<div class="card corners-new border-bottom-0" *ngIf="dayDateStr != 'ArsivKutusu' && (this.dataService?.switchMode != 1)">
+  <div class="card-header text-white pl-2 pr-2 pb-2"
+    style="background-color:rgb(179, 179, 179) !important; padding-top: 13px">
+    <span class="font-weight-bolder" style="text-shadow: 1px 1px 2px cadetblue;">Ekip Gelen Kutusu
+    </span>
+    <!-- <button class="close" [routerLink]="[ '/isler' ]"><span class="text-light">&times;</span></button> -->
+  </div>
+  <div class="card-body  bg-white " *ngIf="assignedToMeUnComplete?.length == 0">
+    <p *ngIf="dayDateStr == 'Gecikmiş'">
+      Şu an için henüz başlangıcı geçmiş ve hala başlamamış veya teslim tarihi geçmiş bir görev bulamadık.
+    </p>
+    <p *ngIf="dayDateStr == 'Tümü'">
+      Şu an için bir göreviniz bulunmamaktadır.
+    </p>
+    <p *ngIf="dayDateStr == 'Gün'">
+      Şu an için bu güne ait bir görev bulamadık.
+    </p>
+  </div>
+
+  <div class="card-body bg-white p-2 " *ngIf="assignedToMeUnComplete?.length != 0"
+    style="max-height: 500px; overflow-y: scroll; overflow-y : auto; overflow-x:hidden;">
+
+    <table *ngIf="memberShared.LoggedIn" class="table table-hover table-sm gizliHeader2">
+      <thead>
+        <th scope="col"></th>
+        <th scope="col">Görev</th>
+    
+      </thead>
+      <tbody class="shadowedTr">
+
+        <tr style="margin-bottom: 4px" class="exclude" role="button" *ngFor="let quickToDo  of assignedToMeUnComplete"
+          style="width: 100%;">
+          <td *ngIf="quickToDo?.Completedby == null && quickToDo?.TaskId != undefined">
+            <a ngbTooltip="Tamamlandı" (click)="completeQT(quickToDo)"><img src="../../../assets/squareUnCheck.png"
+                style="width: 1.3rem; height: 1.3rem; cursor: pointer; " />
+            </a>
+          </td>
+          <td class="w-100" *ngIf="quickToDo?.Completedby != null && quickToDo?.TaskId != undefined">
+            <a ngbTooltip="İptal et" (click)="completeQT(quickToDo)"><img src="../../../assets/squareCheck.png"
+                style="width: 1.3rem; height: 1.3rem; cursor: pointer; " />
+            </a>
+          </td>
+
+          <td style="width: 100%;">
+            <!-- <span  ngbTooltip="Yüksek öncelikli görev" tooltipClass="tooltipSpecial" placement="bottom" (click)="$event.stopPropagation();"
+            class="time-pipe-design p-1 bg-light ml-1 mr-1 text-nowrap" style="cursor: pointer; font-size: 13px; display: inline; ">
+             <img src="../../../assets/flagRed.png"  style="height: 25px;">
+           </span> -->
+          <span [ngClass]="{'shineYapiliyor': quickToDo?.Status == 'Yapılıyor',
+            'shineBitmekuzere': quickToDo?.Status == 'Tamamlanmak Üzere' }">{{quickToDo?.TaskTitle}}</span>
+            <a *ngIf="quickToDo" class="modernUnderlined ml-2 w-100" (click)="setStatus(quickToDo?.TaskId,'assigned');"
+              style="cursor: pointer; font-size: 13px">{{(quickToDo?.Status ? quickToDo?.Status  : 'Bekliyor')}}</a>
+          </td>
+
+          <td>
+            <div class="mt-1 mobileDate  ">
+
+                <ng-container *ngIf="(quickToDo?.Start | humanizer) != (quickToDo?.Date | humanizer); else sameStartDate">
+                    <span style="color: #00a028">{{quickToDo?.Start | humanizer}}
+                      <span *ngIf="quickToDo?.Start |  date:'shortTime' "
+                        class="time-pipe-design">{{quickToDo?.Start |  date:'shortTime' }}</span>
+                      <span *ngIf="quickToDo?.Start  && quickToDo?.Date"> - </span>
+                    </span>
+                    <div class="clearfix" *ngIf="this.innerWidth < 876"> </div>
+                    <span style="color: #b80000">{{quickToDo?.Date | humanizer}}
+                      <span *ngIf="quickToDo?.Date |  date:'shortTime'"
+                        class="time-pipe-design">{{quickToDo?.Date |  date:'shortTime' }}</span></span>
+                    <div class="clearfix" *ngIf="this.innerWidth < 500"> </div>
+                  </ng-container>
+                  <ng-template #sameStartDate>
+                    <span style="color: rgb(196, 199, 23); ">{{quickToDo?.Start | humanizer}}
+                      <span *ngIf="quickToDo?.Start |  date:'shortTime' "
+                        class="time-pipe-design">{{quickToDo?.Start |  date:'shortTime' }}</span>
+                      <span *ngIf="quickToDo?.Start |  date:'shortTime'  && quickToDo?.Date |  date:'shortTime' "> - </span>
+                      <span class="time-pipe-design"
+                        *ngIf="quickToDo?.Date |  date:'shortTime' ">{{quickToDo?.Date |  date:'shortTime' }}</span>
+                    </span>
+                  </ng-template>
+
+
+
+              <a *ngIf=(quickToDo?.TaskId) class="btn filter-cnote pl-0 pt-0 pb-0 ml-1 mr-1 text-nowrap"
+                style="cursor: pointer!important" (click)="showCommentsDialog(quickToDo?.TaskId,quickToDo?.TaskTitle)">
+                <img src="../../../assets/comment-note.svg" style="height: 1.5rem; cursor: pointer;" />
+                <span>
+                  {{getQTCommentsForCount(quickToDo?.TaskId)?.CommentsCount}}
+                </span>
+              </a>
+            </div>
+          </td>
+
+
+
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+</div>

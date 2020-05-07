@@ -1,0 +1,99 @@
+INTEGRATION OF ASP.NET CORE AND ANGULAR IN SAME PROJECT
+THIS PROJECT WILL USE ASP.NET CORE TO SERVE ANGULAR FILES. ALL REQUESTS ARE MANAGED IN ASP.NET CORE MIDDLEWARES.
+1) Add a folder(let's say XXX) to the Workspace, (Add folder to Workspace option in VS Code File Menu)
+2) Run "dotnet new webapi" in this folder(XXX)
+3) Run "CD ../" to get out of Workspace so, to go back up the the folder.
+4) Run "ng new XXX", that will put the Angular files in our XXX folder. We did "CD ../" because this ng command creates a folder...
+5) Set "outputPath": "wwwroot" in angular.json file. We want Angular to save build artifacts there.
+6) Open ASP.NET Core csproj file and add "<TypescriptCompileBlocked>true</TypescriptCompileBlocked> " 
+inside <PropertyGroup></PropertyGroup> tags. This will prevent Visual Studio compiling TypeScript files with C# as we will use ASP.NET Core as main server.
+This is optional for VS Code.
+7) In Configure method of Startup.cs, add following on top to redirect Angular Routes from ASP.NET Core request middleware to Angular to process.
+
+
+app.Use(async (context, next) =>
+            {
+                await next.Invoke();
+
+                if (context.Response.StatusCode == 404 && !context.Request.Path.Value.Contains("/api"))
+                {
+                    context.Request.Path = new PathString("/index.html"); // PathString is Microsoft.AspNetCore.Http namespace.
+                    await next.Invoke();
+                }
+            });
+
+8)Add those below App.UseMvc(); in Startup.cs
+app.UseDefaultFiles(); //REQUIRED FOR PROCESSING ANGULAR IN WWWROOT/index.html
+app.UseStaticFiles(); //REQUIRED FOR PROCESSING ANGULAR IN WWWROOT
+
+9) Setup Build and Debug Pipeline of entire project as .NET Core (With start debugging for the first time)
+and then open launch.json in .vscode folder. 
+Add following configurations on top of  "name": ".NET Core Launch (web)" configuration in configurations array.
+	  {
+            "name": "ng serve",
+            "type": "chrome",
+            "request": "launch",
+            "preLaunchTask": "npm: start",
+            "url": "http://localhost:4200/#",
+            "webRoot": "${workspaceFolder}"
+          },
+          {
+            "name": "ng test",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:9876/debug.html",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+              "/./*": "${webRoot}/*",
+              "/src/*": "${webRoot}/*",
+              "/*": "*",
+              "/./~/*": "${webRoot}/node_modules/*"
+            }
+          },
+          {
+            "name": "ng e2e",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/protractor/bin/protractor",
+            "protocol": "inspector",
+            "args": ["${workspaceFolder}/e2e/protractor.conf.js"]
+          },
+
+10) Now open tasks.json in .vscode folder. 
+Add following tasks on top of "label": "build" task in the tasks array.
+{
+                "type": "npm",
+                "script": "start",
+                "isBackground": true,
+                "presentation": {
+                  "focus": true,
+                  "panel": "dedicated"
+                },
+                "group": {
+                  "kind": "build",
+                  "isDefault": true
+                },
+                "problemMatcher": {
+                  "owner": "typescript",
+                  "source": "ts",
+                  "applyTo": "closedDocuments",
+                  "fileLocation": [
+                    "relative",
+                    "${cwd}"
+                  ],
+                  "pattern": "$tsc",
+                  "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                      "regexp": "(.*?)"
+                    },
+                    "endsPattern": {
+                      "regexp": "Compiled |Failed to compile."
+                    }
+                  }
+                }
+              },
+10) Your build and serve pipelines is ready for both ASP.NET CORE and Angular. You can select them in VS Code debug options.
+You can start two web servers (Front-end and Back-end) at the same time. Or Just use ASP.NET Core server to serve both API and Angular files.
+This project was intended to use ASP.NET Core as the server of both.

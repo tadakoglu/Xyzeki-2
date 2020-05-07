@@ -1,0 +1,12 @@
+Some authentication and security filters will not be added in the software for now.
+
+#TODO 1
+* A JWT User only can edit/delete his/her own Teams, Projects, Teams' Members,Project's ToDos,
+Project's Teams, Project's Messages
+Use filters or policies(Authorize(Policy="policyXXX"))) for that, or some kind of method simply such as;
+    var member = User.Identity.Name; // For security. From Claim(ClaimTypes.Name, Username) in JWT
+    if(member!= username)
+    return Unauthorized(); //This can be achieved with Authorize(Policy="") or Filters.
+#TODO 2
+Also, for Project's Teams,
+*A JWT User only can add "his/her own" Teams to his/her projects. Not other indivials teams!

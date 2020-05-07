@@ -1,0 +1,171 @@
+<!-- UPDATE -->
+<ng-container *ngIf="normalMode">
+  <div ngbDropdown #acilirListem="ngbDropdown" class="d-inline-block m-0 p-0">
+    <div class="atama-bolgesi-2 m-0 p-0 bolge-width-limited">
+      <input class="form-control btn btn-light minimizeInMobile" autocomplete="off" readonly type="text"
+        (click)="focusInput()" ngbDropdownToggle placeholder="Ata" #inputToSearch>
+
+    </div>
+    <div ngbDropdownMenu  class="m-0 p-0 border-0  bg-dark dp-menu">
+      <div class="acilirListe m-0 p-0">
+        <div class="atama-bolgesi pl-2 pr-2">
+          <div class="bg-dark" style="height: 1px">
+          </div>
+          <input #dropdownTitle type="text" (input)="onSearchEvent($event)" class="form-control aramaKutusu "
+            autocomplete="off" placeholder="Kime atayalım?" #inputToFocus>
+          <button *ngIf="inputToSearch.value" class="btn btn-light btn-sm rounded-circle border-0 m-1"
+            style=" position: absolute; right: 0px;" (click)="secimIptal();">x</button>
+        </div>
+        <li class="disabled" (click)="secimIptal();">
+          <span #dropdownDetail>Lütfen bir ekip üyesi seçiniz.</span>
+        </li>
+        <div class="scrollable">
+          <ul *ngFor="let team of myTeams" [hidden]="myTeamMembers(team?.TeamId)?.length == 0" class="m-0 p-0">
+            <li class="pl-2 disabled2">
+              <span>{{team?.TeamName}}</span>
+            </li>
+            <li *ngFor="let uye of myTeamMembers(team?.TeamId)"
+              (click)="selectTeamMember(uye?.Username); acilirListem.close();"
+              [ngClass]="{'liSelected': uye?.Username== selectedTM}">
+
+              <div style="display: inline-block">
+                <img *ngIf="memberShared?.Username == uye?.Username && memberShared?.account?.getValue()" alt="Avatar"
+                  [src]="memberShared?.account?.getValue()?.Avatar" class="md-avatar size-1 rounded-circle ">
+
+                <img *ngIf="memberShared?.Username != uye?.Username && getMember(uye?.Username)"
+                  [src]="getMember(uye?.Username)?.Avatar" alt="Avatar" class="md-avatar size-1 rounded-circle ">
+              </div>
+              <div style="display: inline-block">
+                <span style="color: rgb(177, 177, 177)">@{{uye?.Username}}</span>
+                <p *ngIf="memberShared?.Username == uye?.Username">
+                  {{memberShared?.account?.getValue()?.Name}}
+                  {{memberShared?.account?.getValue()?.Surname}}</p>
+                <p *ngIf="memberShared?.Username != uye?.Username">
+                  {{getMember(uye?.Username)?.Name}}
+                  {{getMember(uye?.Username)?.Surname}}</p>
+
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="privateTalkMode">
+  <div ngbDropdown #acilirListem="ngbDropdown" class="d-inline-block m-0 p-0">
+    <div class="atama-bolgesi-2 m-0 p-0">
+      <input class="form-control btn btn-light" autocomplete="off" readonly type="text" 
+        (click)="focusInput()" [size]="(inputToSearch?.value?.length ? inputToSearch.value.length : 10)"
+        ngbDropdownToggle placeholder="{{ extraPrivateTalkMode ? '+': 'Ekip/Kişi (+)' }}" #inputToSearch>
+    </div>
+    <div ngbDropdownMenu  class="m-0 p-0 border-0  bg-dark dp-menu">
+      <div class="acilirListe m-0 p-0">
+        <div class="atama-bolgesi pl-2 pr-2">
+          <!-- <div class="bg-dark" style="height: 1px">
+          </div> -->
+          <input #dropdownTitle type="text" (input)="onSearchEvent($event)" class="form-control aramaKutusu "
+            autocomplete="off" placeholder="Ekip veya kişi" #inputToFocus>
+          <button *ngIf="inputToSearch.value" class="btn btn-light btn-sm rounded-circle border-0 m-1"
+            style=" position: absolute; right: 0px; " (click)="secimIptal();">x</button>
+        </div>
+        <li class="disabled" (click)="secimIptal();">
+          <span #dropdownDetail>Lütfen bir ekip veya ekip üyesi seçiniz.</span>
+        </li>
+        <div class="scrollable">
+          <ul *ngFor="let team of allTeamsPT" [hidden]="allTeamMembersPT(team?.TeamId)?.length == 0" class="m-0 p-0">
+            <li (click)="selectTeam(team?.TeamId);  acilirListem.close();" class="pl-2">
+              <div style="display: inline-block">
+                <img src="../../../assets/logo.svg" alt="Avatar" class="avatarim">
+              </div>
+              <div style="display: inline-block">
+                <span>{{team?.TeamName}}</span>
+              </div>
+            </li>
+            <li [hidden]="uye.Username==memberShared.Username" *ngFor="let uye of allTeamMembersPT(team?.TeamId)"
+              (click)="selectTeamMember(uye?.Username); acilirListem.close();"
+              [ngClass]="{'liSelected': uye?.Username== selectedTM}">
+
+              <div style="display: inline-block">
+                <img *ngIf="memberShared?.Username == uye?.Username && memberShared?.account?.getValue()" alt="Avatar"
+                  [src]="memberShared?.account?.getValue()?.Avatar" class="md-avatar size-1 rounded-circle ">
+
+                <img *ngIf="memberShared?.Username != uye?.Username && getMemberPT(uye?.Username)"
+                  [src]="getMemberPT(uye?.Username)?.Avatar" alt="Avatar" class="md-avatar size-1 rounded-circle ">
+              </div>
+              <div style="display: inline-block">
+                <span style="color: rgb(177, 177, 177)">@{{uye?.Username}}</span>
+                <p *ngIf="memberShared?.Username == uye?.Username">
+                  {{memberShared?.account?.getValue()?.Name}}
+                  {{memberShared?.account?.getValue()?.Surname}}</p>
+                <p *ngIf="memberShared?.Username != uye?.Username">
+                  {{getMemberPT(uye?.Username)?.Name}}
+                  {{getMemberPT(uye?.Username)?.Surname}}</p>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="projectManagerMode">
+  <div ngbDropdown #acilirListem="ngbDropdown" class="d-inline-block m-0 p-0">
+    <div class="atama-bolgesi-2 m-0 p-0 bolge-width-limited">
+      <input class="form-control btn btn-light" autocomplete="off" readonly type="text" 
+        (click)="focusInput()" ngbDropdownToggle placeholder="Ata" #inputToSearch>
+    </div>
+    <div ngbDropdownMenu class="m-0 p-0 border-0  bg-dark dp-menu">
+      <div class="acilirListe m-0 p-0">
+        <div class="atama-bolgesi pl-2 pr-2 ">
+          <!-- <div class="bg-dark" style="height: 1px">
+          </div> -->
+          <input #dropdownTitle type="text" (input)="onSearchEvent($event)" class="form-control aramaKutusu "
+            autocomplete="off" placeholder="Kime atayalım?" #inputToFocus>
+          <button *ngIf="inputToSearch.value" class="btn btn-light btn-sm rounded-circle border-0 m-1"
+            style=" position: absolute; right: 0px; " (click)="secimIptal();">x</button>
+        </div>
+        <li class="disabled" (click)="secimIptal();">
+          <span #dropdownDetail>Lütfen bir ekip üyesi seçiniz.</span>
+        </li>
+        <div class="scrollable">
+          <ul *ngFor="let team of allTeamsPT" [hidden]="allTeamMembersPT(team?.TeamId)?.length == 0" class="m-0 p-0">
+            <li class="pl-2 disabled2">
+              <span>{{team?.TeamName}}</span>
+            </li>
+
+            <li *ngFor="let uye of allTeamMembersPT(team?.TeamId)"
+              (click)="selectTeamMember(uye?.Username); acilirListem.close();"
+              [ngClass]="{'liSelected': uye?.Username== selectedTM}">
+
+              <div style="display: inline-block">
+                <img *ngIf="memberShared?.Username == uye?.Username && memberShared?.account?.getValue()" alt="Avatar"
+                  [src]="memberShared?.account?.getValue()?.Avatar" class="md-avatar size-1 rounded-circle ">
+
+                <img *ngIf="memberShared?.Username != uye?.Username && getMemberPT(uye?.Username)"
+                  [src]="getMemberPT(uye?.Username)?.Avatar" alt="Avatar" class="md-avatar size-1 rounded-circle ">
+              </div>
+              <div style="display: inline-block">
+                <span style="color: rgb(177, 177, 177)">@{{uye?.Username}}</span>
+                <p *ngIf="memberShared?.Username == uye?.Username">
+                  {{memberShared?.account?.getValue()?.Name}}
+                  {{memberShared?.account?.getValue()?.Surname}}</p>
+                <p *ngIf="memberShared?.Username != uye?.Username">
+                  {{getMemberPT(uye?.Username)?.Name}}
+                  {{getMemberPT(uye?.Username)?.Surname}}</p>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ng-container>

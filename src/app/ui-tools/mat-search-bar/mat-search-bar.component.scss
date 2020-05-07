@@ -1,0 +1,74 @@
+// @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "~material-design-icons/iconfont/material-icons.css";
+// :host {
+//   position: relative;
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: flex-start;
+//   width: 24px;
+//   height: 24px;
+// 
+material-icons.color_dark input{
+  color: black;
+}
+.material-icons.color_dark { color: rgb(37, 37, 37); }
+
+.mat-focused .placeholder {
+  font-size: 18px;
+}
+
+.tooltipSpecial .tooltip-inner {
+  background-color: rgb(224, 224, 224);
+  color: rgb(59, 59, 59);
+  /* font-size: 125%; */
+}
+.tooltipSpecial .arrow::before {
+  border-top-color: rgb(160, 164, 187);
+}
+.mat-search_field {
+  
+  z-index: 1;
+  padding: 0 0 0 24px;
+  height: 60px;
+}
+
+.mat-search_icons {
+  // display: block;
+  // margin: 0;
+  // padding: 0;
+  height: 60px;
+  line-height: 60px;
+  // top: 0;
+  // left: 0;
+  &:hover {
+    cursor: pointer;
+  }
+  .mat-search_icon-close,
+  .mat-search_icon-search {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    // top: 0;
+    left: 0;
+    z-index: 2;
+    border-radius: 50%;
+    height: 60px;
+    line-height: 60px;
+    font-size: 25px;
+  }
+  .mat-search_icon-close,
+  &.mat-search_icons--active .mat-search_icon-search {
+    opacity: 0;
+    position: absolute;
+    // top: 0;
+    left: 0;
+    transform: rotate(225deg);
+  }
+  &.mat-search_icons--active .mat-search_icon-close {
+    opacity: 1;
+    z-index: 3;
+    visibility: visible;
+    transform: rotate(360deg);
+  }
+}
+

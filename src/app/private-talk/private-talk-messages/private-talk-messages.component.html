@@ -1,0 +1,246 @@
+<div [hidden]="!invalidLicensePanelOpen"
+  style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+  <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür
+    dileriz;
+    fakat herhangi bir
+    kurumsal, bireysel
+    veya katıldığınız takımların sahiplerine ait geçerli bir lisans bulamadık.</span>
+</div>
+<nav *ngIf="innerWidth < 992" class="container-fluid navbar shadow-sm sticky-top navbar-light bg-light pb-0 pt-0"
+  style="height:3rem!important">
+
+  <a class="btn btn-light rounded-0 border-0 xyz-nav-btn " [routerLink]="[ '/is-konusmalari' ]">Geri</a>
+  <a class="navbar-brand" [routerLink]="[ '/isler' ]">
+    <img src="../../../assets/logo.svg" style="height: 25px; font-family: Arial, Helvetica, sans-serif "> Xyzeki
+  </a>
+  <div class="float-right">
+    <app-nav-profile></app-nav-profile>
+  </div>
+</nav>
+
+<div *ngIf="!editPrivateTalkPanelOpen">
+  <div #scrollMe [scrollTop]="scrollMe.scrollHeight " infiniteScroll [infiniteScrollDistance]="2"
+    [infiniteScrollUpDistance]="1.5" [scrollWindow]="false" [infiniteScrollThrottle]="100" (scrolled)="onScrollDown()"
+    (scrolledUp)="onScrollUp()" [ngStyle]="{'height.px': (innerWidth>=577) ? innerHeight-167: innerHeight-103}"
+    class="container-fluid xyz-card-big xyz-card-default bg-light">
+    <div *ngIf="privateTalkId!=undefined && privateTalkId!=0" class="sticky-top pl-2 pr-1 xyz-card-primary pt-1 bg-dark"
+      style="z-index: 100!important">
+      <div style="display: inline-block" *ngIf="privateTalk()?.Sender == memberShared?.Username && this.privateTalkId"
+        class="text-white ">
+        <!-- <app-receivers *ngIf="innerWidth < 992" [whiteColor]="true" [outgoing]="true"
+          [setPrivateTalkId]="this.privateTalkId">
+        </app-receivers> -->
+
+        <div class="xyz-ul">
+          <ul appLiAnimate>
+            <!-- TEAM RECEIVERS-->
+
+            <li *ngFor="let pttr of getTeamReceivers(privateTalk()?.PrivateTalkId); index as i">
+              <div style="display: inline-block">
+                <img src="../../../assets/logo.svg" style="background-color: white" class="avatarim">
+              </div>
+              <div style="display: inline-block">
+                <span style="color: rgb(255, 254, 254); padding: 0; margin:0">&nbsp;
+                  {{ getTeamPT(pttr?.TeamId)?.TeamName}}
+                </span>
+
+              </div>
+            </li>
+
+            <li *ngFor="let ptr of getReceivers(privateTalk()?.PrivateTalkId); index as i">
+              <div style="display: inline-block">
+                <img *ngIf="getMember(ptr?.Receiver)?.Avatar" [src]="getMember(ptr?.Receiver)?.Avatar" alt="Avatar"
+                  class="avatarim">
+              </div>
+              <div style="display: inline-block">
+                <span style="color: rgb(255, 254, 254); padding: 0; margin:0">&nbsp;
+                  {{getMember(ptr?.Receiver)?.Name}}
+                  {{getMember(ptr?.Receiver)?.Surname}}</span>
+              </div>
+            </li>
+
+
+          </ul>
+        </div>
+
+        <div class="clear-fix" *ngIf="innerWidth < 992"></div>
+        <div class="w-100 text-left" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px">
+          #<b>{{privateTalk()?.Thread}} </b>
+          <div *ngIf="privateTalk()?.Sender == memberShared?.Username && privateTalk()?.PrivateTalkId"
+            class="d-inline-block" ngbDropdown placement="right-top">
+            <a class="btn filter-grey" style="border:0px solid !important; line-height: 15px; display: inline-block"
+              id="dropdownMemberOptions" ngbDropdownToggle>
+              <img class="moreHead mb-1" src="../../../assets/more2.svg" style="height: 5px;object-fit: cover;" />
+            </a>
+
+            <div ngbDropdownMenu aria-labelledby="dropdownMemberOptions" class="rounded-4 bg-white ml-0 mr-0">
+              <button (click)="toggleEditPrivateTalkPanel(privateTalk()?.PrivateTalkId)" ngbDropdownItem
+                class="btn btn-light rounded-0 border-0 xyz-nav-btn"><img src="../../../assets/group.svg"
+                  style="width: 17px;object-fit: cover; cursor: pointer;" />&nbsp;Alıcıları Düzenle</button>
+              <hr>
+              <button (click)="deletePrivateTalk(privateTalkId)" ngbDropdownItem
+                class="btn btn-light rounded-0 border-0 xyz-nav-btn2"><img src="../../../assets/cancel.svg"
+                  style="width: 15px;object-fit: cover; cursor: pointer;" />&nbsp;İş Konuşmasını
+                Sonlandır</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="text-white " style="display: inline-block"
+        *ngIf="privateTalk()?.Sender != memberShared?.Username && this.privateTalkId">
+        <app-receivers [whiteColor]="true" [incoming]="true" [sender]="privateTalk()?.Sender"
+          [setPrivateTalkId]="this.privateTalkId">
+        </app-receivers>
+        <div class="clear-fix"></div>
+        <span class="w-100 text-left"
+          style="font-family: Arial, Helvetica, sans-serif; font-size: 14px">#<b>{{privateTalk()?.Thread}}</b></span>
+      </div>
+      <div class="clearfix"></div>
+
+    </div>
+    <div class="clearfix">&nbsp;</div>
+
+    <div class="mb-2" *ngFor="let message of privateTalkMessages | sortByDateTime: 'DateTimeSent': 'asc'">
+
+      <div *ngIf="message?.Sender == memberShared.Username" class="ben text-left d-flex justify-content-start pl-2">
+        <div class="text-center"><img *ngIf="memberShared?.account?.getValue()?.Avatar" class="avatarim"
+            [src]="memberShared?.account?.getValue()?.Avatar"></div>
+        <div class="xyz-card xyz-card-primary">
+          <p> <b>{{memberShared?.account?.getValue()?.Name + ' ' + memberShared?.account?.getValue()?.Surname}}</b>
+            <span class="text-muted pl-1 pr-1" style="font-size: 18px">&#183;</span>
+            <small class="text-muted">{{message?.DateTimeSent | humanizer}},
+              {{message?.DateTimeSent | date: 'hh:mm aa' }}</small>
+            <br>
+            
+         
+           <a [innerHTML]="message?.Message | replaceEmojis"></a>
+                <!-- {{message?.Message }} -->
+          </p>
+          <!-- <div [innerHTML]="message?.Message | replaceEmojis:'emojione'"></div> -->
+        </div>
+
+      </div>
+
+      <div *ngIf="message?.Sender != memberShared.Username"
+        class="karsiTaraf text-left d-flex justify-content-start pl-2">
+        <div class="text-center">
+          <img *ngIf="getMember(message?.Sender)?.Avatar" class="avatarim" [src]="getMember(message?.Sender)?.Avatar">
+        </div>
+        <div class="xyz-card xyz-card-default">
+          <p> <b>{{getMember(message?.Sender)?.Name}} {{getMember(message?.Sender)?.Surname}}</b>
+            <span class="text-muted pl-1 pr-1" style="font-size: 18px">&#183;</span>
+            <small class="text-muted">{{message?.DateTimeSent | humanizer}},
+              {{message?.DateTimeSent | date: 'hh:mm aa' }}</small>
+            <br>
+            <!-- {{message?.Message}} -->
+            <a [innerHTML]="message?.Message | replaceEmojis"></a>
+
+          </p>
+        </div>
+      </div>
+
+    </div>
+    <div *ngIf="typingSignalMessage">
+      <div class="karsiTaraf text-left d-flex justify-content-start pl-2 mb-2">
+        <div class="text-center">
+          <img *ngIf="getMember(typingSignalMessage?.Sender)?.Avatar" class="avatarim"
+            [src]="getMember(typingSignalMessage?.Sender)?.Avatar">
+        </div>
+        <div class="xyz-card xyz-card-default">
+          <p class="mesajYaziyor"> <b>{{getMember(typingSignalMessage?.Sender)?.Name}}
+              {{getMember(typingSignalMessage?.Sender)?.Surname}}</b>
+            <br>
+            <i></i>
+            <i></i>
+            <i></i>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="privateTalkMessages?.length == 0" class="p-4">
+      <span class="lead">Henüz bu iş konuşması kanalında bir mesaj bulunmuyor.</span> <br>
+    </div>
+
+
+  </div>
+
+  <div class="xyz-card-footer xyz-card-default">
+    <div>
+      <form #messageForm="ngForm" (ngSubmit)="addPrivateTalkMessage(messageForm)" novalidate>
+        <div>
+          <textarea #textAreaX [(ngModel)]="privateTalkMessageModel.Message"  (keydown)="onKeydownEvent($event)"
+            #message="ngModel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+            id="textForFocus" name="message" required class="xyz-textarea border-0" rows="2"
+            placeholder="Mesajınızı yazınız."></textarea>
+
+          <div #emojiDP="ngbDropdown" style="width:15%; float: right" class="d-inline-block" ngbDropdown
+            placement="left-bottom">
+            <a ngbTooltip="Bir emoji seçiniz." placement="top" tooltipClass="tooltipSpecial"
+              class="btn btn-light rounded-circle p-1 text-center"
+              style="border:0px solid !important; display: inline-block; ; cursor: pointer" id="emojiDP"
+              ngbDropdownToggle>
+              <img src="../../../assets/emoji/dizzy.png" style="height: 32px; width: 32px;">
+            </a>
+
+            <div ngbDropdownMenu aria-labelledby="emojiDP" class="rounded-4 bg-white ml-0 mr-0 border-0 p-0">
+              <emoji-mart [perLine]="this.innerWidth < 786 ? 7 : 10" [showPreview]="true" [showSingleCategory]="true"
+                [ngClass]="{'hide-emoji-mart-search' : true}" [set]="sheet === '' ? null : sheet"
+                [emojiSize]="this.innerWidth < 786 ? 24 : 32" [i18n]="{ search: 'Arama yapın', emojilist:'Emoji listesi', notfound: 'Emoji bulunamadı', clear:'Temizle',
+
+               categories: { search: 'Arama sonuçları', recent: 'Son kullandıklarınız',people:'Gülücükler & İnsanlar',
+               nature:'Hayvanlar & Doğa', foods: 'Yiyecekler & İçecekler', activity:'Rutin', 
+              places:'Seyahat & Gezilecek Yerler',objects:'Nesneler', symbols:'Semboller', flags:'Bayraklar', custom:'Özel'
+     },skintones: { '1': 'Varsayılan','2': 'Işık tonlu', '3': 'Orta-ışık tonlu','4': 'Orta tonlu',
+     '5': 'Hafif koyu tonlu','6': 'Koyu tonlu'} }" [title]="'Duygu durumunuz ?'"
+                (emojiClick)="addEmoji($event); emojiDP.close();" [backgroundImageFn]="backgroundImageFn"
+                [isNative]="sheet === ''">
+              </emoji-mart>
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <!-- <emoji-mart [backgroundImageFn]="backgroundImage" (emojiClick)="addEmoji($event)"></emoji-mart> -->
+          <!-- <emoji-mart (emojiClick)="addEmoji($event)" [backgroundImageFn]="backgroundImageFn" [set]="sheet === '' ? null : sheet" [isNative]="sheet === ''"></emoji-mart> -->
+
+
+          <!-- [isNative]="true"  -->
+
+          <!-- <emoji-mart  [set]="'emojione'" title="Emoji seçiniz" (emojiClick)="addEmoji($event)"></emoji-mart> -->
+        </div>
+        <button type="submit" class="btn btn-light btn-send text-uppercase text-white">Gönder</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div *ngIf="editPrivateTalkPanelOpen">
+  <div [ngStyle]="{'height.px': (innerWidth>=577) ? innerHeight-80: innerHeight-20}"
+    class="container-fluid xyz-card-big xyz-card-default" style="background-color: #fdfdfd">
+    <div class="col">
+      <div class="row pl-2 pr-1 xyz-card-primary bg-dark">
+        <span class="btn text-white rounded-0 ">İş Konuşmasını Düzenle</span>
+        <button class="btn btn-dark text-white rounded-0 close float-right "
+          style="border: 0px solid #fefefe !important; cursor: pointer; padding-bottom: 5px;"
+          (click)="toggleEditPrivateTalkPanel()"><span class="text-white">&times;</span></button>
+      </div>
+      <div class="row pl-3 pr-3">
+        <form class="w-100 " #privateTalkEditForm="ngForm" (ngSubmit)="editPrivateTalk(privateTalkEditForm)" novalidate>
+
+          <input type="text" name="thread" id="textForFocusEdit" [(ngModel)]="privateTalkModelEdit.Thread"
+            #thread="ngModel" required class="form-control w-100 mt-2" placeholder="Başlık" />
+          <div class="pb-3 pt-3">
+            <app-edit-receivers [setPrivateTalkId]="privateTalkIdToEdit" [receivers]="receiversModel"
+              [teamReceivers]="teamReceiversModel" (saveChangesEvent)="onSaveChanges($event)"></app-edit-receivers>
+          </div>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

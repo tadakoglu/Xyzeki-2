@@ -1,0 +1,53 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  left:0px;
+  float: left;
+  text-align: left;
+  
+}
+
+li{
+  margin-left: 0px;
+  padding-left: 0px;
+  float: left; 
+  white-space: nowrap; 
+  text-align: left;
+}
+.animateLi li{
+  animation: kaydirFromRightToLeft 2s both linear; 
+  -webkit-animation-iteration-count: 1;
+  -moz-animation-iteration-count: 1;
+  -o-animation-iteration-count: 1;    
+  animation-iteration-count: 1;
+  transform: translate(0, 0);
+}
+
+
+
+  @keyframes kaydirFromRightToLeft {
+ 
+  
+    100% {
+      transform: translate(0px, 0);
+    }
+  
+    50% {
+      transform: translate(-250px, 0);
+    }    
+  
+    0% {
+      transform: translate(0, 0);
+    }
+  }
+
+  .avatarim{
+    width: 45px;
+    height: 45px;
+    border-radius: 10%;
+  }

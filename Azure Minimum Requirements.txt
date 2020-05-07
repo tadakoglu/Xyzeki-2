@@ -1,0 +1,6 @@
+En Düþük Maliyet:
+SQL Server VM - B1S	1	1 GiB	4 GiB	~? 196,3572/ay, B2S = 230TL
+
+App Service - B1	1	1,75 GB	10 GB	~? 306,809/ay, S1 = 406TL(Includes VNET)
+Redis Cache - C0	250 MB	Düþük	256	~? 89,998/ay
+Azure Storage - 0 TL

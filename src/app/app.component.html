@@ -1,0 +1,51 @@
+<!--<app-login></app-login>
+<app-register></app-register>
+<app-teams></app-teams>
+<app-projects></app-projects>
+<p> Hello, this is AppComponent</p>-->
+
+
+<!-- <h1>
+  Welcome to {{ title }}! Service worker is <u *ngIf="!swPush.isEnabled">not</u> enabled.
+</h1>
+Welcome to {{title}}! to Bienvenue à {{title}}!. -->
+
+<div [hidden]="!secondsLeft" class="centered pt-1 pb-1 pl-3 pr-3 sticky-top "
+  style="border-radius: 3px; position: absolute; opacity: 1; z-index: 10000; border-bottom: 1px solid rgb(229, 233, 236); background-color: rgba(238, 237, 237, 0.959);">
+  <img src="../assets/logo.svg">
+  <span class="ml-1" style="font-size:15px">Hay aksi... <b>Bağlı değilsiniz.</b> {{secondsLeft}} sn içinde
+    bağlanıyor…</span>
+  <!-- <a (click)="startConnectionNow()" style="cursor:pointer"
+    class="btn btn-light btn-sm border-0 ml-1 mr-2 rounded-pill"><span class="specialUnderlined">Şimdi dene</span></a> -->
+
+  <button (click)="startConnectionNow()" class="btn btn-light btn-sm border-0 ml-1 mr-2 rounded-pill">
+    <span class="specialUnderlined">Şimdi dene</span>
+  </button>
+</div>
+
+
+
+
+<div [hidden]="!loading" style=" position: absolute;  top: 25%; padding-left: 35%; padding-right:35%;  z-index: 10000;">
+  <img src="../assets/rolling.png" style="opacity: 0.9">
+  <img src="../assets/logo.svg" style="height: 3rem; width: auto">
+</div>
+
+<div class="container" cdkDropListGroup>
+  <div class="row justify-content-center">
+    <!-- col-xl-11 col-lg-12 col-md-12 col-sm-12 col-12 -->
+    <div class="col-xl-11 col-lg-10 col-md-11 col-sm-12 col-12">
+      <!-- >1200PX(xl), >992PX(lg), >768PX(md), >576PX(sm) >-->
+      <router-outlet></router-outlet>
+    </div>
+
+    <div #switchHourArea *ngIf="this.innerWidth > 500 && this?.memberShared?.LoggedIn"
+      [hidden]="!switchHourStyle.isOpen" class="switchHourArea"
+      [ngStyle]="{'left': switchHourStyle?.Left, 'top': switchHourStyle?.Top, 'visibility': switchHourStyle?.Visibility}">
+      <app-switch-hour></app-switch-hour>
+    </div>
+
+
+
+  </div>
+</div>

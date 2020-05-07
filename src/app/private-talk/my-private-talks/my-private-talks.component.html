@@ -1,0 +1,214 @@
+<div [hidden]="!invalidLicensePanelOpen"
+  style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+  <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür
+    dileriz;
+    fakat herhangi bir
+    kurumsal, bireysel
+    veya katıldığınız takımların sahiplerine ait geçerli bir lisans bulamadık.</span>
+</div>
+<nav class="container-fluid navbar shadow-sm sticky-top navbar-light bg-light pb-0 pt-0 xyz-card-dark"
+  style="height:3rem!important">
+
+  <div class="float-left ">
+    <a class="btn btn-light rounded-0 border-0 xyz-nav-btn " [routerLink]="[ '/isler' ]">Geri</a>
+    <a ngbTooltip="Yeni iş konuşması oluşturun" tooltipClass="tooltipSpecial" placement="bottom"
+      *ngIf="!newPrivateTalkPanelOpen" (click)="togglePrivateTalkPanel();"
+      class="btn btn-dark border-0 text-white rounded-0 ml-1 " style="cursor:pointer !important;">Yeni +</a>
+    <div class="circleBtnSquareSearchBar pl-1">
+      <span class="disable-select">
+        <mat-search-bar  (onOpen)="this.searchBarOpen=true" (onClose)="this.searchBarOpen=false"
+          [searchText]="'Xyzeki İş Konuşması Arama'" [isDarkMode]="true"></mat-search-bar>
+      </span>
+    </div>
+  </div>
+
+  <!-- <a *ngIf="this.innerWidth <= 500 || !this.searchBarOpen " class="navbar-brand" [routerLink]="[ '/isler' ]">
+    <img src="../../../assets/logo.svg"
+      style="height: 25px; font-family: Arial, Helvetica, sans-serif; font-size: 18px">
+  </a> -->
+
+
+  <a class="navbar-brand" [routerLink]="[ '/isler' ]">
+    <img style="height: 25px; width:auto;padding-bottom: 3px;" src="../../../assets/logo.svg">
+    <ng-container *ngIf="this.innerWidth > 763">&nbsp;İş Konuşmaları <span
+        class="unreadCountTitle">{{getUnreadTotalPTCount}}</span></ng-container>
+  </a>
+
+  <div class="float-right">
+    <app-nav-profile [hidden]="this.innerWidth <= 763 && this.searchBarOpen"></app-nav-profile>
+  </div>
+
+</nav>
+
+<div *ngIf="newPrivateTalkPanelOpen" class="container-fluid pt-2 pb-2 pl-2 pr-2"
+  style="background-color: rgb(250, 253, 255); width: 100% !important">
+
+  <form class="w-100" #privateTalkForm="ngForm" (ngSubmit)="addPrivateTalk(privateTalkForm)" novalidate>
+    <div class="input-group w-100 p-0 m-0">
+      <input id="inputToFocusBT" type="text" name="thread" [(ngModel)]="privateTalkModel.Thread" #thread="ngModel"
+        required class="form-control w-100" placeholder="İş konuşması konunuz nedir?" />
+    </div>
+    <div class="input-group w-100 mt-1">
+      <div class="input-group-prepend">
+        <app-assign-autocomplete (receiverEventForPTalk)="onReceiverEventForPTalk($event,0)" [privateTalkMode]="true">
+        </app-assign-autocomplete>
+      </div>
+
+      <div class="input-group-append" *ngIf="receiversModel[0] || teamReceiversModel[0]">
+        <app-assign-autocomplete (receiverEventForPTalk)="onReceiverEventForPTalk($event,1)" [privateTalkMode]="true"
+          [extraPrivateTalkMode]="true">
+        </app-assign-autocomplete>
+      </div>
+
+      <div class="input-group-append " *ngIf="receiversModel[1] || teamReceiversModel[1]">
+        <app-assign-autocomplete (receiverEventForPTalk)="onReceiverEventForPTalk($event,2)" [privateTalkMode]="true"
+          [extraPrivateTalkMode]="true">
+        </app-assign-autocomplete>
+      </div>
+
+      <div class="input-group-append" *ngIf="receiversModel[2] || teamReceiversModel[2]">
+        <app-assign-autocomplete (receiverEventForPTalk)="onReceiverEventForPTalk($event,3)" [privateTalkMode]="true"
+          [extraPrivateTalkMode]="true">
+        </app-assign-autocomplete>
+      </div>
+
+      <div class="input-group-append" *ngIf="receiversModel[3] || teamReceiversModel[3]">
+        <app-assign-autocomplete (receiverEventForPTalk)="onReceiverEventForPTalk($event,4)" [privateTalkMode]="true"
+          [extraPrivateTalkMode]="true">
+        </app-assign-autocomplete>
+      </div>
+
+      <div class="input-group-append linedButton">
+        <button type="submit" class="btn rounded-0  btn-dark  text-uppercase text-white ">Başlat</button>
+        <a (click)="togglePrivateTalkPanel()" class="btn rounded-0  btn-light  text-uppercase " style="cursor:pointer !important; 
+                          overflow: hidden;
+                          perspective: 1px; ">X</a>
+      </div>
+    </div>
+  </form>
+
+</div>
+<div class="container-fluid bg-white">
+  <div class="row pt-2 pb-2">
+    <div #bTalksPanel class="col-xs-4 col-lg-4">
+      <div class="row w-100 pl-2 pr-2 mb-1 d-flex">
+        <span class="lead">İş Konuşmaları</span><br>
+      </div>
+      <div class="row w-100 pl-2 pr-2 mb-1 d-flex">
+        <a style="border-top-left-radius: 3px;; border-bottom-left-radius: 3px;; margin-right: 0px;"
+          (click)="switchTab(true)" [ngClass]="{'squareBtnSelected': tabMy}" class="squareBtn">Size
+          Ait <span class="unreadCount">{{getUnreadMyPTCount}}</span></a>
+        <a style="border-top-right-radius: 3px;; border-bottom-right-radius: 3px;" (click)="switchTab(false)"
+          [ngClass]="{'squareBtnSelected': !tabMy}" class="squareBtn">Dahil
+          Edildiğiniz <span class="unreadCount">{{getUnreadReceivedPTCount}}</span></a>
+      </div>
+
+      <div *ngIf="tabMy" #scrollMe infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="1.5"
+        [scrollWindow]="false" [infiniteScrollThrottle]="100" (scrolled)="onScrollDown()"
+        class="row xyz-card-big pl-2 pr-2 mb-1 "
+        [ngStyle]="{'height.px': (innerWidth>=577) ? innerHeight-142: innerHeight-62}">
+        <ul>
+
+          <span *ngIf="myPrivateTalks_Ongoing?.length==0 && !searchBarOpen" class="mt-1">Henüz bir
+            iş konuşması kanalınız bulunmuyor.</span>
+          <span *ngIf="myPrivateTalks_Ongoing?.length==0 && searchBarOpen">
+            Üzgünüz, aradığınız kriterlerde size ait bir iş konuşması kanalı bulamadık.
+          </span>
+          <li *ngFor="let pTalk of myPrivateTalks_Ongoing"
+            [ngClass]="{'unreadMessage': getMyPTMessagesForCount(pTalk?.PrivateTalkId)?.MessagesCount > 0 }" style=" 
+            overflow: hidden;
+            perspective: 1px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; float:left;  ">
+            <div [class.buton-secili]="privateTalkId == pTalk?.PrivateTalkId"
+              (click)="onSelectTopic(pTalk?.PrivateTalkId)" class="btn btn-light rounded-0 border-0  w-100"
+              style="cursor:pointer !important; justify-content: left; justify-items: left">
+              <!-- getReceivers(pTalk?.PrivateTalkId)-->
+              <!-- getTeamReceivers(pTalk?.PrivateTalkId)-->
+              <div class="xyz-ul">
+                <ul appLiAnimate>
+                  <!-- TEAM RECEIVERS-->
+
+                  <li *ngFor="let pttr of getTeamReceivers(pTalk?.PrivateTalkId); index as i">
+                    <div style="display: inline-block">
+                      <img src="../../../assets/logo.svg" style="background-color: white" class="avatarim">
+                    </div>
+                    <div style="display: inline-block">
+                      <span style="color: rgb(134, 134, 134); padding: 0; margin:0">&nbsp;
+                        {{ getTeamPT(pttr?.TeamId)?.TeamName}}
+                      </span>
+
+                    </div>
+                  </li>
+
+                  <li *ngFor="let ptr of getReceivers(pTalk?.PrivateTalkId); index as i">
+                    <div style="display: inline-block">
+                      <img *ngIf="getMember(ptr?.Receiver)?.Avatar" [src]="getMember(ptr?.Receiver)?.Avatar"
+                        alt="Avatar" class="avatarim">
+                    </div>
+                    <div style="display: inline-block">
+                      <span style="color: rgb(134, 134, 134); padding: 0; margin:0">&nbsp;
+                        {{getMember(ptr?.Receiver)?.Name}}
+                        {{getMember(ptr?.Receiver)?.Surname}}</span>
+                    </div>
+                  </li>
+
+
+                </ul>
+              </div>
+              <!-- <app-receivers [outgoing]="true" [privateTalkId]="pTalk?.PrivateTalkId"></app-receivers> -->
+              <div class="clear-fix"></div>
+              <span *ngIf="pTalk?.PrivateTalkId" class="w-100 float-left text-left"
+                style="font-family: Arial, Helvetica, sans-serif; font-size: 14px">#<b>{{pTalk?.Thread}}</b>
+                {{getMyPTMessagesForCount(pTalk?.PrivateTalkId)?.MessagesCount ? getMyPTMessagesForCount(pTalk?.PrivateTalkId)?.MessagesCount + ' Okunmamış' : ''  }}
+                <small class="text-muted float-right ">{{ pTalk?.DateTimeCreated | humanizer}},
+                  {{pTalk?.DateTimeCreated | date: 'hh:mm:ss aa' }}</small>
+              </span>
+            </div>
+          </li>
+
+
+        </ul>
+      </div>
+
+      <div *ngIf="!tabMy" #scrollMeReceived infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="1.5"
+        [scrollWindow]="false" [infiniteScrollThrottle]="100" (scrolled)="onScrollDownForReceived()"
+        class="row xyz-card-big pl-2 pr-2 mb-1 "
+        [ngStyle]="{'height.px': (innerWidth>=577) ? innerHeight-146: innerHeight-30}">
+        <ul>
+          <span *ngIf="myPrivateTalks_Incoming?.length== 0 && !searchBarOpen" class="mt-1">Henüz bir
+            iş konuşması kanalı oluşturulmamış.</span>
+          <span *ngIf="myPrivateTalks_Incoming?.length== 0 && searchBarOpen">
+            Üzgünüz, aradığınız kriterlerde bir iş konuşması kanalı bulamadık.
+          </span>
+          <li *ngFor="let pTalk of myPrivateTalks_Incoming"
+            [ngClass]="{'unreadMessageReceived': getReceivedPTMessagesForCount(pTalk?.PrivateTalkId)?.MessagesCount > 0 }"
+            style="
+            overflow: hidden;
+            perspective: 1px; border-top-left-radius: 2px; border-bottom-left-radius: 2px; border-left: 1px solid #3f3f3f">
+            <a [class.buton-secili]="privateTalkId == pTalk?.PrivateTalkId"
+              (click)="onSelectTopic(pTalk?.PrivateTalkId)" class="btn btn-light rounded-0 border-0 w-100"
+              style="cursor:pointer !important; ">
+
+              <app-receivers [incoming]="true" [sender]="pTalk?.Sender" [privateTalkId]="pTalk?.PrivateTalkId">
+                <img src="../../../assets/loading.gif" style="height: 1.3rem; width:auto">
+              </app-receivers>
+              <div class="clear-fix"></div>
+              <span *ngIf="pTalk?.PrivateTalkId" class="w-100 float-left text-left"
+                style="font-family: Arial, Helvetica, sans-serif; font-size: 14px">#<b>{{pTalk?.Thread}}</b>
+                {{getReceivedPTMessagesForCount(pTalk?.PrivateTalkId)?.MessagesCount ? getReceivedPTMessagesForCount(pTalk?.PrivateTalkId)?.MessagesCount + ' Okunmamış' : ''  }}
+                <small class="text-muted float-right ">{{ pTalk?.DateTimeCreated | humanizer}},
+                  {{pTalk?.DateTimeCreated | date: 'hh:mm:ss aa' }}</small>
+              </span>
+            </a>
+          </li>
+
+
+        </ul>
+      </div>
+
+    </div>
+    <div class="col-8 responsiveBT">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

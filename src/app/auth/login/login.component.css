@@ -1,0 +1,93 @@
+.xyz-card-dark {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+  }  
+  .xyz-card-dark-btn {
+    background: rgb(51, 51, 51);
+    color: #fff;
+    -webkit-transition: box-shadow,background 0.2s; /* Safari prior 6.1 */
+    transition:  box-shadow,background 0.2s;
+  } 
+  .xyz-card-dark-btn:hover {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+  } 
+
+  .general  input{
+
+    border-top: 0px;
+    border-left:0px !important;
+    border-right:0px!important;
+    border-bottom:#CED4DA 1px solid;      
+    border-radius: 0% !important;
+    transition: border-bottom 0.3s;
+    padding-left:4px !important;
+    padding-right:4px !important;
+  }
+  .general input:focus{
+  
+    border-top: 0px;
+    border-left:0px !important;
+    border-bottom:2px solid rgb(87, 90, 238);
+    box-shadow:0 0px 0 0 rgb(87, 90, 238);
+  }
+  
+  
+.forgotPass {
+  color: #535353;
+  text-decoration: none;
+  position: relative;
+  font-weight: 300;
+  transition: all 0.2s ease; 
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 1.5em;
+  padding-bottom: 5px;
+}
+
+.forgotPass::after {
+  content: '';
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  bottom: 3px;
+  right: 0;
+  background: black;
+  
+  opacity: 0;
+  transition: all 0.5s ease; 
+}
+
+.forgotPass:hover::after {
+  opacity: 1;
+}
+
+  /* input{
+    padding-left:4px !important;
+    padding-right:4px !important;
+    border-top: 0px;
+    border-left:0px !important;
+    border-right:0px!important;
+    border-bottom:#CED4DA 1px solid;      
+    border-radius: 0% !important;
+    transition: border-bottom 0.3s;
+    -webkit-box-shadow: 0 0 0 30px rgba(246, 246, 252, 0.781) inset !important;
+    box-shadow: 0 0 0 30px rgba(246, 246, 252, 0.781) inset !important;
+
+}
+input:focus{
+    padding-left:4px !important;
+    padding-right:4px !important;
+    border-top: 0px;
+    border-left:0px !important;
+    border-bottom:2px solid rgb(222, 222, 233);
+    box-shadow:0 0px 0 0 rgb(222, 222, 233);
+} */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px rgb(255, 255, 255) inset !important;
+    box-shadow: 0 0 0 30px rgb(255, 255, 255) inset !important;
+}

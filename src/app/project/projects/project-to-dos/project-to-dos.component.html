@@ -1,0 +1,803 @@
+<div [hidden]="!invalidLicensePanelOpen"
+    style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+    <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür
+        dileriz;
+        fakat herhangi bir
+        kurumsal, bireysel
+        veya katıldığınız takımların sahiplerine ait geçerli bir lisans bulamadık.</span>
+</div>
+
+<nav [ngStyle]="{'pointer-events': this?.repository?.reOrdering ? 'none':'unset'}"
+    class="container-fluid xyz-card-dark">
+    <a class="btn btn-dark text-white rounded-0" [routerLink]="[ '/projeler' ]">Geri</a>
+    <button class="btn btn-dark text-white rounded-0 float-right" disabled
+        *ngIf="projectId && this.innerWidth<=400">{{(getProject(projectId)?.ProjectName).substr(0,20)}}..</button>
+    <button class="btn btn-dark text-white rounded-0 float-right" disabled
+        *ngIf="projectId && this.innerWidth>400">{{getProject(projectId)?.ProjectName}}</button>
+    <div *ngIf="projectId && this.memberShared?.Username == getProject(projectId)?.Owner" class="float-right">
+        <div ngbDropdown placement="bottom" class="d-inline-block">
+            <a class="xyz-card-dark-btn rounded-0 border-0 mr-2" id="dropdownMemberOptions" ngbDropdownToggle>
+                <img class="gear" src="../../../../assets/gear.svg" style="height: 25px; width: 25px">
+            </a>
+            <div ngbDropdownMenu aria-labelledby="dropdownMemberOptions" class="rounded-0"
+                style="background-color: #ffffff">
+                <div class="btn btn-light rounded-0 border-0 ">
+                    <h6>
+                        Gizlilik
+                    </h6>
+                    <!-- onlyOwner, onlyOwnerAndPM, openOnlyTasks, open -->
+                    <div *ngIf="projectId" class="text-nowrap text-left">
+                        <input (click)="checkPrivacy(0,projectId)" [checked]="getProject(projectId)?.Privacy == 0"
+                            type="radio" name="demo" id="radio-one" class="xyz-radio-btn"><label for="radio-one">Tüm
+                            Paydaşlara Açık (Tümü)</label>
+                    </div>
+                    <div *ngIf="projectId" class="text-nowrap text-center">
+                        <small class="text-muted ">Proje içeriği ve ilgili görevler tüm paydaşlar tarafından
+                            görülebilir.</small>
+
+                    </div>
+                    <div *ngIf="projectId" class="text-nowrap text-left">
+                        <input (click)="checkPrivacy(1,projectId)" [checked]="getProject(projectId)?.Privacy == 1"
+                            type="radio" name="demo" id="radio-two" class="xyz-radio-btn">
+                        <label for="radio-two">Tüm Paydaşlara Açık (Liste Modu)</label>
+                    </div>
+                    <div *ngIf="projectId" class="text-left">
+                        <small class="text-muted ">Proje bir listeye dönüştürülür. Liste alıcıları veya atanan paydaşlar
+                            proje ya da liste içeriğini 1. seçenekte olduğu gibi görüntüleyebilir fakat anasayfalarına
+                            bir görev talimatı düşmez.
+                        </small>
+                    </div>
+                    <!-- <div *ngIf="projectId" class="text-nowrap text-left">
+                        <input (click)="checkPrivacy(2,projectId)" [checked]="getProject(projectId)?.Privacy == 2"
+                            type="radio" name="demo" id="radio-three" class="xyz-radio-btn">
+                        <label for="radio-three">Tüm Paydaşlara Açık (Görevler)</label>
+
+                    </div>
+                    <div *ngIf="projectId" class="text-left">
+                        <small class="text-muted ">Proje içeriğini gizler, tüm paydaşlar anasayfasında sadece kendi
+                            görevlerini
+                            görüntüleyebilir.</small>
+                    </div> -->
+                    <div *ngIf="projectId" class="text-nowrap text-left">
+                        <input (click)="checkPrivacy(3,projectId)" [checked]="getProject(projectId)?.Privacy == 3"
+                            type="radio" name="demo" id="radio-four" class="xyz-radio-btn"><label
+                            for="radio-four">Sadece Ben ve Proje
+                            Yöneticisi</label>
+                    </div>
+                    <div *ngIf="projectId" class="text-left">
+                        <small class="text-muted ">Proje içeriğini ve atanmış görevleri siz (proje sahibi) ve proje
+                            yöneticisi görüntüleyebilir ve düzenleyebilir.</small>
+                    </div>
+                    <div *ngIf="projectId" class="text-nowrap text-left ">
+                        <input (click)="checkPrivacy(4,projectId)" [checked]="getProject(projectId)?.Privacy == 4"
+                            type="radio" name="demo" id="radio-five" class="xyz-radio-btn"><label
+                            for="radio-five">Sadece Ben</label>
+                    </div>
+                    <div *ngIf="projectId" class="text-left">
+                        <small class="text-muted ">Proje içeriğini ve atanmış görevleri sadece siz (proje sahibi)
+                            görüntüleyebilir ve düzenleyebilirsiniz.</small>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div class="container-fluid  pt-2 pb-3 bg-white"
+    [ngStyle]="{'padding': this.innerWidth <= 600 ? '3px!important': '30px', 'pointer-events':this?.repository?.reOrdering ? 'none':'unset'}">
+    
+    <!-- cdkDropListGroup -->
+
+    <div class="row pl-1 pr-1">
+    </div>
+    <div class="row pl-1 pr-1">
+
+        <div #switchDayArea class="w-100" style="z-index: 999">
+
+            <app-switch-day class="w-100" [isProjectMode]="'true'" [projectTodoRepository]="repository">
+            </app-switch-day>
+
+        </div>
+    </div>
+
+
+    <div class="row pt-2 pl-1 pr-1" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+        <table class="table table-hover table-sm gizliHeader2  pb-0 mb-0 ">
+
+            <tbody cdkDropList id="ProjectToDosContainer" (cdkDropListDropped)="drop($event)" class="shadowedTr">
+                <tr (mousedown)="onMouseDown($event)" (cdkDragStarted)="onDragStart($event)"
+                    (cdkDragEnded)="onDragEnd($event)"
+                    [ngStyle]="projectToDo?.Zindex ? zIndexStyle(projectToDo?.Zindex):'' " style="margin-bottom: 4px; "
+                    cdkDrag [cdkDragData]="projectToDo" *ngFor="let projectToDo  of projectToDos(); index as i"
+                    class="draggable trOptimization" [ngClass]="{'hideSubTask': !isProjectTaskShown(projectToDo)}">
+
+                    <ng-container *ngIf="projectToDo?.Zindex == 1;">
+                        &nbsp;&nbsp;&nbsp;
+                    </ng-container>
+
+
+
+
+                    <td cdkDragHandle class="pr-2"
+                        [ngStyle]="{'background-color': editProjectToDoPanelOpen && projectToDo?.TaskId == projectToDoModelEdit?.TaskId ? 'rgb(230, 231, 231)' : ''}">
+                        <div>
+                            <a role="button" (click)="deCompletePT(projectToDo)" *ngIf="projectToDo?.IsCompleted"
+                                class="btn btn-secondary-outline p-0 m-0"><img src="../../../assets/squareCheck.png"
+                                    style="width: 1.3rem; height: 1.3rem; cursor: pointer; " />
+                            </a>
+                            <a role="button" (click)="completePT(projectToDo)" *ngIf="!projectToDo?.IsCompleted"
+                                class="btn btn-secondary-outline p-0 m-0"><img src="../../../assets/squareUnCheck.png"
+                                    style="width: 1.3rem; height: 1.3rem; cursor: pointer; " />
+                            </a>
+                        </div>
+                        <small ngbTooltip="{{projectToDo?.Finish  |  date:'shortTime' }} saatinde" placement="bottom"
+                            tooltipClass="tooltipSpecial">
+                            <span class="text-nowrap">
+                                {{projectToDo?.IsCompleted && projectToDo?.Finish ? (projectToDo?.Finish | humanizer) : ''}}</span>
+                        </small>
+                    </td>
+                    <td [ngStyle]="{'font-weight': isSubTaskFounded(projectToDo) ? '500' : '400'}"
+                        (click)="toggleEditProjectToDoPanel(projectToDo?.TaskId); " cdkDragHandle class="pr-2 "
+                        *ngIf="projectToDoModelEdit?.TaskId != projectToDo?.TaskId">
+
+                        <div class="w-100" *ngIf="projectToDo?.IsCompleted; else ptaskToDo">
+                            <span class="w-100" style="text-decoration: line-through">
+                                <img *ngIf="isSubTaskFounded(projectToDo)" class="mr-2"
+                                    [hidden]="projectToDo?.ShowSubTasks" ngbTooltip="Alt görevleri göster"
+                                    tooltipClass="tooltipSpecial" placement="bottom"
+                                    (click)="showSubTasks(projectToDo); $event.stopPropagation();"
+                                    src="../../../../assets/down.png"
+                                    style="width: 17px;object-fit: cover; cursor: pointer; " />
+                                <img *ngIf="isSubTaskFounded(projectToDo)" class="mr-2"
+                                    [hidden]="!projectToDo?.ShowSubTasks" ngbTooltip="Alt görevleri gizle"
+                                    tooltipClass="tooltipSpecial" placement="bottom"
+                                    (click)="hideSubTasks(projectToDo); $event.stopPropagation();"
+                                    src="../../../../assets/up.png"
+                                    style="width: 17px;object-fit: cover; cursor: pointer; " />
+
+                                {{projectToDo?.TaskTitle}}
+
+
+
+                            </span>
+                            <a *ngIf="projectToDo?.TaskId && getProject(projectId)?.Privacy != 1"
+                                class="modernUnderlined ml-2 w-100"
+                                (click)="setStatus(projectToDo?.TaskId);$event.stopPropagation();"
+                                style="cursor: pointer; font-size: 13px">{{(projectToDo?.Status ? projectToDo?.Status  : 'Bekliyor')}}</a>
+                        </div>
+                        <ng-template #ptaskToDo class="w-100">
+
+                            <img *ngIf="isSubTaskFounded(projectToDo)" class="mr-2" [hidden]="projectToDo?.ShowSubTasks"
+                                ngbTooltip="Alt görevleri göster" tooltipClass="tooltipSpecial" placement="bottom"
+                                (click)="showSubTasks(projectToDo); $event.stopPropagation();"
+                                src="../../../../assets/down.png"
+                                style="width: 17px;object-fit: cover; cursor: pointer; " />
+                            <img *ngIf="isSubTaskFounded(projectToDo)" class="mr-2"
+                                [hidden]="!projectToDo?.ShowSubTasks" ngbTooltip="Alt görevleri gizle"
+                                tooltipClass="tooltipSpecial" placement="bottom"
+                                (click)="hideSubTasks(projectToDo); $event.stopPropagation();"
+                                src="../../../../assets/up.png"
+                                style="width: 17px;object-fit: cover; cursor: pointer; " />
+
+                            <span class="w-100"
+                                [ngClass]="{'shineYapiliyor': projectToDo?.Status == 'Yapılıyor',
+                                'shineBitmekuzere': projectToDo?.Status == 'Tamamlanmak Üzere' }">{{projectToDo?.TaskTitle}}
+
+                                <a *ngIf="projectToDo?.TaskId && getProject(projectId)?.Privacy != 1"
+                                    class="modernUnderlined  ml-2 w-100"
+                                    (click)="setStatus(projectToDo?.TaskId); $event.stopPropagation();"
+                                    style="cursor: pointer; font-size: 13px">{{(projectToDo?.Status ? projectToDo?.Status  : 'Bekliyor')}}</a>
+                            </span>
+
+
+                        </ng-template>
+
+                        <div class="float-right text-nowrap">
+                            <a *ngIf="projectToDo?.Zindex > 0" ngbTooltip="Üst görev yap" tooltipClass="tooltipSpecial"
+                                placement="bottom" (click)="decreaseTaskIndent(projectToDo); $event.stopPropagation();"
+                                class="btn btn-light btn-sm rounded-1 border-0" style="margin-right: 3px">
+                                <img src="../../../../assets/arrow-3.png"
+                                    style="width: 16px;object-fit: cover; cursor: pointer; " /></a>
+                            <a *ngIf="projectToDo?.Zindex < 1" ngbTooltip="Alt görev yap" tooltipClass="tooltipSpecial"
+                                placement="bottom" (click)="increaseTaskIndent(projectToDo); $event.stopPropagation();"
+                                class="btn btn-light btn-sm rounded-1 border-0">
+                                <img src="../../../../assets/arrow-2.png"
+                                    style="width: 16px;object-fit: cover; cursor: pointer; " /></a>
+                        </div>
+
+                    </td>
+                    <td cdkDragHandle class="pr-2" *ngIf="projectToDoModelEdit?.TaskId != projectToDo?.TaskId">
+                        <div class="mobileDate">
+                            <ng-container
+                                *ngIf="(projectToDo?.Start | humanizer) != (projectToDo?.Deadline | humanizer); else sameStartDate">
+                                <span style="color: #00a028">{{projectToDo?.Start | humanizer}}
+                                    <span *ngIf="projectToDo?.Start |  date:'shortTime' "
+                                        class="time-pipe-design">{{projectToDo?.Start |  date:'shortTime' }}</span>
+                                    <span *ngIf="projectToDo?.Start  && projectToDo?.Deadline"> - </span>
+                                </span>
+                                <div class="clearfix" *ngIf="this.innerWidth < 876"> </div>
+                                <span style="color: #b80000">{{projectToDo?.Deadline | humanizer}}
+                                    <span *ngIf="projectToDo?.Deadline |  date:'shortTime'"
+                                        class="time-pipe-design">{{projectToDo?.Deadline |  date:'shortTime' }}</span></span>
+                                <div class="clearfix" *ngIf="this.innerWidth < 500"> </div>
+                            </ng-container>
+                            <ng-template #sameStartDate>
+                                <span style="color: rgb(196, 199, 23); ">{{projectToDo?.Start | humanizer}}
+                                    <span *ngIf="projectToDo?.Start |  date:'shortTime' "
+                                        class="time-pipe-design">{{projectToDo?.Start |  date:'shortTime' }}</span>
+                                    <span
+                                        *ngIf="projectToDo?.Start |  date:'shortTime'  && projectToDo?.Deadline |  date:'shortTime' ">
+                                        -
+                                    </span>
+                                    <span class="time-pipe-design"
+                                        *ngIf="projectToDo?.Deadline |  date:'shortTime' ">{{projectToDo?.Deadline |  date:'shortTime' }}</span>
+                                </span>
+                            </ng-template>
+
+
+                            <a *ngIf=(projectToDo?.TaskId) class="btn filter-cnote pl-0 pt-0 pb-0 ml-1 mr-1 text-nowrap"
+                                style="cursor: pointer!important"
+                                (click)="showCommentsDialog(projectToDo?.TaskId,projectToDo?.TaskTitle)">
+                                <img src="../../../../assets/comment-note.svg"
+                                    style="height: 1.5rem; cursor: pointer;" />
+                                <span>
+                                    {{getPTCommentsForCount(projectToDo?.TaskId)?.CommentsCount}}
+                                </span>
+                            </a>
+                        </div>
+                    </td>
+                    <td cdkDragHandle class="pr-2" *ngIf="projectToDoModelEdit?.TaskId != projectToDo?.TaskId">
+                        <div class="wrapOrNot" style="color: rgb(90, 90, 90); text-align: center;"
+                            *ngIf="projectToDo?.AssignedTo && memberShared.Username == projectToDo?.AssignedTo">
+                            <img alt="Avatar" *ngIf="memberShared?.account?.getValue()"
+                                [src]="memberShared?.account?.getValue()?.Avatar"
+                                class="md-avatar size-1 rounded-circle ">
+                            <span> Ben</span>
+                        </div>
+
+
+                        <div class="wrapOrNot" style="color: rgb(94, 94, 94);  text-align: center; "
+                            *ngIf="projectToDo?.AssignedTo &&  memberShared.Username != projectToDo?.AssignedTo">
+                            <img *ngIf="getMember(projectToDo?.AssignedTo)"
+                                [src]="getMember(projectToDo?.AssignedTo)?.Avatar" alt="Avatar"
+                                class="md-avatar size-1 rounded-circle ">
+                            <span> {{getMember(projectToDo?.AssignedTo)?.Name}}
+                            </span></div>
+                    </td>
+
+                    <td cdkDragHandleDisabled *ngIf="projectToDoModelEdit?.TaskId != projectToDo?.TaskId">
+                        <div ngbDropdown class="d-inline-block" style="margin-left:2px!important" placement="left"
+                            *ngIf="projectToDo?.TaskId!=undefined">
+                            <a class="btn filter-grey pl-0 pt-0 pb-0 mb-0" style="border:0px solid !important"
+                                id="dropdownMemberOptions" ngbDropdownToggle>
+                                <img src="../../../assets/more2.svg"
+                                    style="height: 7px;object-fit: cover; cursor: pointer;" />
+
+                            </a>
+                            <div ngbDropdownMenu aria-labelledby="dropdownMemberOptions"
+                                class="rounded-4 bg-white ml-0 mr-0">
+
+                                <button (click)="toggleEditProjectToDoPanel(projectToDo?.TaskId); " ngbDropdownItem
+                                    class="btn btn-light rounded-0 border-0 xyz-nav-btn">
+                                    <img src="../../../assets/pencil.png"
+                                        style="width: 20px;object-fit: cover; cursor: pointer; " class="mr-2" />Görevi
+                                    Düzenle</button>
+                                <hr>
+                                <button (click)="deleteProjectToDo(projectToDo?.TaskId)" ngbDropdownItem
+                                    class="btn btn-light rounded-0 border-0 xyz-nav-btn2"><img
+                                        src="../../../assets/cancel.svg"
+                                        style="width: 18px;object-fit: cover; cursor: pointer; " class="mr-2" />Görevi
+                                    Sil</button>
+
+                            </div>
+
+
+                        </div>
+                    </td>
+                    <td cdkDragHandleDisabled style="background-color: rgb(230, 231, 231); width: 100%" colspan="4"
+                        *ngIf="editProjectToDoPanelOpen && projectToDoModelEdit?.TaskId == projectToDo?.TaskId">
+                        <form #projectToDoEditForm="ngForm" (ngSubmit)="editProjectToDo(projectToDoEditForm)"
+                            novalidate>
+                            <div class="input-group w-100 others">
+                                <textarea (keydown)="onKeydownEvent($event)" id="textForFocus" autofocus
+                                    name="projectToDoEdit" #projectToDoEdit="ngModel"
+                                    [(ngModel)]="projectToDoModelEdit.TaskTitle" required class="xyz-textarea border-0"
+                                    placeholder="Görevi tanımlar mısınız?" rows="2"> </textarea>
+
+                                <ng-template #footerEditStart>
+                                    <div class="myCal general"
+                                        style="padding-top:0.1px; padding-bottom:0.5px; padding-left:0.1px;  padding-right:2.1px">
+                                        <button disabled class="btn w-100 rounded-0 border-0"
+                                            style="display: none">&nbsp;</button>
+                                        <input (keydown)=" $event?.keyCode === 13 ? datePickerEditStart.close() : ' ' "
+                                            ngbDatepicker placeholder="Başlangıç tarihi" autocomplete="off"
+                                            [showWeekNumbers]="true" navigation="arrows" class="form-control w-100"
+                                            style="margin-left: 1px; margin-bottom: 1px; text-align:center"
+                                            name="datePickerEditStartX" [(ngModel)]="dateEditStart"
+                                            (ngModelChange)="onSelectDateEditStart($event)"
+                                            #datePickerEditStartX="ngbDatepicker" />
+
+                                        <div class="timePickerXyz" *ngIf="dateEditStart">
+                                            <ngb-timepicker #timePickerEditStart name="timePickerEditStart"
+                                                [(ngModel)]="timeEditStart"
+                                                (ngModelChange)="onSelectTimeEditStart($event)" [spinners]="false">
+                                            </ngb-timepicker>
+                                        </div>
+
+                                        <button type="button" (click)="calendarButtonSelect('today',false,false);"
+                                            class=" btn-day w-100 rounded-0 border-0 p-1"
+                                            style="margin-left: 1px">Bugün</button>
+                                        <button type="button" (click)="calendarButtonSelect('tomorrow',false,false); "
+                                            class=" btn-day w-100 rounded-0 border-0 p-1"
+                                            style="margin-left: 1px">Yarın</button>
+                                        <button type="button" [hidden]="!dateEditStart"
+                                            (click)="calendarButtonSelect('noDate',false,false); "
+                                            class=" btn-day w-100 rounded-0 border-0 p-1"
+                                            style="margin-left: 1px; margin-bottom: 4px;">
+                                            <mat-icon class="mat-search_icon-close" matRipple>close</mat-icon>
+                                        </button>
+                                        <!-- time select-->
+
+                                    </div>
+                                </ng-template>
+
+                                <ng-template #customDayEditStart let-date let-currentMonth="currentMonth"
+                                    let-selected="selected" let-disabled="disabled">
+                                    <span [ngbTooltip]="isToday(date) ? 'Bugün' : ''" tooltipClass="tooltipSpecial"
+                                        placement="top" class="custom-day" [class.weekend]="isWeekend(date)"
+                                        [class.today]="isToday(date)" [class.bg-primary]="selected"
+                                        [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
+                                        {{ date.day }}
+                                    </span>
+                                </ng-template>
+
+
+                                <a class="btn calendar rounded-0 tarihSeciciBtn"
+                                    style="cursor: pointer;  border-bottom:#CED4DA 0.5px solid; background-color: white  "
+                                    (click)="datePickerEditStart.toggle()">
+                                    <img src="../../../../assets/calender.png"
+                                        style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+                                </a>
+
+
+                                <input [autoClose]="'outside'" style="cursor: pointer"
+                                    (click)="datePickerEditStart.toggle()" ngbDatepicker
+                                    [dayTemplate]="customDayEditStart" [footerTemplate]="footerEditStart"
+                                    [markDisabled]="isDisabled" placeholder="Başlangıç tarihi" autocomplete="off"
+                                    [showWeekNumbers]="true" placement="bottom" navigation="arrows"
+                                    class="form-control tarihSecici" name="datePickerEditStart"
+                                    [(ngModel)]="dateEditStart" (ngModelChange)="onSelectDateEditStart($event)"
+                                    #datePickerEditStart="ngbDatepicker" />
+                                <!-- END OF START DATE-->
+
+
+                                <ng-template #footerEdit>
+                                    <div class="myCal general"
+                                        style="padding-top:0.1px; padding-bottom:0.5px; padding-left:0.1px;  padding-right:2.1px">
+                                        <button disabled class="btn w-100 rounded-0 border-0"
+                                            style="display: none">&nbsp;</button>
+                                        <input (keydown)=" $event?.keyCode === 13 ? datePickerEdit.close() : ' ' "
+                                            ngbDatepicker placeholder="Teslim tarihi" autocomplete="off"
+                                            [showWeekNumbers]="true" navigation="arrows" class="form-control w-100"
+                                            style="margin-left: 1px; margin-bottom: 1px; text-align:center"
+                                            name="datePickerEditX" [(ngModel)]="dateEdit"
+                                            (ngModelChange)="onSelectDateEdit($event)"
+                                            #datePickerEditX="ngbDatepicker" />
+
+                                        <div class="timePickerXyz" *ngIf="dateEdit">
+                                            <ngb-timepicker #timePickerEdit name="timePickerEdit" [(ngModel)]="timeEdit"
+                                                (ngModelChange)="onSelectTimeEdit($event)" [spinners]="false">
+                                            </ngb-timepicker>
+                                        </div>
+                                        <button type="button" (click)="calendarButtonSelect('today',false); "
+                                            class=" btn-day w-100 rounded-0 border-0 p-1"
+                                            style="margin-left: 1px">Bugün</button>
+                                        <button type="button" (click)="calendarButtonSelect('tomorrow',false);"
+                                            class=" btn-day w-100 rounded-0 border-0 p-1"
+                                            style="margin-left: 1px">Yarın</button>
+                                        <button [hidden]="!dateEdit" type="button"
+                                            (click)="calendarButtonSelect('noDate',false); "
+                                            class=" btn-day w-100 rounded-0 border-0 p-1"
+                                            style="margin-left: 1px; margin-bottom: 4px;">
+                                            <mat-icon class="mat-search_icon-close" matRipple>close</mat-icon>
+                                        </button>
+                                        <!-- time select-->
+
+                                    </div>
+                                </ng-template>
+
+
+
+                                <ng-template #customDayEdit let-date let-currentMonth="currentMonth"
+                                    let-selected="selected" let-disabled="disabled">
+                                    <span [ngbTooltip]="isToday(date) ? 'Bugün' : ''" tooltipClass="tooltipSpecial"
+                                        placement="top" class="custom-day" [class.weekend]="isWeekend(date)"
+                                        [class.today]="isToday(date)" [class.bg-primary]="selected"
+                                        [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
+                                        {{ date.day }}
+                                    </span>
+                                </ng-template>
+
+
+                                <a class="btn calendar rounded-0 tarihSeciciBtn"
+                                    style="cursor: pointer;  border-bottom:#CED4DA 0.5px solid; background-color: white  "
+                                    (click)="datePickerEdit.toggle()">
+                                    <img src="../../../../assets/calender.png"
+                                        style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+                                </a>
+                                <input [autoClose]="'outside'" style="cursor: pointer" (click)="datePickerEdit.toggle()"
+                                    ngbDatepicker [dayTemplate]="customDayEdit" [footerTemplate]="footerEdit"
+                                    [markDisabled]="isDisabled" placeholder="Teslim tarihi" autocomplete="off"
+                                    [showWeekNumbers]="true" placement="bottom" navigation="arrows"
+                                    class="form-control tarihSecici" name="datePickerEdit" [(ngModel)]="dateEdit"
+                                    (ngModelChange)="onSelectDateEdit($event)" #datePickerEdit="ngbDatepicker" />
+
+
+                                <div class="input-group-append btn-group btn-group-toggle">
+                                    <app-assign-autocomplete
+                                        *ngIf="(projectId && this.memberShared?.Username != getProject(projectId)?.ProjectManager)"
+                                        [normalMode]="true" [selectedItemOver]="this.projectToDoModelEdit?.AssignedTo"
+                                        #editChild (assignedToEventForProjectEdit)="onAssignedToEventEdit($event)">
+                                    </app-assign-autocomplete>
+
+                                    <app-assign-autocomplete
+                                        *ngIf="(projectId && this.memberShared?.Username == getProject(projectId)?.ProjectManager)"
+                                        [projectManagerMode]="true"
+                                        [selectedItemOver]="this.projectToDoModelEdit?.AssignedTo" #editChild
+                                        (assignedToEventForProjectEdit)="onAssignedToEventEdit($event)">
+                                    </app-assign-autocomplete>
+
+
+
+
+                                </div>
+                                <div class="input-group-append">
+                                    <button type="submit"
+                                        class="btn btn-secondary text-white rounded-0 degistirBtn">Değiştir</button>
+                                    <a (click)="toggleEditProjectToDoPanel(projectToDo?.TaskId)"
+                                        class="btn btn-danger rounded-0 text-white text-uppercase kapatBtn"
+                                        style="cursor: pointer">X</a>
+                                </div>
+                            </div>
+
+                        </form>
+
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div *ngIf="projectToDos()?.length == 0" class="row pt-3 pl-1 pr-1">
+        <p *ngIf="dayDateStr == 'Gecikmiş'">
+            Şu an için projenizde teslim tarihi geçmiş bir görev bulamadık.
+        </p>
+        <p *ngIf="dayDateStr == 'Tümü'">
+            Şu an için projenizde bir görev bulunmamaktadır. Hemen sizin için bir tane oluşturalım.
+        </p>
+        <p *ngIf="dayDateStr == 'Gün'">
+            Şu an için bugün yapılması gereken veya devam eden bir proje görevi bulamadık.
+        </p>
+    </div>
+    <div class="row  pl-1 pr-1">
+        <a ngbTooltip="Yeni görev oluşturun" tooltipClass="tooltipSpecial" placement="bottom"
+            *ngIf="!newProjectToDoPanelOpen" (click)="toggleProjectToDoPanel()"
+            class="btn btn-dark rounded-0 text-white" style="cursor: pointer">Yeni +</a>
+    </div>
+    <div class="row  pl-1 pr-1" *ngIf="this.innerWidth < 992">
+        <form class="bg-white w-100" *ngIf="newProjectToDoPanelOpen" #projectToDoForm="ngForm"
+            (ngSubmit)="addProjectToDo(projectToDoForm)" novalidate>
+            <div class="input-group mb-2 ">
+                <!-- <div class="input-group-prepend">
+                        <a class="btn btn-dark disabled text-white">Görev</a>
+                    </div> -->
+                <div class="input-group-prepend">
+                    <!-- <a class="btn btn-dark disabled text-white">Ata</a> -->
+                    <app-assign-autocomplete
+                        *ngIf="(projectId && this.memberShared?.Username != getProject(projectId)?.ProjectManager)"
+                        [normalMode]="true" (assignedToEventForProject)="onAssignedToEvent($event)">
+                    </app-assign-autocomplete>
+
+                    <app-assign-autocomplete
+                        *ngIf="(projectId && this.memberShared?.Username == getProject(projectId)?.ProjectManager)"
+                        [projectManagerMode]="true" (assignedToEventForProject)="onAssignedToEvent($event)">
+                    </app-assign-autocomplete>
+
+                </div>
+                <input id="textForFocusCreate" autofocus type="text" name="projectTask"
+                    [(ngModel)]="projectToDoModel.TaskTitle" #projectTask="ngModel" required
+                    class="form-control  pl-2 pr-2" placeholder="Görev, yapılacak iş ya da liste öğesi" />
+            </div>
+            <div class="container-fluid">
+                <span class="text-danger row" *ngIf="modelSubmitted && projectTask?.errors?.required">
+                    Bir iş tanımı belirtmelisiniz.
+                </span>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-append">
+                    <a class="btn  calendar"
+                        style="cursor: pointer; border-bottom: 1px gainsboro solid; background-color: white; "
+                        (click)="start.toggle()">
+                        <img src="../../../../assets/calender.png"
+                            style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+                    </a>
+                    <ng-template #footerCreateStart>
+                        <div class="myCal general"
+                            style="padding-top:0.1px; padding-bottom:0.5px; padding-left:0.1px;  padding-right:2.1px">
+                            <button disabled class="btn w-100 rounded-0 border-0" style="display: none">&nbsp;</button>
+                            <input (keydown)=" $event?.keyCode === 13 ? start.close() : ' ' " ngbDatepicker
+                                placeholder="Başlangıç tarihi" autocomplete="off" [showWeekNumbers]="true"
+                                navigation="arrows" class="form-control w-100"
+                                style="margin-left: 1px; margin-bottom: 1px; text-align:center" name="startX"
+                                [(ngModel)]="startDate" (ngModelChange)="onSelectStartDate($event)"
+                                #startX="ngbDatepicker" />
+
+                            <div class="timePickerXyz" *ngIf="startDate">
+                                <ngb-timepicker #timePickerStart name="timePickerStart" [(ngModel)]="timeStart"
+                                    (ngModelChange)="onSelectTimeStart($event)" [spinners]="false">
+                                </ngb-timepicker>
+                            </div>
+
+
+                            <button type="button" (click)="calendarButtonSelect('today',true,false);"
+                                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Bugün</button>
+                            <button type="button" (click)="calendarButtonSelect('tomorrow',true,false); "
+                                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Yarın</button>
+                            <button [hidden]="!startDate" type="button"
+                                (click)="calendarButtonSelect('noDate',true,false); "
+                                class=" btn-day w-100 rounded-0 border-0 p-1"
+                                style="margin-left: 1px; margin-bottom: 4px;">
+                                <mat-icon class="mat-search_icon-close" matRipple>close</mat-icon>
+                            </button>
+                            <!-- time select-->
+
+                        </div>
+                    </ng-template>
+
+                    <ng-template #customDayCreateStart let-date let-currentMonth="currentMonth" let-selected="selected"
+                        let-disabled="disabled">
+                        <span [ngbTooltip]="isToday(date) ? 'Bugün' : ''" tooltipClass="tooltipSpecial" placement="top"
+                            class="custom-day" [class.weekend]="isWeekend(date)" [class.today]="isToday(date)"
+                            [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
+                            [class.text-muted]="disabled">
+                            {{ date.day }}
+                        </span>
+                    </ng-template>
+
+                    <input [autoClose]="'outside'" ngbDatepicker placement="bottom" [showWeekNumbers]="true"
+                        (click)="start.toggle()" [dayTemplate]="customDayCreateStart"
+                        [footerTemplate]="footerCreateStart" [markDisabled]="isDisabled" placeholder="Başlangıç tarihi"
+                        autocomplete="off" navigation="arrows" class="form-control pl-2 pr-2"
+                        style="max-width:10rem!important; cursor: pointer" name="start" [(ngModel)]="startDate"
+                        (ngModelChange)="onSelectStartDate($event)" #start="ngbDatepicker" />
+                </div>
+                <div class="input-group-append">
+                    <a class="btn  calendar"
+                        style="cursor: pointer; border-bottom: 1px gainsboro solid; background-color: white; "
+                        (click)="deadline.toggle()">
+                        <img src="../../../../assets/calender.png"
+                            style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+                    </a>
+                    <ng-template #footerCreate>
+                        <div class="myCal general"
+                            style="padding-top:0.1px; padding-bottom:0.5px; padding-left:0.1px;  padding-right:2.1px">
+                            <button disabled class="btn w-100 rounded-0 border-0" style="display: none">&nbsp;</button>
+                            <input (keydown)=" $event?.keyCode === 13 ? deadline.close() : ' ' " ngbDatepicker
+                                placeholder="Teslim tarihi" autocomplete="off" [showWeekNumbers]="true"
+                                navigation="arrows" class="form-control w-100"
+                                style="margin-left: 1px; margin-bottom: 1px; text-align:center" name="deadlineX"
+                                [(ngModel)]="deadlineDate" (ngModelChange)="onSelectDeadlineDate($event)"
+                                #deadlineX="ngbDatepicker" />
+
+                            <div class="timePickerXyz" *ngIf="deadlineDate">
+                                <ngb-timepicker #timePickerDeadline name="timePickerDeadline" [(ngModel)]="timeDeadline"
+                                    (ngModelChange)="onSelectTimeDeadline($event)" [spinners]="false"></ngb-timepicker>
+                            </div>
+                            <button type="button" (click)="calendarButtonSelect('today',true);"
+                                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Bugün</button>
+                            <button type="button" (click)="calendarButtonSelect('tomorrow',true);"
+                                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Yarın</button>
+                            <button [hidden]="!deadlineDate" type="button"
+                                (click)="calendarButtonSelect('noDate',true); "
+                                class=" btn-day w-100 rounded-0 border-0 p-1"
+                                style="margin-left: 1px; margin-bottom: 4px;">
+                                <mat-icon class="mat-search_icon-close" matRipple>close</mat-icon>
+                            </button>
+                            <!-- time select-->
+
+                        </div>
+                    </ng-template>
+
+                    <ng-template #customDayCreate let-date let-currentMonth="currentMonth" let-selected="selected"
+                        let-disabled="disabled">
+                        <span [ngbTooltip]="isToday(date) ? 'Bugün' : ''" tooltipClass="tooltipSpecial" placement="top"
+                            class="custom-day" [class.weekend]="isWeekend(date)" [class.today]="isToday(date)"
+                            [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
+                            [class.text-muted]="disabled">
+                            {{ date.day }}
+                        </span>
+                    </ng-template>
+
+                    <input [autoClose]="'outside'" ngbDatepicker placement="bottom" [showWeekNumbers]="true"
+                        (click)="deadline.toggle()" [dayTemplate]="customDayCreate" [footerTemplate]="footerCreate"
+                        [markDisabled]="isDisabled" placeholder="Teslim tarihi" autocomplete="off" navigation="arrows"
+                        class="form-control pl-2 pr-2" style="max-width:10rem!important; cursor: pointer"
+                        name="deadline" [(ngModel)]="deadlineDate" (ngModelChange)="onSelectDeadlineDate($event)"
+                        #deadline="ngbDatepicker" />
+
+                </div>
+            </div>
+
+            <div class="input-group mb-2">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-dark text-white text-uppercase">Oluştur</button>
+                    <a (click)="toggleProjectToDoPanel()" class="btn btn-danger rounded-1 text-white text-uppercase"
+                        style="cursor: pointer">X</a>
+                </div>
+            </div> <!-- add and close buttons-->
+        </form>
+    </div>
+    <div class="row  pl-1 pr-1" *ngIf="this.innerWidth >= 992">
+        <form class="bg-white w-100 m-0 p-0" *ngIf="newProjectToDoPanelOpen" #projectToDoForm="ngForm"
+            (ngSubmit)="addProjectToDo(projectToDoForm)" novalidate>
+
+            <div class="input-group mb-2 ">
+                <!-- <div class="input-group-prepend">
+                        <a class="btn btn-dark disabled text-white">İş</a>
+                    </div> -->
+                <input id="textForFocusCreate" autofocus type="text" name="projectTask"
+                    [(ngModel)]="projectToDoModel.TaskTitle" #projectTask="ngModel" required
+                    class="form-control  pl-2 pr-2" placeholder="Görev, yapılacak iş ya da liste öğesi" />
+
+                <div class="input-group-prepend">
+
+                    <app-assign-autocomplete
+                        *ngIf="(projectId && this.memberShared?.Username != getProject(projectId)?.ProjectManager)"
+                        [normalMode]="true" (assignedToEventForProject)="onAssignedToEvent($event)">
+                    </app-assign-autocomplete>
+
+                    <app-assign-autocomplete
+                        *ngIf="(projectId && this.memberShared?.Username == getProject(projectId)?.ProjectManager)"
+                        [projectManagerMode]="true" (assignedToEventForProject)="onAssignedToEvent($event)">
+                    </app-assign-autocomplete>
+
+                </div>
+                <div class="input-group-append">
+                    <a class="btn  calendar"
+                        style="cursor: pointer; border-bottom: 1px gainsboro solid; background-color: white; "
+                        (click)="start.toggle()">
+                        <img src="../../../../assets/calender.png"
+                            style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+                    </a>
+                    <ng-template #footerCreateStart>
+                        <div class="myCal general"
+                            style="padding-top:0.1px; padding-bottom:0.5px; padding-left:0.1px;  padding-right:2.1px">
+                            <button disabled class="btn w-100 rounded-0 border-0" style="display: none">&nbsp;</button>
+                            <input (keydown)=" $event?.keyCode === 13 ? start.close() : ' ' " ngbDatepicker
+                                placeholder="Başlangıç tarihi" autocomplete="off" [showWeekNumbers]="true"
+                                navigation="arrows" class="form-control w-100"
+                                style="margin-left: 1px; margin-bottom: 1px; text-align:center" name="startX"
+                                [(ngModel)]="startDate" (ngModelChange)="onSelectStartDate($event)"
+                                #startX="ngbDatepicker" />
+
+                            <div class="timePickerXyz" *ngIf="startDate">
+                                <ngb-timepicker #timePickerStart name="timePickerStart" [(ngModel)]="timeStart"
+                                    (ngModelChange)="onSelectTimeStart($event)" [spinners]="false">
+                                </ngb-timepicker>
+                            </div>
+
+
+                            <button type="button" (click)="calendarButtonSelect('today',true,false);"
+                                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Bugün</button>
+                            <button type="button" (click)="calendarButtonSelect('tomorrow',true,false); "
+                                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Yarın</button>
+                            <button [hidden]="!startDate" type="button"
+                                (click)="calendarButtonSelect('noDate',true,false); "
+                                class=" btn-day w-100 rounded-0 border-0 p-1"
+                                style="margin-left: 1px; margin-bottom: 4px;">
+                                <mat-icon class="mat-search_icon-close" matRipple>close</mat-icon>
+                            </button>
+                            <!-- time select-->
+
+                        </div>
+                    </ng-template>
+
+                    <ng-template #customDayCreateStart let-date let-currentMonth="currentMonth" let-selected="selected"
+                        let-disabled="disabled">
+                        <span [ngbTooltip]="isToday(date) ? 'Bugün' : ''" tooltipClass="tooltipSpecial" placement="top"
+                            class="custom-day" [class.weekend]="isWeekend(date)" [class.today]="isToday(date)"
+                            [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
+                            [class.text-muted]="disabled">
+                            {{ date.day }}
+                        </span>
+                    </ng-template>
+
+                    <input [autoClose]="'outside'" ngbDatepicker placement="bottom" [showWeekNumbers]="true"
+                        (click)="start.toggle()" [dayTemplate]="customDayCreateStart"
+                        [footerTemplate]="footerCreateStart" [markDisabled]="isDisabled" placeholder="Başlangıç tarihi"
+                        autocomplete="off" navigation="arrows" class="form-control pl-2 pr-2"
+                        style="max-width:10rem!important; cursor: pointer" name="start" [(ngModel)]="startDate"
+                        (ngModelChange)="onSelectStartDate($event)" #start="ngbDatepicker" />
+                </div>
+                <div class="input-group-append">
+                    <a class="btn  calendar"
+                        style="cursor: pointer; border-bottom: 1px gainsboro solid; background-color: white; "
+                        (click)="deadline.toggle()">
+                        <img src="../../../../assets/calender.png"
+                            style="width: 1.3rem; height: 1.1rem; cursor: pointer;" />
+                    </a>
+                    <ng-template #footerCreate>
+                        <div class="myCal general"
+                            style="padding-top:0.1px; padding-bottom:0.5px; padding-left:0.1px;  padding-right:2.1px">
+                            <button disabled class="btn w-100 rounded-0 border-0" style="display: none">&nbsp;</button>
+                            <input (keydown)=" $event?.keyCode === 13 ? deadline.close() : ' ' " ngbDatepicker
+                                placeholder="Teslim tarihi" autocomplete="off" [showWeekNumbers]="true"
+                                navigation="arrows" class="form-control w-100"
+                                style="margin-left: 1px; margin-bottom: 1px; text-align:center" name="deadlineX"
+                                [(ngModel)]="deadlineDate" (ngModelChange)="onSelectDeadlineDate($event)"
+                                #deadlineX="ngbDatepicker" />
+
+                            <div class="timePickerXyz" *ngIf="deadlineDate">
+                                <ngb-timepicker #timePickerDeadline name="timePickerDeadline" [(ngModel)]="timeDeadline"
+                                    (ngModelChange)="onSelectTimeDeadline($event)" [spinners]="false"></ngb-timepicker>
+                            </div>
+                            <button type="button" (click)="calendarButtonSelect('today',true);"
+                                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Bugün</button>
+                            <button type="button" (click)="calendarButtonSelect('tomorrow',true);"
+                                class=" btn-day w-100 rounded-0 border-0 p-1" style="margin-left: 1px">Yarın</button>
+                            <button [hidden]="!deadlineDate" type="button"
+                                (click)="calendarButtonSelect('noDate',true); "
+                                class=" btn-day w-100 rounded-0 border-0 p-1"
+                                style="margin-left: 1px; margin-bottom: 4px;">
+                                <mat-icon class="mat-search_icon-close" matRipple>close</mat-icon>
+                            </button>
+                            <!-- time select-->
+
+                        </div>
+                    </ng-template>
+
+                    <ng-template #customDayCreate let-date let-currentMonth="currentMonth" let-selected="selected"
+                        let-disabled="disabled">
+                        <span [ngbTooltip]="isToday(date) ? 'Bugün' : ''" tooltipClass="tooltipSpecial" placement="top"
+                            class="custom-day" [class.weekend]="isWeekend(date)" [class.today]="isToday(date)"
+                            [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth"
+                            [class.text-muted]="disabled">
+                            {{ date.day }}
+                        </span>
+                    </ng-template>
+
+                    <input [autoClose]="'outside'" ngbDatepicker placement="bottom" [showWeekNumbers]="true"
+                        (click)="deadline.toggle()" [dayTemplate]="customDayCreate" [footerTemplate]="footerCreate"
+                        [markDisabled]="isDisabled" placeholder="Teslim tarihi" autocomplete="off" navigation="arrows"
+                        class="form-control pl-2 pr-2" style="max-width:10rem!important; cursor: pointer"
+                        name="deadline" [(ngModel)]="deadlineDate" (ngModelChange)="onSelectDeadlineDate($event)"
+                        #deadline="ngbDatepicker" />
+                </div>
+
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-dark text-white text-uppercase">Oluştur</button>
+                    <a (click)="toggleProjectToDoPanel()" class="btn btn-danger rounded-3 text-white text-uppercase"
+                        style="cursor: pointer">X</a>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <span class="text-danger row" *ngIf="modelSubmitted && projectTask?.errors?.required">
+                    Bir iş tanımı belirtmelisiniz.
+                </span>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<div [hidden]="!this.repository?.reOrdering"
+    style=" position: absolute;  top: 25%; padding-left: 35%; padding-right:35%;  z-index: 10000;">
+    <img src="../assets/rolling.png" style="opacity: 0.9;">
+    <img src="../assets/logo.svg" style="height: 3rem; width: auto">
+</div>

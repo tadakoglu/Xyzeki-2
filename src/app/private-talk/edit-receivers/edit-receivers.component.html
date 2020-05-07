@@ -1,0 +1,100 @@
+<mat-form-field class="example-chip-list">
+  <mat-chip-list #chipList>
+    <mat-chip class="rec-mat-chip-height" *ngFor="let receiver of receivers" [selectable]="selectable"
+      [removable]="removable" (removed)="remove(receiver)">
+      <!-- <div *ngIf="receiver">{{receiver}}</div> -->
+
+      <div class="receiverOption-small">
+        <div style="display: inline-block">
+          <img *ngIf="getMemberPT(receiver)" [src]="getMemberPT(receiver)?.Avatar" alt="Avatar"
+            class="md-avatar size-0 rounded-circle">
+        </div>
+        <div style="display: inline-block">
+          <span>&nbsp;
+            {{getMemberPT(receiver)?.Name}}
+            {{getMemberPT(receiver)?.Surname}}
+          </span>
+          <!-- <span style="color: rgb(134, 134, 134)">,&nbsp;@{{receiver?.Username}}</span>
+            <span style="color: rgb(134, 134, 134)">,&nbsp;{{teamMemberTeam(receiver?.TeamId)?.TeamName}}</span> -->
+
+        </div>
+      </div>
+
+
+      <mat-icon matChipRemove *ngIf="removable" class="rec-remove-btn text-center">x</mat-icon>
+    </mat-chip>
+    <input (click)="openPanel()" placeholder="Alıcılar" #receiverInput [formControl]="receiverCtrl"
+      [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" style=" line-height: 35px">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option *ngFor="let receiver of allTeamMembersPT_V2" [value]="receiver?.Username">
+      <div class="receiverOption">
+        <div style="display: inline-block">
+          <img *ngIf="getMemberPT(receiver?.Username)" [src]="getMemberPT(receiver?.Username)?.Avatar" alt="Avatar"
+            class="md-avatar size-1 rounded-circle">
+        </div>
+        <div style="display: inline-block">
+          <span>&nbsp;
+            {{getMemberPT(receiver?.Username)?.Name}}
+            {{getMemberPT(receiver?.Username)?.Surname}}
+          </span>
+          <span style="color: rgb(134, 134, 134)">,&nbsp;@{{receiver?.Username}}</span>
+          <span style="color: rgb(134, 134, 134)">,&nbsp;{{teamMemberTeam(receiver?.TeamId)?.TeamName}}</span>
+
+        </div>
+      </div>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<!-- Team Receivers-->
+<mat-form-field class="example-chip-list">
+  <mat-chip-list #chipListForTeam>
+    <mat-chip class="rec-mat-chip-height" *ngFor="let tReceiver of teamReceivers" [selectable]="selectableForTeam"
+      [removable]="removableForTeam" (removed)="removeForTeam(tReceiver)">
+      <div class="receiverOption-small">
+        <div style="display: inline-block">
+          <img src="../../../assets/logo.svg" style="background-color: white" alt="Avatar"
+            class="md-avatar size-0 rounded-circle">
+        </div>
+        <div style="display: inline-block">
+          <span>&nbsp;
+            {{teamMemberTeam(tReceiver)?.TeamName}}
+          </span>
+
+        </div>
+      </div>
+
+
+      <mat-icon matChipRemove *ngIf="removableForTeam" class="rec-remove-btn text-center">x</mat-icon>
+    </mat-chip>
+    <input (click)="openPanelForTeam()" placeholder="Takım alıcıları" #receiverInputForTeam
+      [formControl]="receiverCtrlForTeam" [matAutocomplete]="autoForTeam" [matChipInputFor]="chipListForTeam"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodesForTeam" [matChipInputAddOnBlur]="addOnBlurForTeam"
+      (matChipInputTokenEnd)="addForTeam($event)" style=" line-height: 35px">
+  </mat-chip-list>
+  <mat-autocomplete #autoForTeam="matAutocomplete" (optionSelected)="selectedForTeam($event)">
+    <mat-option *ngFor="let tReceiver of allTeamsPT" [value]="tReceiver?.TeamId">
+      <div class="receiverOption">
+        <div style="display: inline-block">
+          <img src="../../../assets/logo.svg" style="background-color: white" alt="Avatar"
+            class="md-avatar size-0 rounded-circle">
+        </div>
+        <div style="display: inline-block">
+          <span style="color: rgb(134, 134, 134)">&nbsp;
+            {{tReceiver?.TeamName}}
+          </span>
+        </div>
+      </div>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+
+<button (click)="saveChangesEvent.next([receivers,teamReceivers])" type="button"
+  class="btn btn-light btn-mini rounded-0 border-0">Değişiklikleri Kaydet</button>
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

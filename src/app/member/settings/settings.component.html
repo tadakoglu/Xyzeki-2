@@ -1,0 +1,265 @@
+<div [hidden]="!invalidLicensePanelOpen"
+  style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+  <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür
+    dileriz;
+    fakat herhangi bir
+    kurumsal, bireysel
+    veya katıldığınız takımların sahiplerine ait geçerli bir lisans bulamadık.</span>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-10 col-12 ">
+      <div class="card bg-white">
+        <div class="card-header xyz-card-dark text-light rounded-0">
+          <a class="btn btn-dark text-white rounded-0" [routerLink]="[ '/isler' ]">Geri</a>
+          <a class="btn float-right">Ayarlar</a>
+        </div>
+        <div class="card-body">
+          <div class="container-fluid">
+            <div class="col">
+              <div class="row">
+                <h6>Özel Temalar</h6>
+              </div>
+              <div class="row  mt-1" >
+                <div class="container-fluid">
+                  <div class="row">
+                    <span class="text-muted">Klasik</span>
+
+                    <ul>
+                      <li (click)="selectTheme('KlasikMavi')">
+                        <div id="Mavi" class="squareBtn"
+                          [ngClass]="selectedTheme == 'KlasikMavi' ? 'squareBtnSelected' : ''">
+                          <span>Mavi</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('KlasikKirmizi')">
+                        <div id="Kirmizi" class="squareBtn"
+                          [ngClass]="selectedTheme == 'KlasikKirmizi' ? 'squareBtnSelected' : ''">
+                          <span>Kırmızı</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('KlasikSari')">
+                        <div id="Sari" class="squareBtn"
+                          [ngClass]="selectedTheme == 'KlasikSari' ? 'squareBtnSelected' : ''">
+                          <span>Sarı</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('KlasikMetalik')">
+                        <div id="Metalik" class="squareBtn"
+                          [ngClass]="selectedTheme == 'KlasikMetalik' ? 'squareBtnSelected' : ''">
+                          <span>Metalik</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('KlasikGece')">
+                        <div id="Gece" class="squareBtn"
+                          [ngClass]="selectedTheme == 'KlasikGece' ? 'squareBtnSelected' : ''">
+                          <span>Gece</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('KlasikRoyal')">
+                        <div id="Royal" class="squareBtn"
+                          [ngClass]="selectedTheme == 'KlasikRoyal' ? 'squareBtnSelected' : ''">
+                          <span>Royal</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('KlasikLimeade')">
+                        <div id="Limeade" class="squareBtn"
+                          [ngClass]="selectedTheme == 'KlasikLimeade' ? 'squareBtnSelected' : ''">
+                          <span>Limeade</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('KlasikBeyaz')">
+                        <div id="KlasikBeyaz" class="squareBtn"
+                          [ngClass]="selectedTheme == 'KlasikBeyaz' ? 'squareBtnSelected' : ''">
+                          <span>Beyaz</span>
+                        </div>
+                      </li>
+                    </ul>
+
+                  </div>
+                  <div class="row">
+                    <span class="text-muted">Resimli</span>
+                    <ul>
+                      <li (click)="selectTheme('ArashiyamaBambulari')">
+                        <div id="ArashiyamaBambulari" class="squareBtn"
+                          [ngClass]="selectedTheme == 'ArashiyamaBambulari' ? 'squareBtnSelected' : ''">
+                          <span>Arashiyama Bambuları</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Venedik')">
+                        <div id="Venedik" class="squareBtn"
+                          [ngClass]="selectedTheme == 'Venedik' ? 'squareBtnSelected' : ''">
+                          <span>Venedik</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('EmpireState')">
+                        <div id="EmpireState" class="squareBtn"
+                          [ngClass]="selectedTheme == 'EmpireState' ? 'squareBtnSelected' : ''">
+                          <span>Empire State Binası</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Peribacalari')">
+                        <div id="Peribacalari" class="squareBtn"
+                          [ngClass]="selectedTheme == 'Peribacalari' ? 'squareBtnSelected' : ''">
+                          <span>Peribacaları</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Orman')">
+                        <div id="Orman" class="squareBtn"
+                          [ngClass]="selectedTheme == 'Orman' ? 'squareBtnSelected' : ''">
+                          <span>Orman</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Yaprak')">
+                        <div id="Yaprak" class="squareBtn"
+                          [ngClass]="selectedTheme == 'Yaprak' ? 'squareBtnSelected' : ''">
+                          <span>Yaprak</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Kedi')">
+                        <div id="Kedi" class="squareBtn" [ngClass]="selectedTheme == 'Kedi' ? 'squareBtnSelected' : ''">
+                          <span>Kedi</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Deniz')">
+                        <div id="Deniz" class="squareBtn"
+                          [ngClass]="selectedTheme == 'Deniz' ? 'squareBtnSelected' : ''">
+                          <span>Kumsal</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('DenizAgac')">
+                        <div id="DenizAgac" class="squareBtn" [ngClass]="selectedTheme == 'DenizAgac' ? 'squareBtnSelected' : ''">
+                          <span>Deniz ve Ağaçlar</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Tarla')">
+                        <div id="Tarla" class="squareBtn" [ngClass]="selectedTheme == 'Tarla' ? 'squareBtnSelected' : ''">
+                          <span>Tarla</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Deve')">
+                        <div id="Deve" class="squareBtn" [ngClass]="selectedTheme == 'Deve' ? 'squareBtnSelected' : ''">
+                          <span>Deve ve Piramit</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Denizalti')">
+                        <div id="Denizalti" class="squareBtn"
+                          [ngClass]="selectedTheme == 'Denizalti' ? 'squareBtnSelected' : ''">
+                          <span>Denizalti</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Brienz')">
+                        <div id="Brienz" class="squareBtn"
+                          [ngClass]="selectedTheme == 'Brienz' ? 'squareBtnSelected' : ''">
+                          <span>Brienz</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Aconcagua')">
+                        <div id="Aconcagua" class="squareBtn"
+                          [ngClass]="selectedTheme == 'Aconcagua' ? 'squareBtnSelected' : ''">
+                          <span>Aconcagua</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('Bulutlar')">
+                        <div id="Bulutlar" class="squareBtn"
+                          [ngClass]="selectedTheme == 'Bulutlar' ? 'squareBtnSelected' : ''">
+                          <span>Bulutlar</span>
+                        </div>
+                      </li>
+                      <li (click)="selectTheme('TropicalGunisigi')">
+                        <div id="TropicalGunisigi" class="squareBtn"
+                          [ngClass]="selectedTheme == 'TropicalGunisigi' ? 'squareBtnSelected' : ''">
+                          <span>Tropical Gün Işığı</span>
+                        </div>
+                      </li>
+
+                    </ul>
+                  </div>
+                  <!-- <div class="row">
+                    <span class="text-muted">Dinamik</span>
+                    <ul>
+                      <li (click)="selectTheme('Deve')">
+                        <div id="Deve" class="squareBtn"
+                          [ngClass]="selectedTheme == 'Deve' ? 'squareBtnSelected' : ''">
+                          <span>Günlük Akış & Özlü Yazı</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div> -->
+
+                </div>
+              </div>
+
+              <div class="row mt-3">
+
+                <h6>Zaman,Dil ve Bölge Seçenekleri</h6>
+              </div>
+              <div class="row  mt-1 mb-4">
+                <div class="container-fluid">
+                  <div class="row">
+                    Şu anda sadece Türkiye'de ve de Türkçe diliyle  hizmet vermekteyiz.
+                  </div>
+
+
+                </div>
+              </div>
+              <div class="row">
+                <h6>E-Posta Raporlama Hizmetlerimiz</h6>
+              </div>
+              <div class="row  mt-1">
+                <div class="container-fluid">
+                  <div class="row">
+                    <h6 class="text-muted">İş Veren Raporlama</h6>
+                  </div>
+                  <div class="row">
+                    <div class="text-nowrap text-left">
+                      <input (click)="saveReportingSettings('owner',true)" [checked]="ownerReporting" type="radio"
+                        name="demo" id="radio-one" class="xyz-radio-btn"><label for="radio-one">Açık</label>
+                    </div>
+                    <div class="text-nowrap text-left ml-3">
+                      <input (click)="saveReportingSettings('owner',false)" [checked]="!ownerReporting" type="radio"
+                        name="demo" id="radio-two" class="xyz-radio-btn"><label for="radio-one">Kapalı</label>
+                    </div>
+                    <div class="text-left">
+                      <small class="text-muted ">Eğer Xyzeki üzerinde size ait ekibiniz, ekipleriniz, projeleriniz veya görevleriniz var ise
+                        çalışanlarınızın normal veya proje görevlerini yapıp yapmadığına dair akşam 6'da size rapor
+                        e-postası gönderiyoruz.</small>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="row  mt-1">
+                <h6 class="text-muted">Çalışan Raporlama</h6>
+              </div>
+              <div class="row  mt-1">
+                <div class="text-nowrap text-left">
+                  <input (click)="saveReportingSettings('assignedTo',true)" [checked]="assignedToReporting" type="radio"
+                    name="demo2" id="radio-one2" class="xyz-radio-btn"><label for="radio-one">Açık</label>
+                </div>
+                <div class="text-nowrap  text-left ml-3">
+                  <input (click)="saveReportingSettings('assignedTo',false)" [checked]="!assignedToReporting" type="radio" name="demo2" id="radio-two2"
+                    class="xyz-radio-btn"><label for="radio-one">Kapalı</label>
+                </div>
+                <div class="text-left">
+                  <small class="text-muted ">Eğer Xyzeki üzerinde çalışan olarak katıldığınız ekip ya da ekipler var
+                    size sabah 6'da o günkü görevlerinizin ne olduğunu akşam 6 ise bu görevlerizi tamamlayıp
+                    tamamlamadığınız hakkında size bilgi ve rapor e-postaları gönderiyoruz.</small>
+                </div>
+              </div>
+              <!-- <input (click)="checkPrivacy('open',projectId)"
+                  [checked]="getProject(projectId)?.Privacy == 'open'" type="radio" name="demo" id="radio-one"
+                  class="xyz-radio-btn"><label for="radio-one">Tüm Paydaşlara Açık (Tümü)</label> -->
+            </div>
+
+          </div>
+          <!-- <button type="submit" class="btn xyz-card-dark-btn float-right rounded-0 mt-4">Değişiklikleri Kaydet</button> -->
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>

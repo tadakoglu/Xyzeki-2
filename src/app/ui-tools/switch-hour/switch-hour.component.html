@@ -1,0 +1,14 @@
+<div class="bg-dark" style="    border-radius: 60px;">
+    <ul>
+        <li *ngFor="let hourName of hourNames; let i=index">
+            <div [ngStyle]="{'border': hourName == '13:00' ? '0.5px solid ' + this.dataService.ledTypeClassShared.split('-')[1]: '', 'box-shadow': hourName == '13:00' ? '0 0 1px 0 ' + this.dataService.ledTypeClassShared.split('-')[1] + ' inset, 0 0 1px 0': ''}"
+                cdkDropList  [id]="hourName" (cdkDropListDropped)="drop($event)"  class="circleBtn"
+                ngbTooltip="{{hourName}}" placement="bottom" tooltipClass="tooltipSpecialX">
+                <span>{{hourName}}</span><br>
+                <!-- <div cdkDrag>
+                    <div *cdkDragPlaceholder style="display: none"></div>
+                </div> -->
+            </div>
+        </li>
+    </ul>
+</div>

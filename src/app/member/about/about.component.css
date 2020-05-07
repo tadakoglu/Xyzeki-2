@@ -1,0 +1,42 @@
+.XyzekiWithSloganBG{
+    /* background: url(../../../assets/logo/Xyzeki-with-slogan.png) no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover; */
+    background-color: rgba(255, 255, 255, 0.473);
+    pointer-events: none !important;
+    width: 100%;
+ 
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  @media (max-width:600px)
+  {
+    .XyzekiWithSloganBG{
+      padding-left: 2%;
+      padding-right:  2%;
+    }   
+  }  
+  @media (min-width:601px)
+  {
+    .XyzekiWithSloganBG{
+      padding-left: 15%;
+      padding-right: 15%;
+    }   
+  }
+
+
+  .footer {
+    /* position: fixed; */
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(94, 94, 94);
+    color: white;
+    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }

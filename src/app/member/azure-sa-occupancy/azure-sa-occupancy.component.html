@@ -1,0 +1,6 @@
+<img [hidden]="!loading" src="../../../assets/loading.gif" style="height: 2rem; width: 2rem">
+<span *ngIf="!loading">
+  {{(azureSaUsedSizeInBytes / 1073741824) | number }}
+  {{ (azureSaUsedSizeInBytes > 0) ? '&#10004;': ''}}
+  <!-- we dont use 0 if license storage table set up properly, we use 1 bytes, then it should not be 0-->
+</span>

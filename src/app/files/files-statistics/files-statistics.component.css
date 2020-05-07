@@ -1,0 +1,20 @@
+
+.donut-segment:hover {
+    stroke-width: 6.4;
+}
+
+.donut-segment {
+    transition: all 0.4s;  
+}
+.xyz-card-dark {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+}
+.filter-grey{
+    filter: invert(97%) sepia(0%) saturate(0%) hue-rotate(239deg) brightness(88%) contrast(89%);
+    transition: filter 0.5s;
+  }
+  .filter-grey:hover{
+    filter: invert(36%) sepia(8%) saturate(221%) hue-rotate(315deg) brightness(93%) contrast(90%);
+  }

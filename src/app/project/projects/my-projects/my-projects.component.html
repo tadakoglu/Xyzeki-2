@@ -1,0 +1,237 @@
+<div [hidden]="!invalidLicensePanelOpen"
+    style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+    <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür
+        dileriz;
+        fakat herhangi bir
+        kurumsal, bireysel
+        veya katıldığınız takımların sahiplerine ait geçerli bir lisans bulamadık.</span>
+</div>
+<nav class="container-fluid xyz-card-dark ">
+
+    <a class="btn btn-dark text-white rounded-0" [routerLink]="[ '/isler' ]"> Geri</a>
+    <a ngbTooltip="Yeni proje veya liste oluşturun" tooltipClass="tooltipSpecial" *ngIf="!newProjectPanelOpen"
+        (click)="toggleProjectPanel()" class="btn btn-dark rounded-0 text-white ml-1" style="cursor: pointer">Yeni +</a>
+    <button class="btn btn-dark text-white rounded-0 float-right" disabled>Projeler/Listeler</button>
+    <div class="circleBtnSquareSearchBar pl-1">
+        <span class="disable-select">
+            <mat-search-bar (onOpen)="this.searchBarOpen=true" (onClose)="this.searchBarOpen=false"
+                [searchText]="'Xyzeki Proje Arama'"></mat-search-bar>
+        </span>
+    </div>
+
+</nav>
+
+<div class="container-fluid pt-4 pb-4 bg-white">
+    <div class="col-12">
+        <div [ngStyle]="{'pointer-events': this?.repository?.reOrdering ? 'none':'unset'}" class="row"
+            id="projectsShared">
+            <table [hidden]="myProjectsAssigned().length == 0" class="table table-sm table-hover ">
+                <tbody>
+                    <tr style="cursor: pointer! important" class="trOptimization"
+                        *ngFor="let projectA of myProjectsAssigned()">
+                        <td [routerLink]="[ projectA?.ProjectId, 'yapilacaklar']" [fragment]="'shared'"
+                            [ngClass]="{'router-link-active': true}" style="font-size: 15px;float:left;  width: 100%;">
+                            {{projectA?.ProjectName}}</td>
+
+                        <td cdkDragHandle *ngIf="projectModel?.ProjectId != projectA?.ProjectId"
+                            style="max-width: 80px; min-width: 80px">
+                            <div ngbTooltip="Size içeriği düzenleme yetkisi verildi." placement="bottom"
+                                tooltipClass="tooltipSpecial" class="wrapOrNot float-right draggable"
+                                style="color: rgb(90, 90, 90); text-align: center;"
+                                *ngIf="projectA?.ProjectManager && memberShared.Username == projectA?.ProjectManager">
+                                <img alt="Avatar" *ngIf="memberShared?.account?.getValue()"
+                                    [src]="memberShared?.account?.getValue()?.Avatar"
+                                    class="md-avatar size-1 rounded-circle ">
+                                <span> Siz</span>
+                            </div>
+
+
+                            <div class="wrapOrNot float-right mr-1 draggable"
+                                style="color: rgb(94, 94, 94);  text-align: center; "
+                                *ngIf="projectA?.ProjectManager &&  memberShared.Username != projectA?.ProjectManager">
+                                <img *ngIf="getMember(projectA?.ProjectManager)"
+                                    [src]="getMember(projectA?.ProjectManager)?.Avatar" alt="Avatar"
+                                    class="md-avatar size-1 rounded-circle ">
+                                <span> {{getMember(projectA?.ProjectManager)?.Name}}</span>
+                            </div>
+
+                        </td>
+                        <td>
+                            <img ngbTooltip="Sizinle paylaşılıyor." placement="bottom" tooltipClass="tooltipSpecial"
+                                class="m-1 float-right" style="height: 38px; width:auto"
+                                src="../../../../assets/share2.svg">
+                        </td>
+                        <td style="cursor: pointer! important">
+                            <div *ngIf="projectA" class="btn m-1 float-right"
+                                [ngStyle]="{'background-color': (projectA?.Color) ? projectA?.Color : '#E9F6FE', 'border-radius':'2px'}">
+                                &nbsp;</div>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <div class="row">
+            
+        </div> -->
+        <form class="row pb-2" *ngIf="newProjectPanelOpen" #projectForm="ngForm" (ngSubmit)="addProject(projectForm)"
+            novalidate>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <a class="btn btn-dark disabled text-white rounded-0">Başlık</a>
+                </div>
+                <input id="textForFocus" autofocus type="text" name="projectName" [(ngModel)]="projectModel.ProjectName"
+                    #projectName="ngModel" required class="form-control"
+                    placeholder="Proje veya listenizin başlığı ne olsun?" />
+
+
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-dark text-white rounded-0">Oluştur</button>
+                    <a (click)="toggleProjectPanel()" class="btn btn-danger rounded-0 text-white">X</a>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <span class="text-danger row" *ngIf="modelSubmitted && projectName?.errors?.required">
+                    Üzgünüz, bir proje ismi gerekmektedir.
+                </span>
+                <span class="text-danger row" *ngIf="modelSubmitted && projectName?.errors?.pattern">
+                    Üzgünüz, proje başlığı için sadece harfler geçerlidir.
+                </span>
+            </div>
+        </form>
+        <div class=" row ">
+            <table [hidden]=" myProjects().length ==0" class="table table-hover table-sm">
+                <tbody cdkDropList id="ProjectsContainer" (cdkDropListDropped)="drop($event)">
+                    <tr cdkDrag (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)"  [cdkDragData]="project" class="draggable trOptimization"
+                        [class.buton-secili]="selectedProjectId == project?.ProjectId"
+                        *ngFor="let project of myProjects()">
+                        <td [routerLink]="[ project?.ProjectId, 'yapilacaklar']"
+                            [ngClass]="{'router-link-active': true}" cdkDragHandle
+                            *ngIf="projectModel?.ProjectId != project?.ProjectId"
+                            style="font-size: 15px; width: 100%; float:left; ">
+                            {{project?.ProjectName}}
+                        </td>
+                        <td cdkDragHandle *ngIf="projectModel?.ProjectId != project?.ProjectId"
+                            style="max-width: 80px;min-width: 80px; float:right">
+                            <div class="wrapOrNot float-right mr-1 draggable"
+                                style="color: rgb(90, 90, 90); text-align: center;"
+                                *ngIf="project?.ProjectManager && memberShared.Username == project?.ProjectManager">
+                                <img alt="Avatar" *ngIf="memberShared?.account?.getValue()"
+                                    [src]="memberShared?.account?.getValue()?.Avatar"
+                                    class="md-avatar size-1 rounded-circle ">
+                                <span> Ben</span>
+                            </div>
+
+
+                            <div class="wrapOrNot float-right mr-1 draggable"
+                                style="color: rgb(94, 94, 94);  text-align: center; "
+                                *ngIf="project?.ProjectManager &&  memberShared.Username != project?.ProjectManager">
+                                <img *ngIf="getMember(project?.ProjectManager)"
+                                    [src]="getMember(project?.ProjectManager)?.Avatar" alt="Avatar"
+                                    class="md-avatar size-1 rounded-circle ">
+                                <span> {{getMember(project?.ProjectManager)?.Name}}</span></div>
+                        </td>
+                        <td cdkDragHandle *ngIf="projectModel.ProjectId!= project?.ProjectId"
+                            style="cursor: pointer! important; float: right; ">
+                            <!-- renk-->
+                            <div *ngIf="project?.ProjectId" (click)="setColor(project?.ProjectId); "
+                                class="btn m-1 float-right"
+                                [ngStyle]="{'background-color': (project?.Color) ? project?.Color : '#E9F6FE', 'border-radius':'2px'}">
+                                &nbsp;</div>
+                            <!-- renk-->
+                        </td>
+                        <td cdkDragHandleDisabled *ngIf="projectModel.ProjectId!= project?.ProjectId"
+                            style="cursor: pointer! important; float: right; ">
+                            <div #pmDP="ngbDropdown" [id]="'dp'+project?.ProjectId" ngbDropdown
+                                class="d-inline-block float-right mb-2 " placement="left" *ngIf="project?.ProjectId">
+                                <button
+                                    (click)="projectIdForProjectManager=project?.ProjectId; $event.stopPropagation();"
+                                    class="btn filter-grey mb-0 " style="z-index: 1000 !important"
+                                    [id]="'dropdownMemberOptions'+project?.ProjectId" ngbDropdownToggle>
+                                    <img src="../../../assets/more2.svg"
+                                        style="height: 6px;object-fit: cover; cursor: pointer;" />
+                                </button>
+                                <div ngbDropdownMenu attr.aria-labelledby="dropdownMemberOptions{{project?.ProjectId}}"
+                                    class="rounded-4 bg-white ml-0 mr-0">
+                                    <div *ngIf="project?.ProjectId" style="text-align: center; line-height: 30px">
+                                        <span style="display: block">Proje/Liste Yöneticisi</span>
+                                        <app-assign-autocomplete [normalMode]="true"
+                                            [selectedItemOver]="project?.ProjectManager"
+                                            (projectManagerSelectedEvent)="onProjectManagerSelectedEvent($event)">
+                                        </app-assign-autocomplete>
+                                    </div>
+                                    <hr>
+
+                                    <button (click)="toggleUpdateProjectPanel(project?.ProjectId);" ngbDropdownItem
+                                        class="btn btn-light rounded-0 border-0 xyz-nav-btn">
+                                        <img src="../../../assets/pencil.png"
+                                            style="width: 20px;object-fit: cover; cursor: pointer; "
+                                            class="mr-2" />Yeniden İsimlendir</button>
+                                    <hr>
+                                    <button (click)="deleteProject(project?.ProjectId)" ngbDropdownItem
+                                        class="btn btn-light rounded-0 border-0 xyz-nav-btn2"><img
+                                            src="../../../assets/cancel.svg"
+                                            style="width: 18px;object-fit: cover; cursor: pointer; "
+                                            class="mr-2" />Projeyi Sil</button>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td cdkDragHandleDisabled
+                            *ngIf="updateProjectPanelOpen &&  projectModel.ProjectId== project?.ProjectId" colspan="3"
+                            class="w-100" id="editBar">
+                            <form #projectUpdateForm="ngForm" (ngSubmit)="addProject(projectUpdateForm)" novalidate>
+                                <div class="input-group w-100">
+                                    <div class="input-group-prepend">
+                                        <a class="btn btn-dark disabled text-white">Başlık</a>
+                                    </div>
+                                    <input id="textForFocus" autofocus type="text" name="projectNameForUpdate"
+                                        [(ngModel)]="projectModel.ProjectName" #projectNameForUpdate="ngModel" required
+                                        class="form-control" placeholder="Projenizin yeni adı ne olsun?" />
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-dark text-white">Değiştir</button>
+                                        <a (click)="toggleUpdateProjectPanel(project?.ProjectId);"
+                                            style="cursor: pointer;"
+                                            class="btn btn-danger text-white text-uppercase">X</a>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <span class="text-danger row"
+                                            *ngIf="modelSubmitted && projectNameForUpdate?.errors?.required">
+                                            Üzgünüz, bir proje ismi gerekmektedir.
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </form>
+
+
+
+                        </td>
+
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <p [hidden]=" !( myProjects()?.length == 0 && !searchBarOpen)" class="mt-1">Şu an için bir projeniz
+                bulunmamaktadır.
+                Hemen sizin için bir tane oluşturalım.</p>
+            <p [hidden]="! (myProjects()?.length == 0 && searchBarOpen)">
+                Üzgünüz, aradığınız kriterlerde size ait bir proje bulamadık.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<div [hidden]="!this.repository?.reOrdering"
+    style=" position: absolute;  top: 25%; padding-left: 35%; padding-right:35%;  z-index: 10000;">
+    <img src="../assets/rolling.png" style="opacity: 0.9;">
+    <img src="../assets/logo.svg" style="height: 3rem; width: auto">
+</div>

@@ -1,0 +1,26 @@
+#region My-Notes-On-Model-Binding
+    // Use [FromBody] to model bind from requests with JSON body({ 'Username': 'test' }) with header "Content-Type: application/json") 
+    // Use [FromQuery] to model bind from query variables as in "api/members/login?username=ddfd&password=dfdfd"
+    // Use [FromHeader] to model bind from request header variables like "Authenciation" : "Bearer XXX";
+    // Use [FromRoute] to model bind from request URL as in "/members/get/2", and use attributes like HttpGet("{TeamId"}) or post...Using nothing before API arguments will bind from routes automatically too.
+    // Use "nothing" to model bind from requests with "x-www-form-urlencoded" encoded body and requests with query parameters.        
+    // Without any of this attributes(using "nothing"), you can ONLY  model bind from "x-www-form-urlencoded" encoded body(with header "Content-Type: application/x-www-form-urlencoded") and from query parameters.
+    // You can't accept requests "x-www-form-urlencoded" encoded body WITH [FromBody] in ASP.NET Core.
+    // You can't accept requests with JSON body(with header "Content-Type: application/json") WITHOUT [FromBody]
+    // HTTP Status Codes : https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html
+    // Status Code: 415; Unsupported Media Type is a ASP.NET Core Web API error that means there was a problem in arguments or in model binding.
+    // You might want to use JsonResult type to return JSON.
+    // Get requests don't have a "body" to send to the server.
+    // Written by T.Adakoğlu
+    #endregion
+
+    #region My-Notes-On-Async-Await
+    // Async does one thing and only one thing not related to only speed.
+    // If a task is being awaited, and that task does not involve CPU-bound work, and as a result, the thread becomes idle, then, that thread potentially could be released to return to the pool to do other work.
+    // That's it. Async in a nutshell. 
+    // Use Async, await when needed, it means "scalability on server-side" and a "responsive UI on client-side"
+    /* Example: Task<int> longRunningTask = LongRunningOperationAsync();
+       independent work which doesn't need the result of LongRunningOperationAsync can be done here
+       and now we call await on the task int result = await longRunningTask; */
+    // In addition, do not call .Result in API Controllers. It will lock your UI. Instead, use await. Ref: https://montemagno.com/c-sharp-developers-stop-calling-dot-result/
+    #endregion

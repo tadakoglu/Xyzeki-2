@@ -1,0 +1,142 @@
+<div [hidden]="!invalidLicensePanelOpen"
+    style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243, 242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+    <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block" style="font-size:15px">Özür
+        dileriz;
+        fakat herhangi bir
+        kurumsal geçerli lisans bulamadık.</span>
+</div>
+<div [hidden]="!getError()" style="border-bottom: 1px solid #CED4DA; position: absolute;  top: 0; left:0; right: 0;
+ z-index: 10000; background-color: rgb(243,
+  242, 242); padding-left: 10px; padding-right: 10px; width: 100%; padding-bottom: 5px; padding-top:5px">
+    <img src="../assets/logo.svg" class="d-inline-block"><span class="d-inline-block"
+        style="font-size:15px">{{getError()}}, Xyzeki 403</span>
+</div>
+<nav class="container-fluid xyz-card-dark">
+    <a class="btn btn-dark text-white rounded-0" [routerLink]="[ '/isler' ]"> Geri</a>
+    <button class="btn btn-dark text-white rounded-0 float-right" disabled>Ekipler</button>
+    <a [routerLink]="[ 'gelen-takim-davetiyeleri']" class="btn btn-dark rounded-0 text-white float-right mr-1">
+        Davetiyeler<img style="height:18px; object-fit: cover" class="pl-1 pb-0  "
+            src="../../../../assets/closed-envelope.svg"></a>
+</nav>
+<div class="container-fluid pt-4 pb-4 bg-white">
+    <div class="row">
+        <div class="col-xs-6 col-lg-6 col-12">
+            <div class="container-fluid mb-4 ">
+                <div class="row">
+                    <h5>Ekipler</h5>
+                    <table *ngIf="myTeams()?.length != 0" class="table table-hover">
+
+                        <tbody>
+                            <tr (click)="selectedTeamId = team?.TeamId" [routerLink]="[ team?.TeamId, 'takim-uyeleri']"
+                                *ngFor="let team of myTeams()" [class.buton-secili]="selectedTeamId == team?.TeamId"
+                                style="cursor: pointer! important">
+                                <td *ngIf="teamModel?.TeamId != team?.TeamId">{{team?.TeamName}}
+                                </td>
+                                <td *ngIf="teamModel?.TeamId != team?.TeamId" style="cursor: pointer! important">
+                                    <div ngbDropdown placement="left" class="d-inline-block float-right mb-3 "
+                                        *ngIf="team?.TeamId!=undefined">
+                                        <button class="btn filter-grey mb-0" id="dropdownMemberOptions"
+                                            ngbDropdownToggle>
+                                            <img src="../../../assets/more2.svg"
+                                                style="height: 6px;object-fit: cover; cursor: pointer;" />
+                                        </button>
+                                        <div ngbDropdownMenu aria-labelledby="dropdownMemberOptions"
+                                            class="rounded-4 bg-white ml-0 mr-0">
+                                            <button ngbDropdownItem (click)="toggleUpdateTeamPanel(team?.TeamId)"
+                                                class="btn btn-light rounded-0 border-0 xyz-nav-btn">
+                                                <img src="../../../assets/pencil.png"
+                                                    style="width: 20px;object-fit: cover; cursor: pointer; "
+                                                    class="mr-2" />Yeniden İsimlendir</button>
+
+                                        </div>
+                                    </div>
+                                    <a (click)="selectedTeamId = team?.TeamId"
+                                        class="btn btn-light rounded-2 float-right"
+                                        [routerLink]="[ team?.TeamId, 'takim-uyeleri']">Ekibi Görüntüle</a>
+                                </td>
+
+                                <td colspan="2" *ngIf="updateTeamPanelOpen && teamModel?.TeamId == team?.TeamId"
+                                    id="editBar" class="px-1 mx-1">
+                                    <form #teamUpdateForm="ngForm" (ngSubmit)="addTeam(teamUpdateForm)" novalidate>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <a class="btn btn-info disabled text-white">Ekip Adı</a>
+                                            </div>
+                                            <input id="textForFocus" autofocus type="text" name="teamNameForUpdate"
+                                                [(ngModel)]="teamModel.TeamName" #teamNameForUpdate="ngModel" required
+                                                class="form-control" placeholder="Ekibinizin yeni adı ne olsun?" />
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-dark text-white">Değiştir</button>
+                                                <a (click)="toggleUpdateTeamPanel(teamModel?.TeamId)"
+                                                    class="btn btn-danger rounded-5 text-white text-uppercase">X</a>
+                                            </div>
+                                            <div class="container-fluid">
+                                                <span class="text-danger row"
+                                                    *ngIf="modelSubmitted && teamNameForUpdate?.errors?.required">
+                                                    Üzgünüz, bir ekip ismi gerekmektedir.
+                                                </span>
+
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="row">
+                    <p *ngIf="myTeams().length == 0">
+                        Şu an bir ekibiniz bulunmamaktadır. Hemen sizin için bir tane oluşturalım.
+                    </p>
+                </div>
+                <div class="row">
+                    <a *ngIf="!newTeamPanelOpen" (click)="toggleTeamPanel()" class="btn btn-dark rounded-0 text-white"
+                        style="cursor:pointer">Yeni Ekip Oluştur</a>
+                </div>
+                <form class="row" *ngIf="newTeamPanelOpen" #teamForm="ngForm" (ngSubmit)="addTeam(teamForm)" novalidate>
+                    <div class="input-group">
+                        <!-- 
+                                submit: It is html default form submit event, it will call underlying method when form gets submitted.
+                                ngSubmit: Is host binding situated on form element. Basically it prevent default submit event of browser(which can be form post) by returning false. Eventually you can prevent traditional PostBack calls or page reload due to form load. This way you can validate your form & submit it to server by manual ajax from Component code
+                            -->
+
+                        <div class="input-group-prepend">
+                            <a class="btn btn-info disabled text-white">Ekip Adı</a>
+                        </div>
+                        <input id="textForFocus" autofocus type="text" name="teamName" [(ngModel)]="teamModel.TeamName"
+                            #teamName="ngModel" required class="form-control" placeholder="Ekibinizin adı ne olsun?" />
+                        <!-- pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$" -->
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-dark text-white text-uppercase">Oluştur</button>
+                            <a (click)="toggleTeamPanel()"
+                                class="btn btn-danger rounded-5 text-white text-uppercase">X</a>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <span class="text-danger row" *ngIf="modelSubmitted && teamName?.errors?.required">
+                            Üzgünüz, bir ekip ismi gerekmektedir.
+                        </span>
+                        <span class="text-danger row" *ngIf="modelSubmitted && teamName?.errors?.pattern">
+                            Üzgünüz, şsimler için sadece harfler geçerlidir.
+                        </span>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <div class="col">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!--<a [routerLink]="['team-members', 2, 'Param2', 'param2Value']">Open Team Members</a> Results in team-members/2/param2/param2value -->
+<!--<a [routerLink]="[ '/joined-in' ]">Show Teams I Joined In</a><br> <!-- '/' makes this URL a absolute url such /joined-in-->

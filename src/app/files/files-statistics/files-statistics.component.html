@@ -1,0 +1,50 @@
+<nav class="container-fluid navbar shadow-sm sticky-top navbar-light bg-light pb-0 pt-0 xyz-card-dark"
+  style="height:3rem!important">
+  <a class="btn btn-light rounded-0 border-0 xyz-nav-btn " [routerLink]="[ '/dosyalar' ]">Geri</a>
+  <a class="navbar-brand" [routerLink]="[ '/isler' ]">
+    <img style="height: 25px; width:auto;padding-bottom: 3px;" src="../../../assets/logo.svg">&nbsp;İstatistikler
+  </a>
+
+  <div class="float-right">
+    <app-nav-profile></app-nav-profile>
+  </div>
+</nav>
+
+
+
+<div class="container-fluid bg-white" [ngStyle]="{'height.px': (innerWidth>=577) ? this.innerHeight-175: this.innerHeight-125}">
+  <div class="row pt-2 pb-2">
+    <div class="col">
+
+      <ul class="row p-1" style="background: #fdfcfc; height: 300px; width: 100%">
+        <h6 class="w-100 text-center">
+          {{(myLicense?.LicenseType)?.substr(0,1)?.toUpperCase()}}{{(myLicense?.LicenseType)?.substr(1)}} Depolama
+          Alanı</h6>
+          <h6 class="lead w-100 text-center">
+            {{totalGB |number: '1.1-1'}} GB bulutunuzun {{usedGB | number: '1.1-1'}} GB'si kullanılıyor.
+          </h6>
+        <svg width="100%" height="100%" viewBox="0 0 42 42" class="donut">
+          <circle class="donut-hole" cx="21" cy="21" r="16" fill="#fff">
+          </circle>
+          <circle class="donut-ring" cx="21" cy="21" r="16" fill="blue" stroke="#d2d3d4" stroke-width="5"></circle>
+
+          <circle class="donut-segment" cx="21" cy="21" r="16" fill="#FEFEFE" stroke="#E3E651" stroke-width="5"
+            stroke-dasharray="0.9" stroke-dashoffset="25">
+          </circle>
+
+          <circle class="donut-segment" cx="21" cy="21" r="16" fill="#FEFEFE" stroke="#E3E651" stroke-width="5"
+            [attr.stroke-dasharray]="circum1 + ', ' + circum2" stroke-dashoffset="25">
+            <title>
+              {{totalGB |number: '1.1-1'}} GB bulutunuzun {{usedGB | number: '1.1-1'}} GB'si kullanılıyor.
+            </title>
+          </circle>
+
+          <text x="50%" y="50%" text-anchor="middle" fill="black" font-size="7px" font-family="Arial"
+            dy=".3em">%{{occupancyRate | number: '1.1-1'}}</text>
+        </svg>
+
+
+      </ul>
+    </div>
+  </div>
+</div>

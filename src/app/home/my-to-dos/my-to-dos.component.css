@@ -1,0 +1,116 @@
+
+@import "~material-design-icons/iconfont/material-icons.css";
+
+
+.modernUnderlined {
+  color: #9b2020!important;
+  text-decoration: none;
+  position: relative;
+  font-weight: 300;
+  /* transition: all 0.12s ease;  */
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 1.5em;
+  padding-bottom: 5px;
+
+  
+}
+
+.modernUnderlined::after {
+  content: '';
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  bottom: 3px;
+  right: 0;
+  background: black;
+  
+  opacity: 0.4;
+  /* transition: all 0.5s ease;  */
+}
+
+.modernUnderlined:hover::after {
+  opacity: 1;
+}
+
+.filter-cnote{
+      
+  transition: filter 0.5s;
+}
+.filter-cnote:hover{
+  filter: invert(0%) sepia(0%) saturate(221%) hue-rotate(315deg) brightness(93%) contrast(0%);
+}
+.mat-dialog-container {
+  padding: 0px !important;
+  margin: 0px! important;
+  border-radius: 1px! important;
+  background-color: #ffffff;
+}
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+  }
+  .btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+  }
+  .btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 3px;
+  }
+
+
+  
+
+.moveHead, moveHead:focus {
+  cursor: pointer;
+}
+
+
+
+   @media (min-width:701px)
+    {
+      .mobileDate{
+        white-space: -moz-pre-wrap; /* Firefox */
+        white-space: -o-pre-wrap; /* Opera */
+        white-space: nowrap; /* Chrome */
+        word-wrap: break-word; /* IE */  
+        font-size: 14.7px;   
+      }
+    }
+
+
+    @media (max-width:700px)
+    {
+      .mobileDate{
+        font-size: 14px; 
+       
+      }
+    }
+    
+    .trOptimization {
+     color: rgba(0, 0, 0, 0.87);
+     background-color: rgb(255, 255, 255);
+     border: 0px #fff solid;
+     display: flex;
+     flex-direction: row;
+     box-sizing: border-box;      
+   }
+   
+   

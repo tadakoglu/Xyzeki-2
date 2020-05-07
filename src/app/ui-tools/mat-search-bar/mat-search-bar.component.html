@@ -1,0 +1,22 @@
+  <div style="position: relative">
+    
+  <mat-form-field *ngIf="!formControl" class="mat-search_field"  [@slideInOut]="searchVisible">
+    <input  #input matInput type="text" [ngStyle]="{'color':  isDarkMode ? '#000000': '#ffffff'}" [(ngModel)]="value" (ngModelChange)="updateChanges()"
+      (blur)="onBlurring(input.value)" (keyup.enter)="onEnterring(input.value)" (focus)="onFocussing(input.value)" />
+      <mat-placeholder class="placeholder">{{searchText}}</mat-placeholder>
+  </mat-form-field>
+
+
+  <!-- FORM CONTROL WAY -->
+  <mat-form-field *ngIf="formControl"  class="mat-search_field"  [@slideInOut]="searchVisible">
+    <input  #input matInput type="text"  [ngStyle]="{'color':  isDarkMode ? '#000000': '#ffffff'}"  [formControl]="formControl" (blur)="onBlurring(input.value)"
+      (keyup.enter)="onEnterring(input.value)" (focus)="onFocussing(input.value)" />
+      <mat-placeholder class="placeholder">{{searchText}}</mat-placeholder>
+  </mat-form-field> 
+  <!-- ngbTooltip="Derin arama" placement="bottom" tooltipClass="tooltipSpecial" -->
+  <span  class="mat-search_icons" [class.mat-search_icons--active]="searchVisible">
+    <mat-icon class="mat-search_icon-close" [ngClass]="{' material-icons color_dark': isDarkMode}" (click)="close()" matRipple>close</mat-icon>
+    <mat-icon class="mat-search_icon-search" [ngClass]="{' material-icons color_dark': isDarkMode}" (click)="open()"  matRipple>search</mat-icon>
+  </span>
+  
+</div>

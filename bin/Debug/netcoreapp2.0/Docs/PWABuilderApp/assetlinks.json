@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.xyzeki.twa",
+    "sha256_cert_fingerprints": [
+      "CF:39:E3:19:D6:F4:94:9D:C7:EC:01:52:E9:72:53:1E:75:61:8C:AE:8C:31:DF:65:90:61:87:6C:2A:92:F2:37"
+    ]
+  }
+}]

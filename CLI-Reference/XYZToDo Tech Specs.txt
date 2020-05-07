@@ -1,0 +1,21 @@
+ASP.NET Core MVC 2 (for backend Web API)
+Angular 7
+Bootstrap 4.0
+Angular Material
+C# 7.0
+TypeScript
+HTML5
+CSS3
+JWT(JSON Web Tokens) Authentication, Signing(certification) with HMAC:SHA256
+Password hashing with PBKDF2 (Using HMAC with SHA512 digestor) using crypto.pbkdf2 func. of Node.js API and KeyDerivation.Pbkdf2 C# method in MSFT)
+Entity Framework Core (DB-First)
+SQL Server 2014
+ASP.NET Core SignalR (for real time messaging and event notifications)
+Visual Studio Code (Open source), 
+2x Docker Containers (Backend + Frontend Servers)
+Kubernetes Orchestration on MSFT Azure
+
+VS Code Extensions:
+Angular CLI, Angular Language Service, Angular Files and Angular 7 Snippets extensions, Npm
+vscode-solution-explorer, Debugger for Chrome
+
